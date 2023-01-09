@@ -1,11 +1,12 @@
-const mysql = require('mysql');
+const mysql = require('mysql2');
 
-const db = mysql.createPool({
-    host: 'db-1.cfhnsxflezdq.us-east-1.rds.amazonaws.com',
+const pool = mysql.createPool({
+    host: 'breadpick.cw5zfuggmrw5.ap-northeast-2.rds.amazonaws.com',
     port: '3306',
     user: 'admin',
-    password: '4jAJUqLc4VdrC2HY5vF',
-    database: 'db-1'
+    password: '4jAJUqLc4Vdr',
+    database: 'breadpick'
 });
 
-module.exports = db;
+
+module.exports = pool;
