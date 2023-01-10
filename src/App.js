@@ -1,10 +1,11 @@
 import './App.css';
+import SideBar from './components/SideBar/SideBar';
 import Users from './components/Users';
 
 function App() {
   return (
     <div className="App">
-      내용이 들어갑니다
+      <SideBar />
       <Users/>
     </div>
   );
