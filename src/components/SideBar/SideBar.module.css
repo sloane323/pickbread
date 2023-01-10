@@ -1,0 +1,9 @@
+.sidebar {
+    max-width: 300px;
+    background-color: black;
+    color: white;
+}
+
+.dashboard {
+    size: 30px;
+}
