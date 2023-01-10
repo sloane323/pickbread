@@ -1,6 +1,6 @@
 import './App.css';
 import SideBar from './components/SideBar/SideBar';
-import { Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Main from './Page/Main';
 import Dashboard from './Page/Dashboard';
 import Production from './Page/Production';
@@ -11,6 +11,7 @@ import Reports from './Page/Reports';
 function App() {
   return (
     <div className="App">
+      <BrowserRouter>
       <SideBar />
       
        {/* 사이드바를 통해 해당 페이지로 이동 가능 */}
@@ -22,7 +23,7 @@ function App() {
         <Route path="/customers" element={<Customers />}></Route>
         <Route path="/reports" element={<Reports />}></Route>
       </Routes>
-
+      </BrowserRouter>
     </div>
   );
 }
