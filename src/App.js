@@ -13,6 +13,7 @@ function App() {
     <div className="App">
       <SideBar />
       
+       {/* 사이드바를 통해 해당 페이지로 이동 가능 */}
       <Routes>
         <Route path="/" element={<Main />}></Route>
         <Route path="/dashboard" element={<Dashboard />}></Route>
