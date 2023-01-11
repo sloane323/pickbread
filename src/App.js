@@ -4,7 +4,7 @@ import { Routes, Route } from 'react-router-dom';
 import Main from './Page/Main';
 import Dashboard from './Page/Dashboard';
 import Production from './Page/Production/Production';
-import Sales from './Page/Sales';
+import Sales from './Page/Sales/Sales';
 import Customers from './Page/Customers';
 import Reports from './Page/Reports';
 import AddMaterial from './Page/Production/AddMaterial';
