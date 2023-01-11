@@ -1,0 +1,15 @@
+.salesmain{
+    text-align: center;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr ;
+    background-color: aquamarine;
+}
+
+
+.salesmenu {
+    grid-column: 1fr;
+}
+.sideright {
+    grid-column: 1fr;
+}

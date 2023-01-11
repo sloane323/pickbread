@@ -1,0 +1,8 @@
+.sidebaritem{
+    background-color: aquamarine;
+    display: flex;
+    position: relative;
+    width: 200px;
+    left: 500px;
+    height: 100px;
+}
