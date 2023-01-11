@@ -10,12 +10,12 @@ app.get("/", (req, res) => {
   res.send(`Response Complete`);
 });
 
-app.get("/api/users", (req, res) => {
+app.get("/api/test", (req, res) => {
   pool.getConnection((err, conn) => {
     if (err) {
       throw err;
     } else {
-        conn.query("SELECT * FROM users", (err, rows, fields) => { 
+        conn.query("SELECT * FROM 테스트", (err, rows, fields) => { 
             res.send(rows);
         })
     }
