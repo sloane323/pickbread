@@ -7,11 +7,11 @@ import Production from './Page/Production';
 import Sales from './Page/Sales';
 import Customers from './Page/Customers';
 import Reports from './Page/Reports';
+import AddMaterial from './Page/AddMaterial';
 
 function App() {
   return (
     <div className="App">
-      <BrowserRouter>
       <SideBar />
       
        {/* 사이드바를 통해 해당 페이지로 이동 가능 */}
@@ -19,11 +19,11 @@ function App() {
         <Route path="/" element={<Main />}></Route>
         <Route path="/dashboard" element={<Dashboard />}></Route>
         <Route path="/production" element={<Production />}></Route>
+        <Route path='/production/add-material' element={<AddMaterial></AddMaterial>}></Route>
         <Route path="/sales" element={<Sales />}></Route>
         <Route path="/customers" element={<Customers />}></Route>
         <Route path="/reports" element={<Reports />}></Route>
       </Routes>
-      </BrowserRouter>
     </div>
   );
 }
