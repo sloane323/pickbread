@@ -1,7 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const Stock = () => {
         
+        const {id} = useParams();
     return (
         <div>
             <h1>생산 - 상품 재고 확인</h1>
