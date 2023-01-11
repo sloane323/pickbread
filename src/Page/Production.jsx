@@ -4,5 +4,4 @@ const Production = () => {
     </div> );
 }
  
-export default Production; <div>
-</div>
+export default Production; 

@@ -11,7 +11,7 @@ import Reports from './Page/Reports';
 function App() {
   return (
     <div className="App">
-      <BrowserRouter>
+
       <SideBar />
       
        {/* 사이드바를 통해 해당 페이지로 이동 가능 */}
@@ -23,7 +23,7 @@ function App() {
         <Route path="/customers" element={<Customers />}></Route>
         <Route path="/reports" element={<Reports />}></Route>
       </Routes>
-      </BrowserRouter>
+
     </div>
   );
 }
