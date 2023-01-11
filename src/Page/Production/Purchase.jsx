@@ -44,8 +44,9 @@ const Purchase = () => {
     if (!selectedMaterial && materials && materials.length !== 0) {
       const id = materials[0].원자재ID;
       const name = materials[0].이름;
+      const size = materials[0].사이즈;
       const cost = materials[0].가격;
-      setSelectedMaterial({ id, name, cost });
+      setSelectedMaterial({ id, name, size, cost });
     }
   }, [vendors, materials]);
 
@@ -60,8 +61,9 @@ const Purchase = () => {
   const selectMaterialHandler = (e) => {
     const idx = e.target.options.selectedIndex;
     const id = materials[idx].원자재ID;
+    const size = materials[idx].사이즈;
     const cost = materials[idx].가격;
-    setSelectedMaterial({ id, name: e.target.value, cost });
+    setSelectedMaterial({ id, name: e.target.value, size, cost });
   };
   const changeAmountHandler = (e) => {
     setEnteredAmount(e.target.value);

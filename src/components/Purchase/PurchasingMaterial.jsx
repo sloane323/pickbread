@@ -1,8 +1,7 @@
 const PurchasingMaterial = (props) => {
   return (
     <div>
-      <span> 원재료 : {props.material.name}</span>
-      <span> 수량 : {props.material.amount}</span>
+      <span>{props.material.name} {props.material.size} {props.material.amount}개</span>
     </div>
   );
 };
