@@ -10,5 +10,4 @@ const Stock = () => {
         </div>
     );
 }
-
 export default Stock;
