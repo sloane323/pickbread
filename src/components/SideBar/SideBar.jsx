@@ -10,7 +10,7 @@ const SideBar = () => {
             <Link to ='/customers'> <div> 고객 </div></Link>
             <Link to ='/reports'> <div> 리포트 </div></Link>
         </div>
-     );
+    );
 }
- 
+
 export default SideBar;
