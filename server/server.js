@@ -1,5 +1,6 @@
 /* server/server.js */
 
+const bodyParser = require("body-parser");
 const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -17,9 +18,9 @@ app.get("/api/users", (req, res) => {
     if (err) {
       throw err;
     } else {
-        conn.query("SELECT * FROM users", (err, rows, fields) => { 
-            res.send(rows);
-        })
+      conn.query("SELECT * FROM users", (err, rows, fields) => {
+        res.send(rows);
+      });
     }
     conn.release();
   });
@@ -29,15 +30,25 @@ app.listen(PORT, () => {
   console.log(`Server On : http://localhost:${PORT}/`);
 });
 
-app.post("/api/material", (req, res) => {
-  console.log(req, res)
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.post('/api/material', (req, res) => {
   pool.getConnection((err, conn) => {
     if (err) {
       throw err;
     } else {
-      /* req.body */
-      conn.query(`INSERT INTO 원자재 values ${(req.MaterialID, req.MaterialName, req.MaterialPrice, req.MaterialBrand)}`)
+      const sql = `INSERT INTO 원자재 VALUES (?, ?, ?, ?)`;
+      const id = Math.random().toString(32).slice(2);
+      const name = req.body.name;
+      const price = req.body.price;
+      const brand = req.body.brand;
+      const params = [id, name, price, brand];
+      conn.query(sql, params, (err, rows, fields) => {
+        res.send(rows);
+        console.log(err)
+      });
     }
     conn.release();
-  })
-})
+  });
+});
