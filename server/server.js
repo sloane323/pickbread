@@ -38,6 +38,27 @@ app.get("/api/material", (req, res) => {
     }
   });
 });
+app.post("/api/vendor", (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) {
+      throw err;
+    } else {
+      const sql = "INSERT INTO 벤더 VALUES(?, ?, ?, ?, ?)";
+      
+      const id = Math.random().toString(32).slice(2)
+      const name = req.body.name;
+      const phone = req.body.phone;
+      const officer = req.body.officer;
+      const comment = req.body.comment;
+      const params = [id, name, phone, officer, comment]
+      conn.query(sql, params, (err, rows, fields)=>{
+        res.send(rows)
+        console.log(err);
+      });
+    }
+    conn.release();
+  });
+});
 app.post("/api/purchasing", (req, res) => {
   pool.getConnection((err, conn) => {
     if (err) {
