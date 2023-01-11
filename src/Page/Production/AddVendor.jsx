@@ -24,7 +24,6 @@ const AddVendor = () => {
                 <br />
                 코멘트/할인율 <input type="text" />
             </div>
-            
         </div>
     );
 }
