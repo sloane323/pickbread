@@ -28,7 +28,6 @@ const Stock = () => {
       <table>
         <thead>
           <tr>
-            <td>원자재ID</td>
             <td>이름</td>
             <td>사이즈</td>
             <td>가격</td>
@@ -38,7 +37,6 @@ const Stock = () => {
         <tbody>
           {stocks ? stocks.map((stock) =>
           <tr key={stock.원자재ID}>
-            <td>{stock.원자재ID}</td>
             <td>{stock.이름}</td>
             <td>{stock.사이즈}</td>
             <td>{stock.가격}</td>
