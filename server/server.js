@@ -66,12 +66,14 @@ app.get("/api/material", (req, res) => {
     conn.release();
   })
 })
+/* 파라미터 받기, req.params 형태로 확인할 수 있다. */
 app.get("/api/currentstock/:id", (req, res)=>{
   pool.getConnection((err, conn) => {
     if (err) {
       throw err;
     } else {
-      const sql = `SELECT * FROM 원자재재고 WHERE 원자재ID= ?`;
+      const sql = `SELECT * FROM 원자재재고 WHERE 원자재ID=?`;
+      /* 파라미터 넘기기 */
       const id = req.params.id;
       const params = [id]
       console.log(params)
