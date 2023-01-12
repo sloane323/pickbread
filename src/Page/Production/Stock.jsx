@@ -4,8 +4,6 @@ import axios from "axios";
 import { useEffect } from "react";
 
 const Stock = () => {
-  const params = useParams();
-  const id = params.id;
   const [stocks, setStocks] = useState(null);
 
   const getStock = async () => {
@@ -20,7 +18,7 @@ const Stock = () => {
 
   useEffect(() => {
     getStock();
-  }, [id]);
+  }, []);
 
   return (
     <div>

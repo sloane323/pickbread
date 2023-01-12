@@ -48,7 +48,6 @@ app.post('/api/material', (req, res) => {
       const params = [id, name, size, unit, price, brand];
       conn.query(sql, params, (err, rows, fields) => {
         res.send(rows);
-        console.log(err)
       });
     }
     conn.release();
@@ -67,14 +66,18 @@ app.get("/api/material", (req, res) => {
     conn.release();
   })
 })
-
-app.get("/api/currentstock", (req, res) => {
-  console.log(req.body)
+app.get("/api/currentstock/:id", (req, res)=>{
   pool.getConnection((err, conn) => {
     if (err) {
       throw err;
     } else {
-      console.log("currentstock accessed")
+      const sql = `SELECT * FROM 원자재재고 WHERE 원자재ID= ?`;
+      const id = req.params.id;
+      const params = [id]
+      console.log(params)
+      conn.query(sql, params, (err, rows, fields) => {
+        res.send(rows)
+      });
     }
     conn.release();
   })
