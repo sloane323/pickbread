@@ -7,28 +7,33 @@ import axios from "axios";
 
 const AddMaterial = () => {
   const [name, setName] = useState("");
-  const [size, setSize] = useState("");
+  const [size, setSize] = useState(0);
+  const [unit, setUnit] = useState("");
   const [price, setPrice] = useState("");
   const [brand, setBrand] = useState("");
 
   const changeNameHandler = (event) => {
     setName(event.target.value);
   };
+  const changeSizeHandler = (event) => {
+    setSize(event.target.value)
+  }
+  const changeUnitHandler = (event) => {
+    setUnit(event.target.value)
+  }
   const changePriceHandler = (event) => {
     setPrice(event.target.value);
   };
   const changeBrandHandler = (event) => {
     setBrand(event.target.value);
   };
-  const changeSizeHandler = (event) => {
-    setSize(event.target.value)
-  }
 
   const post = () => {
     const url = "/api/material";
     const material = new FormData();
     material.append("name", name);
     material.append("size", size);
+    material.append("unit", unit);
     material.append("price", price);
     material.append("brand", brand);
     const config = {
@@ -41,7 +46,8 @@ const AddMaterial = () => {
     const res = await post();
     console.log(res);
     setName("");
-    setSize("");
+    setSize(0);
+    setUnit("");
     setPrice("");
     setBrand("");
   };
@@ -58,11 +64,18 @@ const AddMaterial = () => {
         />
         {/* 원자재 사이즈 */}
         <input
-          type="text"
+          type="number"
           placeholder="원자재 사이즈"
           value={size}
           onChange={changeSizeHandler}
         ></input>
+        {/* 원자재 단위 */}
+        <input
+          type="text"
+          placeholder="원자재 단위"
+          value={name}
+          onChange={changeUnitHandler}
+        />
         {/* 원자재 가격 */}
         <input
           type="text"

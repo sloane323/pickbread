@@ -38,13 +38,14 @@ app.post('/api/material', (req, res) => {
     if (err) {
       throw err;
     } else {
-      const sql = `INSERT INTO 원자재 VALUES (?, ?, ?, ?, ?)`;
+      const sql = `INSERT INTO 원자재 VALUES (?, ?, ?, ?, ?, ?)`;
       const id = Math.random().toString(32).slice(2);
       const name = req.body.name;
       const size = req.body.size;
+      const unit = req.body.unit;
       const price = req.body.price;
       const brand = req.body.brand;
-      const params = [id, name, size, price, brand];
+      const params = [id, name, size, unit, price, brand];
       conn.query(sql, params, (err, rows, fields) => {
         res.send(rows);
         console.log(err)
