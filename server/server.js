@@ -66,3 +66,15 @@ app.get("/api/material", (req, res) => {
     conn.release();
   })
 })
+
+app.get("/api/currentstock", (req, res) => {
+  console.log(req.body)
+  pool.getConnection((err, conn) => {
+    if (err) {
+      throw err;
+    } else {
+      console.log("currentstock accessed")
+    }
+    conn.release();
+  })
+})

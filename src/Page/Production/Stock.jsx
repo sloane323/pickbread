@@ -11,7 +11,7 @@ const Stock = () => {
   const getStock = async () => {
     try {
       const response = await axios.get(`/api/material`);
-      console.log(response.data)
+      /* console.log(response.data) */
       setStocks(response.data)
     } catch (error) {
       console.log(error);
@@ -41,14 +41,13 @@ const Stock = () => {
             <td>{stock.사이즈}</td>
             <td>{stock.가격}</td>
             <td>{stock.브랜드}</td>
+            <td><Link to={`/production/stock/${stock.원자재ID}`}>▶재고확인(detail)</Link></td>
           </tr>) :
           <tr>
             <td>NOT YET</td>
           </tr>}
         </tbody>
       </table>
-
-      <Link to={`/production/stock/${id}`}>▶재고확인(detail)</Link>
     </div>
   );
 };
