@@ -5,7 +5,7 @@ import Main from './Page/Main';
 import Dashboard from './Page/Dashboard';
 import Production from './Page/Production/Production';
 import Sales from './Page/Sales/Sales';
-import Customers from './Page/Customers';
+import Customers from './Page/Customer/Customers';
 import Reports from './Page/Reports';
 import AddMaterial from './Page/Production/AddMaterial';
 import AddProduct from './Page/Production/AddProduct';
@@ -13,6 +13,7 @@ import Stock from './Page/Production/Stock';
 import StockDetail from './Page/Production/StockDetail';
 import Purchase from './Page/Production/Purchase';
 import AddVendor from './Page/Production/AddVendor';
+import AddCustomer from './Page/Customer/AddCustomer';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           <Route path="/production/stock/:id" element={<StockDetail />}/>        
         <Route path="/sales" element={<Sales />}></Route>
         <Route path="/customers" element={<Customers />}></Route>
+        <Route path="/customers/add" element={<AddCustomer />}></Route>
         <Route path="/reports" element={<Reports />}></Route>
       </Routes>
     </div>

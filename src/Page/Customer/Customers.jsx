@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 
 const Customers = () => {
 
@@ -5,7 +6,7 @@ const Customers = () => {
         <div> <h1>Customers </h1></div>
 
     <div> 
-    <button> 고객등록 </button>
+    <button> <Link to = '/customers/add'> 고객등록 </Link> </button>
     </div>
     <div> <input type="text" />  
      <button>  검색 </button></div>

@@ -116,6 +116,28 @@ app.delete('/api/vendor', (req,res)=>{
   })
 })
 
+
+// 고객 등록(추가)
+app.post("/api/customer", (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) {
+      throw err;
+    } else {
+      const sql = "INSERT INTO 고객 VALUES(?, ?, ?, ?)";
+      const id = Math.random().toString(36).substring(2, 11);
+      const name = req.body.name;
+      const phone = req.body.phone;
+      const comment = req.body.comment;
+      const params = [id, name, phone, comment]
+      conn.query(sql, params, (err, rows, fields)=>{
+        res.send(rows)
+        console.log(err);
+      });
+    }
+    conn.release();
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Server On : http://localhost:${PORT}/`);
 });
