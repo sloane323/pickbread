@@ -73,7 +73,7 @@ const AddMaterial = () => {
         <input
           type="text"
           placeholder="원자재 단위"
-          value={name}
+          value={unit}
           onChange={changeUnitHandler}
         />
         {/* 원자재 가격 */}
