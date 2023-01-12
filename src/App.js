@@ -27,9 +27,8 @@ function App() {
           <Route path="/production/purchase" element={<Purchase />}/>
           <Route path="/production/add-product" element={<AddProduct />}/>
           <Route path="/production/add-vendor" element={<AddVendor />}/>
-          <Route path="/production/stock" element={<Stock />}>
-            <Route path="/production/stock/:id" element={<StockDetail />}/>
-          </Route>          
+          <Route path="/production/stock" element={<Stock />} />
+          <Route path="/production/stock/:id" element={<StockDetail />}/>        
         <Route path="/sales" element={<Sales />}></Route>
         <Route path="/customers" element={<Customers />}></Route>
         <Route path="/reports" element={<Reports />}></Route>

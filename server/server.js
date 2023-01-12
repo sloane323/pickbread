@@ -11,13 +11,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get("/", (req, res) => {
   res.send(`Response Complete`);
 });
-
+// 거래처 조회
 app.get("/api/vendor", (req, res) => {
   pool.getConnection((err, conn) => {
     if (err) {
       throw err;
     } else {
-      const sql = "SELECT * FROM 벤더";
+      const sql = "SELECT * FROM 벤더 order by 이름";
       conn.query(sql, (err, rows, fields) => {
         res.send(rows);
       });
@@ -38,13 +38,13 @@ app.get("/api/material", (req, res) => {
     }
   });
 });
+//거래처 등록(추가)
 app.post("/api/vendor", (req, res) => {
   pool.getConnection((err, conn) => {
     if (err) {
       throw err;
     } else {
       const sql = "INSERT INTO 벤더 VALUES(?, ?, ?, ?, ?)";
-      
       const id = Math.random().toString(32).slice(2)
       const name = req.body.name;
       const phone = req.body.phone;
@@ -99,6 +99,22 @@ app.post("/api/m_stock", (req, res) => {
     }
   });
 });
+// 거래처 삭제
+app.delete('/api/vendor', (req,res)=>{
+  pool.getConnection((err, conn)=>{
+    if (err) {
+      throw err;
+    } else {
+      const sql = "DELETE FROM 벤더 WHERE 벤더ID = ?";
+      const id = req.body.id;
+      conn.query(sql, [id], (err, rows, fields)=>{
+        res.send(rows);
+        console.log(err);
+      });
+      conn.release();
+    }
+  })
+})
 
 app.listen(PORT, () => {
   console.log(`Server On : http://localhost:${PORT}/`);
