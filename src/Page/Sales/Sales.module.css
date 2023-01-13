@@ -1,15 +1,127 @@
 .salesmain{
     text-align: center;
     width: 100%;
+    height: 65vh;
     display: grid;
-    grid-template-columns: 1fr 1fr ;
+    grid-template-rows: 8fr 4fr ;
     background-color: aquamarine;
 }
 
-
 .salesmenu {
-    grid-column: 1fr;
+    grid-row :4fr;
+    
 }
-.sideright {
-    grid-column: 1fr;
+.bottom {
+    grid-row: 2fr ;
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    background-color: dimgray;
 }
+.bottomLeft {
+    grid-column: 3fr;
+    background-color: bisque;
+    text-align: center;
+}
+.bottomRight {
+    grid-column: 2fr    ;
+    background-color: salmon;
+}
+
+/* 버튼 css */
+
+.product_btn1 {
+    background-color: #E01A2A;
+    width: 100px;
+    height: 100px;
+    border: 1px solid black;
+    margin: 5px;
+}
+.product_btn2 {
+    background-color: #E01A2A;
+    width: 100px;
+    height: 100px;
+    border: 1px solid black;
+    margin: 5px;
+    opacity: 0.9;
+}
+.product_btn3 {
+    position: relative;
+    left: 50%;
+    background-color: cornsilk;
+    width: 10vw;
+    height: 10vh;
+    top: 5px;
+    border-radius: 10px;
+    border: 0.1px solid white;
+}
+.product_btn4 {
+    position: relative;
+    left: 25%;
+    background-color: #E01A2A;
+    width: 10vw;
+    height: 10vh;
+    top: 51%;
+    border-radius: 10px;
+    border: 0.1px solid white;
+}
+
+/* 버튼 예시 */
+.product_btn_ex1 {
+    background: rgb(96,9,240);
+    background: linear-gradient(0deg, rgba(96,9,240,1) 0%, rgba(129,5,240,1) 100%);
+    border: none;
+    width: 100px;
+    height: 100px;
+        
+    }
+    
+.product_btn_ex1 :before {
+        height: 0%;
+        width: 2px;
+    }
+
+.product_btn_ex1:hover {
+    box-shadow:  4px 4px 6px 0 rgba(255,255,255,.5),
+    -4px -4px 6px 0 rgba(116, 125, 136, .5), 
+        inset -4px -4px 6px 0 rgba(255,255,255,.2),
+        inset 4px 4px 6px 0 rgba(0, 0, 0, .4);
+    }
+
+.product_btn_ex2{
+        box-sizing: border-box;
+        appearance: none;
+        background-color: transparent;
+        border: 2px solid red;
+        border-radius: 0.6em;
+        color: red;
+        cursor: pointer;
+        display: flex;
+        align-self: center;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1;
+        margin: 20px;
+        padding: 1.2em 2.8em;
+        text-decoration: none;
+        text-align: center;
+        text-transform: uppercase;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 700;
+        transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
+
+
+}
+
+.product_btn_ex2:hover {
+    color: #fff;
+    outline: 0;
+    background-color: red;
+    box-shadow: 0 0 40px 40px $red inset;
+
+    
+}
+
+.product_btn_ex2:focus {
+          color: #fff;
+          outline: 0;
+        }
