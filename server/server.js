@@ -66,6 +66,19 @@ app.get("/api/material", (req, res) => {
     conn.release();
   })
 })
+app.get("/api/production", (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) {
+      throw err;
+    } else {
+      conn.query("SELECT * FROM 제품", (err, rows, fields) => {
+        res.send(rows)
+      })
+    }
+    conn.release();
+  })
+})
+
 /* 파라미터 받기, req.params 형태로 확인할 수 있다. */
 app.get("/api/currentstock/:id", (req, res)=>{
   pool.getConnection((err, conn) => {
@@ -73,6 +86,23 @@ app.get("/api/currentstock/:id", (req, res)=>{
       throw err;
     } else {
       const sql = `SELECT * FROM 원자재재고 WHERE 원자재ID=?`;
+      /* 파라미터 넘기기 */
+      const id = req.params.id;
+      const params = [id]
+      console.log(params)
+      conn.query(sql, params, (err, rows, fields) => {
+        res.send(rows)
+      });
+    }
+    conn.release();
+  })
+})
+app.get("/api/production/:id", (req, res)=>{
+  pool.getConnection((err, conn) => {
+    if (err) {
+      throw err;
+    } else {
+      const sql = `SELECT * FROM 제품재고 WHERE 제품ID=?`;
       /* 파라미터 넘기기 */
       const id = req.params.id;
       const params = [id]
