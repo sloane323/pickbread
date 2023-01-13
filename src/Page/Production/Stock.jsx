@@ -71,7 +71,7 @@ const Stock = () => {
           {products ? products.map((product) =>
           <tr key={product.제품ID}>
             <td>{product.제품ID}</td>
-            <td><Link to={`/production/stock/${product.제품ID}`}>▶재고확인(detail)</Link></td>
+            <td><Link to={`/production/product/${product.제품ID}`}>▶재고확인(detail)</Link></td>
           </tr>) :
           <tr>
             <td>NOT YET</td>

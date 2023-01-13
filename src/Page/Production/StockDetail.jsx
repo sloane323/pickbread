@@ -11,7 +11,7 @@ const StockDetail = () => {
       /* 주소에 id 값을 줘서 파라미터로 넘긴다. */
       const response = await axios.get(`/api/currentstock/${id}`);
       /* state로 받아오기 */
-      setStock(response.data);
+      setStock(response.data[0]);
     } catch (error) {
       console.log(error);
     }
@@ -25,7 +25,7 @@ const StockDetail = () => {
 
   return (
     <div>
-      <h1>상품 재고확인 상세 페이지</h1>
+      <h1>원자재 재고확인 상세 페이지</h1>
       {id}
       <table>
         <thead>
@@ -41,21 +41,19 @@ const StockDetail = () => {
           {/* stock도 배열 형태로 되어있다보니,
           위의 getStock에서 인덱스로 처리하거나 map으로 쓰는 방법이 있다. */}
           {stock ? (
-            stock.map((el) => (
-              <tr key={el.재고ID}>
-                <td>{el.종류}</td>
-                <td>
-                  {el.사이즈}
-                  {el.단위}
-                </td>
-                <td>{el.갯수}</td>
-                <td>
-                  {el.잔량}
-                  {el.단위}
-                </td>
-                <td>{el.사용기한}</td>
-              </tr>
-            ))
+            <tr key={stock.재고ID}>
+              <td>{stock.종류}</td>
+              <td>
+                {stock.사이즈}
+                {stock.단위}
+              </td>
+              <td>{stock.갯수}</td>
+              <td>
+                {stock.잔량}
+                {stock.단위}
+              </td>
+              <td>{stock.사용기한}</td>
+            </tr>
           ) : (
             <tr>
               <td>NOT YET</td>
