@@ -1,10 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const AddCustomer = () => {
-    const customerId = Math.random().toString(36).substring(2, 11);
-  
+   const navigator = useNavigate();
     // 입력받을 state
     const [phone, setPhone] = useState("");
     const [name, setName] = useState("");
@@ -15,7 +14,6 @@ const AddCustomer = () => {
       const post = () => {
         const url = "/api/customer";
         const formData = new FormData();
-        formData.append("id", customerId);
         formData.append("name", name);
         formData.append("phone", phone);
         formData.append("comment", comment);
@@ -25,10 +23,22 @@ const AddCustomer = () => {
         };
         return axios.post(url, formData, config);
         };
+
+
+
+
+
         const onSubmit = async (e) => {
         e.preventDefault();
+        try {
         const res = await post();
-        setName(""); setPhone("");  setComment("");
+        setName(""); setPhone("");  setComment(""); 
+        alert("구매등록 완료"); 
+        navigator(-1);
+         }
+        catch (e) {
+            alert("구매등록 실패");
+        }
     };
 
 
@@ -36,13 +46,9 @@ const AddCustomer = () => {
         <div>
                     <div> <h1>Customers </h1></div>
                     <button> <Link to = '/customers'> 뒤로 </Link> </button>
-
-
+                
                 <div>
-                    <div>
-                        <lable> 고객 ID </lable>
-                        {customerId}
-                    </div> 
+                    <form  onSubmit={onSubmit} > 
 
                     <div>
                         <lable> 이름 </lable>
@@ -62,7 +68,9 @@ const AddCustomer = () => {
                     setComment(e.target.value)}} ></input>
                     </div> 
 
-                    <button onClick={onSubmit}> 등록 </button>
+                    <button> 등록 </button>
+
+                    </form>
                 </div>
         </div>
      );
