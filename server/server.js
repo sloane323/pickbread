@@ -60,6 +60,29 @@ app.post("/api/vendor", (req, res) => {
     conn.release();
   });
 });
+//제품 제작 등록(AddProduct.jsx)
+app.post("/api/product", (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) {
+      throw err;
+    } else {
+      const sql = "INSERT INTO 제품 VALUES(?, ?, ?, ?, ?)";
+      const id = req.body.id;
+      const name = req.body.name;
+      const size = req.body.size;
+      const unit = req.body.unit;
+      const price = req.body.price;
+      console.log(req.body)
+      const params = [id, name, size, unit, price]
+      conn.query(sql, params, (err, rows, fields)=>{
+        res.send(rows)
+        console.log(err);
+      });
+    }
+    conn.release();
+  });
+});
+
 app.post("/api/purchasing", (req, res) => {
   pool.getConnection((err, conn) => {
     if (err) {
