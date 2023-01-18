@@ -11,6 +11,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get("/", (req, res) => {
   res.send(`Response Complete`);
 });
+
 // 거래처 조회
 app.get("/api/vendor", (req, res) => {
   pool.getConnection((err, conn) => {
@@ -59,6 +60,29 @@ app.post("/api/vendor", (req, res) => {
     conn.release();
   });
 });
+//제품 제작 등록(AddProduct.jsx)
+app.post("/api/product", (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) {
+      throw err;
+    } else {
+      const sql = "INSERT INTO 제품 VALUES(?, ?, ?, ?, ?)";
+      const id = req.body.id;
+      const name = req.body.name;
+      const size = req.body.size;
+      const unit = req.body.unit;
+      const price = req.body.price;
+      console.log(req.body)
+      const params = [id, name, size, unit, price]
+      conn.query(sql, params, (err, rows, fields)=>{
+        res.send(rows)
+        console.log(err);
+      });
+    }
+    conn.release();
+  });
+});
+
 app.post("/api/purchasing", (req, res) => {
   pool.getConnection((err, conn) => {
     if (err) {
@@ -131,10 +155,26 @@ app.post("/api/customer", (req, res) => {
       const params = [id, name, phone, comment]
       conn.query(sql, params, (err, rows, fields)=>{
         res.send(rows)
+        console.log("둥록성공");
         console.log(err);
       });
     }
     conn.release();
+  });
+});
+
+// 고객 조회
+app.get("/api/customer", (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) {
+      throw err;
+    } else {
+      const sql = "SELECT * FROM 고객 order by 이름";
+      conn.query(sql, (err, rows, fields) => {
+        res.send(rows);
+      });
+      conn.release();
+    }
   });
 });
 

@@ -1,6 +1,33 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const Customers = () => {
+
+    const [inputData, setInputData] = useState([{
+        customerid: '',
+        name: '',
+        phone: '',
+        comment: ''
+      }])
+
+      const [lastIdx, setLastIdx] = useState(0)
+
+      useEffect(async() => {
+        try{
+            const res = await axios.get('/api/customer')
+            const _inputData = await res.data.map((rowData) => ({
+                customerid: rowData.id,
+                name: rowData.name,
+                phone: rowData.phone,
+                comment: rowData.comment
+              })
+            )
+              setInputData(inputData.concat(_inputData))
+        } catch(e){
+            console.error(e.message)} 
+        } ,[])
+
 
     return ( <div>
         <div> <h1>Customers </h1></div>
@@ -28,6 +55,15 @@ const Customers = () => {
                     <td>  500 </td>
                     <td>  VIP </td>
                 </tr>
+
+                <tr>
+                    <td> 1 </td>
+                    <td> {rowData.name} </td>
+                    <td> {rowData.phone}</td>
+                    <td>  {rowData.comment} </td>
+                    <td>  {rowData.id} </td>
+                </tr>
+                
             </table>
 
 

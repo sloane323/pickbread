@@ -102,7 +102,7 @@ const AddVendor = () => {
                 코멘트/할인율 <input type="text" onChange={(e)=>{
                     setComment(e.target.value)}}/>
                 <button>제출</button>
-            </form>
+                </form>
             </div>
         </div>
     );
