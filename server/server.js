@@ -178,6 +178,41 @@ app.get("/api/customer", (req, res) => {
   });
 });
 
+// 판매 내역 등록
+app.post("/api/saleslog", (req,res) => {
+  pool.getConnection((err, conn) => {
+    if(err) {
+      throw err;
+    } else {
+      const sql = "INSERT INTO 판매내용 VALUES(?,?)";
+      const id = Math.random().toString(36).substring(2,11);
+      const amount = req.body.amount;
+      const params = [id, amount]
+      conn.query(sql, params, (err, rows, fields) => {
+        res.send(rows)
+        console.log("등록성공");
+        console.log(err);
+      });
+    }
+    conn.release();
+  })
+});
+
+// 판매 내역 받아오기 
+app.get("/api/saleslog", (req, res) => {
+  pool.getConnection((err,conn) => {
+    if(err) {
+      throw err;
+    } else {
+      const sql = "SELECT * FROM 판매내역";
+      conn.query(sql, (err, rows, fields) => {
+        res.send(rows);
+      });
+      conn.release();
+    }
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Server On : http://localhost:${PORT}/`);
 });
