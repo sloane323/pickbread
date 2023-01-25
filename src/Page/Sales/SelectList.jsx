@@ -1,7 +1,7 @@
 const SelectList = (props) => {
     return ( 
         <>
-        {
+        {/* {
             props.map(()=>{
                 return(
                     <tr>
@@ -14,7 +14,7 @@ const SelectList = (props) => {
                 )
             })
         }
-        
+         */}
         </>
      );
 }
