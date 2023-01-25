@@ -66,6 +66,7 @@ const Sales = () => {
     const selectProductHandler = (e) => {
         const id = e.target.value;
         console.log(product);
+        const price = {  } 
         setSelectedProduct([...selectedProduct, id])
     }
 

@@ -39,8 +39,6 @@ app.get("/api/material", (req, res) => {
     }
   });
 });
-
-// 
 //거래처 등록(추가)
 app.post("/api/vendor", (req, res) => {
   pool.getConnection((err, conn) => {
@@ -85,20 +83,6 @@ app.post("/api/product", (req, res) => {
   });
 });
 
-// 제품 조회
-app.get("/api/product", (req, res) => {
-  pool.getConnection((err, conn) => {
-    if (err) {
-      throw err;
-    } else {
-      const sql = "SELECT * FROM 제품";
-      conn.query(sql, (err, rows, fields) => {
-        res.send(rows);
-      });
-      conn.release();
-    }
-  });
-});
 app.post("/api/purchasing", (req, res) => {
   pool.getConnection((err, conn) => {
     if (err) {
@@ -139,44 +123,6 @@ app.post("/api/m_stock", (req, res) => {
     }
   });
 });
-
-// 제품재고 조회
-app.get("/api/p_stock", (req, res) => {
-  pool.getConnection((err, conn) => {
-    if (err) {
-      throw err;
-    } else {
-      const sql = "SELECT * FROM 제품재고";
-      conn.query(sql, (err, rows, fields) => {
-        res.send(rows);
-      });
-      conn.release();
-    }
-  });
-});
-
-app.post("/api/p_stock", (req, res) => {
-  pool.getConnection((err, conn) => {
-    if (err) {
-      throw err;
-    } else {
-      const sql = "INSERT INTO 제품재고 VALUES (?, ?, ?, ?, )";
-      const stockID = req.body.stockID;
-      // 생산ID 임시
-      const productionID = Math.random().toString(32).slice(2);
-      const productID = req.body.productID;
-      const amount = req.body.amount;
-      const expDate = req.body.expDate;
-      const params = [stockID, productID, amount, expDate];
-      conn.query(sql, params, (err, rows, fields) => {
-        res.send(rows);
-        console.log(err);
-      });
-      conn.release();
-    }
-  });
-});
-
 // 거래처 삭제
 app.delete('/api/vendor', (req,res)=>{
   pool.getConnection((err, conn)=>{
@@ -231,64 +177,6 @@ app.get("/api/customer", (req, res) => {
     }
   });
 });
-
-// 판매 등록
-// app.post("/api/sales", (req,res) => {
-//   pool.getConnection((err, conn) => {
-//     if(err) {
-//       throw err;
-//     } else {
-//       const sql = "INSERT INTO 판매내용 VALUES(?,?,?,?,?,?,?)";
-//       const productID = req.body.
-//       const saleslogID= Math.random().toString(36).substring(2,11);
-//       const 
-
-//       const params = [id, amount]
-//       conn.query(sql, params, (err, rows, fields) => {
-//         res.send(rows)
-//         console.log("등록성공");
-//         console.log(err);
-//       });
-//     }
-//     conn.release();
-//   })
-// });
-
-app.post("/api/purchasing", (req, res) => {
-  pool.getConnection((err, conn) => {
-    if (err) {
-      throw err;
-    } else {
-      const sql = "INSERT INTO 원자재구매 VALUES (?, ?, ?, ?, null)";
-      const purchasingID = req.body.purchasingID;
-      const vendorID = req.body.vendorID;
-      const purchaseDate = req.body.purchaseDate;
-      const totalCost = req.body.totalCost;
-      const params = [purchasingID, vendorID, purchaseDate, totalCost];
-      conn.query(sql, params, (err, rows, fields) => {
-        res.send(rows);
-        console.log(err);
-      });
-      conn.release();
-    }
-  });
-});
-
-// 판매 내역 받아오기 
-app.get("/api/saleslog", (req, res) => {
-  pool.getConnection((err,conn) => {
-    if(err) {
-      throw err;
-    } else {
-      const sql = "SELECT * FROM 판매내역";
-      conn.query(sql, (err, rows, fields) => {
-        res.send(rows);
-      });
-      conn.release();
-    }
-  });
-});
-
 
 app.listen(PORT, () => {
   console.log(`Server On : http://localhost:${PORT}/`);
