@@ -41,6 +41,7 @@ const AddMaterial = () => {
     };
     return axios.post(url, material, config);
   };
+
   const onSubmit = async (event) => {
     event.preventDefault();
     const res = await post();
@@ -51,6 +52,7 @@ const AddMaterial = () => {
     setPrice("");
     setBrand("");
   };
+  
   return (
     <div>
       {/* 특정 페이지로 갈까, js 파일로 갈까? */}
