@@ -1,21 +1,20 @@
 const SelectList = (props) => {
-    console.log(props.selectedProduct);
+    
     return ( 
         <>
         {
-            props.selectedProduct.map(()=>{
+            props.selectedProduct.map((idx)=>{
                 return(
                     <tr>
-                        <td key={props.selectedProduct.제품ID}></td>
-                        <td>{props.selectedProduct.이름}</td>
-                        <td>{props.selectedProduct.갯수}</td>
-                        <td>{props.selectedProduct.개당가격}</td>
+                        <td key={idx[0]}></td>
+                        <td>{idx[1]}</td>
+                        <td>{idx[2]}</td>
+                        <td>{idx[3]}</td>
                         {/* <td>{props.selectedProduct.</td> */}
                     </tr>
                 )
             })
         }
-        
         </>
      );
 }
