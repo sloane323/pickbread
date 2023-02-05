@@ -3,18 +3,17 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import SelectList from "./SelectList";
 
-
-
 const Sales = () => {
     const [product, setProduct] = useState("");
     const [customer, setCustomer] = useState("");
     const [p_stock, setP_stock] = useState("");
     const [selectedProduct, setSelectedProduct] = useState([])
-    const [selectedCustomer, setSelectedCustomer] = useState("")
+
     const [selectedP_stock, setSelectedP_stock] = useState("")
     const [purchaseingProducts, setPurchaingProducts] = useState([])
 
     const [saleDate, setSaleDate] = useState(new Date().toISOString().slice(0, 10));
+
 
     const totalCost = purchaseingProducts
 
@@ -39,35 +38,88 @@ const Sales = () => {
         getCustomer()
         getP_stock()
     }, [])
-    useEffect(() => {
-        if (!selectedProduct && product && product.length !== 0) {
-            const id = product[0].제품ID;
-            const name = product[0].이름;
-            const price = product[0].가격;
-            setSelectedProduct([])
-        }
-        // if (!selectedCustomer && customer && customer.length !== 0) {
-        //     const id = customer[0].고객ID;
-        //     const name = customer[0].이름;
-        // }
-        // if (!selectedP_stock && p_stock && p_stock.length !== 0) {
-        //     const id = p_stock[0].재고ID;
-        //     const amount = p_stock.잔량;
-        // }
-    }, [product, customer, p_stock])
+
+    // useEffect(() => {
+    //     if (!selectedProduct && product && product.length !== 0) {
+    //         const id = product[0].제품ID;
+    //         const name = product[0].이름;
+    //         const price = product[0].가격;
+    //         setSelectedProduct([])
+    //     }
+    //     // if (!selectedCustomer && customer && customer.length !== 0) {
+    //     //     const id = customer[0].고객ID;
+    //     //     const name = customer[0].이름;
+    //     // }
+    //     // if (!selectedP_stock && p_stock && p_stock.length !== 0) {
+    //     //     const id = p_stock[0].재고ID;
+    //     //     const amount = p_stock.잔량;
+    //     // }
+    // }, [product, customer, p_stock])
 
     const log = () => {
         console.log('product', product);
         console.log('customer', customer);
         console.log('p_stock', p_stock);
         console.log('selectedProduct', selectedProduct);
+        for (let i = 0; i < product.length; i++) {
+            console.log('product제품ID', product[i].제품ID);
+        }
+
+
+    }
+    const selectProductName = (a)=>{
+        let name = '';
+        if (a){
+            for (let i = 0 ; i<product.length; i++){
+                if (product[i].제품ID === a)
+                return name = product[i].이름
+            }
+        }  return name ;
+    }
+    
+    const selectedProductPriceHandler = (a) => {
+        let price;
+        if (a) {
+            for (let i = 0; i < product.length; i++) {
+                if (product[i].제품ID === a)
+                    return price = product[i].가격;
+            }
+        } return price;
     }
 
-    const selectProductHandler = (e) => {
+    // const selectedProductAmount = (a) => {
+    //     let amount = 0;
+    //     if (a) {
+    //         for (let i = 0; i < product.length; i++) {
+    //             if (product[i].제품ID === a)
+    //                 return amount += 1;
+    //         }
+    //     }
+    //     return amount;
+    // }
+    const selectProductHandler = (selectProduct)=>{
+        for (let i = 0 ; i<selectedProduct.length; i++){
+            if(selectedProduct[i][0] == selectProduct[0])
+            return selectedProduct[i][2] += 1 ,selectedProduct[i][3] = selectedProduct[i][2] * selectProduct[3]
+        }
+        selectedProduct.push(selectProduct)
+    }
+
+
+
+    const btnClick =  (e) =>  {
         const id = e.target.value;
-        console.log(product);
-        const price = {  } 
-        setSelectedProduct([...selectedProduct, id])
+        const name = selectProductName(id)
+        let amount = 1
+        let price = selectedProductPriceHandler(id);
+        const selectProduct = [id,name,amount,price]
+        selectProductHandler(selectProduct)
+        console.log('selectProduct' , selectProduct);
+        console.log('price', price);
+        console.log('name', name);
+        console.log('amount', amount);
+        console.log('selectedProduct', selectedProduct);
+
     }
 
     const saleslog = () => {
@@ -84,16 +136,7 @@ const Sales = () => {
         };
         return axios.post(url, formData, config);
     };
-    // const btnHandler  = async(e)=>{
-    //     e.preventDefault();
-    //     try {
-    //         const res = await s
-    //         if ()
-    //     } catch(e){
-    //         alert('실패')
-    //     }
-    // }
-
+   
 
     return (
         <div>
@@ -110,7 +153,7 @@ const Sales = () => {
                         {product &&
                             product?.map((product) => {
                                 return (
-                                    <button onClick={(e) => selectProductHandler(e)} className={styles.product_btn1} value={product.제품ID}> {product.제품ID}</button>
+                                    <button onClick={(e) => btnClick(e)} className={styles.product_btn1} value={product.제품ID}> {product.제품ID}</button>
                                 )
                             })}
                     </tr>
@@ -125,9 +168,7 @@ const Sales = () => {
                                 <td>  개당가격 </td>
                                 <td>  상품가격 </td>
                             </tr>
-
-                                <SelectList selectedProduct={selectedProduct} />
-
+                            <SelectList selectedProduct={selectedProduct} />
                         </table>
                     </div>
                     <div className={styles.bottomRight}>
