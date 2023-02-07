@@ -58,10 +58,10 @@ const Customers = () => {
 
                 <tr>
                     <td> 1 </td>
-                    <td> {rowData.name} </td>
+                    {/* <td> {rowData.name} </td>
                     <td> {rowData.phone}</td>
                     <td>  {rowData.comment} </td>
-                    <td>  {rowData.id} </td>
+                    <td>  {rowData.id} </td> */}
                 </tr>
                 
             </table>

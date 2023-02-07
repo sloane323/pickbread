@@ -194,7 +194,3 @@ app.get("/api/customer", (req, res) => {
     }
   });
 });
-
-app.listen(PORT, () => {
-  console.log(`Server On : http://localhost:${PORT}/`);
-});

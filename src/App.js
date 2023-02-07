@@ -5,7 +5,7 @@ import Main from "./Page/Main";
 import Dashboard from "./Page/Dashboard";
 import Production from "./Page/Production/Production";
 import Sales from "./Page/Sales/Sales";
-import Customers from "./Page/Customers";
+import Customers from "./Page/Customer/Customers";
 import Reports from "./Page/Reports";
 import AddMaterial from "./Page/Production/AddMaterial";
 import AddProduct from "./Page/Production/AddProduct";
@@ -14,6 +14,7 @@ import StockDetail from "./Page/Production/StockDetail";
 import Purchase from "./Page/Production/Purchase";
 import AddVendor from "./Page/Production/AddVendor";
 import Manufacture from "./Page/Production/Manufacture";
+import AddCustomer from './Page/Customer/AddCustomer';
 
 function App() {
   return (
