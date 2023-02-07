@@ -13,8 +13,6 @@ const Sales = () => {
     const [purchaseingProducts, setPurchaingProducts] = useState([])
 
     const [saleDate, setSaleDate] = useState(new Date().toISOString().slice(0, 10));
-
-
     const totalCost = purchaseingProducts
 
     const getProduct = async () => {
@@ -64,8 +62,6 @@ const Sales = () => {
         for (let i = 0; i < product.length; i++) {
             console.log('product제품ID', product[i].제품ID);
         }
-
-
     }
     const selectProductName = (a)=>{
         let name = '';
@@ -87,30 +83,19 @@ const Sales = () => {
         } return price;
     }
 
-    // const selectedProductAmount = (a) => {
-    //     let amount = 0;
-    //     if (a) {
-    //         for (let i = 0; i < product.length; i++) {
-    //             if (product[i].제품ID === a)
-    //                 return amount += 1;
-    //         }
-    //     }
-    //     return amount;
-    // }
     const selectProductHandler = (selectProduct)=>{
         for (let i = 0 ; i<selectedProduct.length; i++){
             if(selectedProduct[i][0] == selectProduct[0])
-            return selectedProduct[i][2] += 1 ,selectedProduct[i][3] = selectedProduct[i][2] * selectProduct[3]
+            return selectedProduct[i][2] += 1 ,selectedProduct[i][3] 
         }
-        selectedProduct.push(selectProduct)
+        selectedProduct.push(selectProduct);
     }
 
-
-
     const btnClick =  (e) =>  {
+
         const id = e.target.value;
-        const name = selectProductName(id)
-        let amount = 1
+        const name = selectProductName(id);
+        let amount = 1 ;
         let price = selectedProductPriceHandler(id);
         const selectProduct = [id,name,amount,price]
         selectProductHandler(selectProduct)
@@ -119,8 +104,11 @@ const Sales = () => {
         console.log('name', name);
         console.log('amount', amount);
         console.log('selectedProduct', selectedProduct);
-
     }
+
+    useEffect(()=>{
+        console.log('바뀜');
+    },[selectedProduct])
 
     const saleslog = () => {
         const url = "/api/sales";
@@ -172,6 +160,11 @@ const Sales = () => {
                         </table>
                     </div>
                     <div className={styles.bottomRight}>
+                        <table>
+                            <tr>
+                                <td>총 가격 </td>
+                            </tr>
+                        </table>
                         <button className={styles.product_btn3}>고객등록</button>
                         <button className={styles.product_btn4}>구매</button>
                     </div>
