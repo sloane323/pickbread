@@ -33,6 +33,7 @@ function App() {
         <Route path="/production/stock/:id" element={<StockDetail />} />
         <Route path="/sales" element={<Sales />}></Route>
         <Route path="/customers" element={<Customers />}></Route>
+        <Route path="/customers/add" element={<AddCustomer />}></Route>
         <Route path="/reports" element={<Reports />}></Route>
       </Routes>
     </div>

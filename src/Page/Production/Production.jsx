@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 // 생산 페이지
 const Production = () => {
 
-
     return (  
     <div>
         <h1>Production Page</h1>
