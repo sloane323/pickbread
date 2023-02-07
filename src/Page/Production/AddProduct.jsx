@@ -7,10 +7,10 @@ const AddProduct = () => {
   const [addInput, setAddInput] = useState([]);
 
   /* 배열 안의 객체에 담으려 하는 카운터 state와 setter */
-  const [inputCounter, setInputCounter] = useState(0)
+  const [inputCounter, setInputCounter] = useState(0);
 
   /* 재료 이름이 대입될 state, setter */
-  const [ingredients, setIngredients] = useState("")
+  const [ingredients, setIngredients] = useState("");
 
   const moreInput = () => {
     const newInput = {
@@ -19,16 +19,40 @@ const AddProduct = () => {
       ingredients: ingredients,
       /* setter는 보내줄 필요 없음 */
       // setIngredients: setIngredients
-    }
+    };
     /* 빈 배열부터 시작해 concat으로 이어붙임 */
-    setAddInput(addInput.concat(newInput))
+    setAddInput(addInput.concat(newInput));
     /* 카운터 state는 증가 */
-    setInputCounter(inputCounter + 1)
-  }
+    setInputCounter(inputCounter + 1);
+  };
+
+  /* 새로 고침 이벤트 X, post 메서드 호출 */
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    for (let i = 0; i < addInput.length; i++) {
+      await post(i);
+    }
+  };
+
+  /* 호출될 post 메서드 */
+  const post = (i) => {
+    if (addInput.length > 0) {
+      const url = "/api/recipe";
+      const recipeData = new FormData();
+      recipeData.append("recipe", addInput[i].ingredients);
+      const config = {
+        headers: { "Content-Type": "application/json" },
+      };
+      console.log("i is", i);
+      console.log(addInput[i]);
+      console.log(url, recipeData, config);
+      return axios.post(url, recipeData, config);
+    }
+  };
 
   return (
     <div>
-      <form onSubmit={""}>
+      <form onSubmit={onSubmit}>
         <div>
           <input type="button" value="추가" onClick={() => moreInput()} />
         </div>
@@ -48,13 +72,20 @@ const AddProduct = () => {
           전체 addInput 중 index에 맞게 접근해서 파라미터를 알맞는 요소의 ingredients 키에 대입해준다
           
           나머지 addInput은 그대로 유지되길 원하므로 스프레드 연산자로 펼쳐줌 */}
-          {addInput.length > 0 ? addInput.map((input, index) => (<AddIngredients key={input.inputCounter} 
-          ingredients={input.ingredients} setIngredients={(item_name)=>{
-            addInput[index].ingredients = item_name
-            setAddInput([...addInput])
-            console.log("???" + item_name)
-            console.log(addInput)
-          }}></AddIngredients>)) : ""}
+          {addInput.length > 0
+            ? addInput.map((input, index) => (
+                <AddIngredients
+                  key={input.inputCounter}
+                  ingredients={input.ingredients}
+                  setIngredients={(item_name) => {
+                    addInput[index].ingredients = item_name;
+                    setAddInput([...addInput]);
+                    console.log("???" + item_name);
+                    console.log(addInput);
+                  }}
+                ></AddIngredients>
+              ))
+            : ""}
         </div>
         <input type="submit" value="등록" />
       </form>

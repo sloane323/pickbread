@@ -114,3 +114,22 @@ app.get("/api/production/:id", (req, res)=>{
     conn.release();
   })
 })
+
+app.post('/api/recipe', (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) {
+      throw err;
+    } else {
+      const sql = `INSERT INTO 레시피 VALUES (?, ?, ?)`;
+      const recipeId = Math.random().toString(32).slice(2);
+      const productId = Math.random().toString(32).slice(2);
+      const recipe = req.body.recipe;
+      console.log(recipeId, productId, recipe)
+      const params = [recipeId, productId, recipe];
+      conn.query(sql, params, (err, rows, fields) => {
+        res.send(rows);
+      });
+    }
+    conn.release();
+  });
+});
