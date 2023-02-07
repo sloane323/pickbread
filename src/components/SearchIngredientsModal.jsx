@@ -6,13 +6,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const SearchIngredientsModal = ({
-  openModal,
-  setOpenModal,
-  setIsOpen,
-  setIngredients,
-}) => {
+/* 모달 오픈 값과 setIngredients를 전달 받음 */
+const SearchIngredientsModal = ({ openModal, setOpenModal, setIsOpen, setIngredients }) => {
   const [stocks, setStocks] = useState(null);
+
+  console.log(setIngredients)
 
   const getStocks = async () => {
     try {
@@ -32,8 +30,11 @@ const SearchIngredientsModal = ({
     setIsOpen(false);
   };
 
+  /* 클릭 이벤트로 호출될 메서드, 두번째 파라미터를 활용 */
   const toSetIngredients = (event, IngreName) => {
+    /* 들어오는 값을 이제 setIngredients에 넘김 */
     setIngredients(IngreName);
+    /* 모달 닫기 */
     setOpenModal(false);
   };
 
@@ -72,7 +73,7 @@ const SearchIngredientsModal = ({
                     <td>{stock.브랜드}</td>
                     <td>
                       <button
-                        onClick={(event) => toSetIngredients(event, stock.이름)}
+                        onClick={(event) => toSetIngredients(event, stock.원자재ID)}
                       >
                         재료 이름 등록
                       </button>
