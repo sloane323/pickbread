@@ -6,10 +6,9 @@ const SelectList = (props) => {
         <>
         {
             props.selectedProduct.map((idx,index)=>{
-                
                 return(
                     <tr>
-                        <td key={idx[0]} >{index+1}</td>
+                        <td key={idx[0]}>{index+1}</td>
                         <td>{idx[1]}</td>
                         <td>{idx[2]}</td>
                         <td>{idx[3]}</td>

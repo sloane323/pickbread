@@ -11,7 +11,7 @@ const Sales = () => {
 
     const [selectedP_stock, setSelectedP_stock] = useState("")
     const [purchaseingProducts, setPurchaingProducts] = useState([])
-
+    const [selectProduct, setSelectProduct] = useState();
     const [saleDate, setSaleDate] = useState(new Date().toISOString().slice(0, 10));
     const totalCost = purchaseingProducts
 
@@ -37,23 +37,6 @@ const Sales = () => {
         getP_stock()
     }, [])
 
-    // useEffect(() => {
-    //     if (!selectedProduct && product && product.length !== 0) {
-    //         const id = product[0].제품ID;
-    //         const name = product[0].이름;
-    //         const price = product[0].가격;
-    //         setSelectedProduct([])
-    //     }
-    //     // if (!selectedCustomer && customer && customer.length !== 0) {
-    //     //     const id = customer[0].고객ID;
-    //     //     const name = customer[0].이름;
-    //     // }
-    //     // if (!selectedP_stock && p_stock && p_stock.length !== 0) {
-    //     //     const id = p_stock[0].재고ID;
-    //     //     const amount = p_stock.잔량;
-    //     // }
-    // }, [product, customer, p_stock])
-
     const log = () => {
         console.log('product', product);
         console.log('customer', customer);
@@ -63,53 +46,65 @@ const Sales = () => {
             console.log('product제품ID', product[i].제품ID);
         }
     }
-    const selectProductName = (a)=>{
+    // for문 => foreach문으로 교체
+    // 버튼을 눌렀을때ID(a)와 제품ID가 같은 데이터의 이름을 불러옴
+    const selectProductName = (a) => {
         let name = '';
-        if (a){
-            for (let i = 0 ; i<product.length; i++){
-                if (product[i].제품ID === a)
-                return name = product[i].이름
-            }
-        }  return name ;
+        product.forEach((element) => {
+            if (element.제품ID == a)
+                return name = element.이름
+        })
+        return name
     }
-    
+    // for문 => foreach문으로 교체
+    // 버튼을 눌렀을때ID(a)와 제품ID가 같은 데이터의 가격을 불러옴
     const selectedProductPriceHandler = (a) => {
         let price;
-        if (a) {
-            for (let i = 0; i < product.length; i++) {
-                if (product[i].제품ID === a)
-                    return price = product[i].가격;
-            }
-        } return price;
+        product.forEach((element) => {
+            if (element.제품ID == a)
+                return price = element.가격
+        })
+        return price;
     }
 
-    const selectProductHandler = (selectProduct)=>{
-        for (let i = 0 ; i<selectedProduct.length; i++){
-            if(selectedProduct[i][0] == selectProduct[0])
-            return selectedProduct[i][2] += 1 ,selectedProduct[i][3] 
+    // for문 => foreach문으로 교체
+    const selectProductHandler = (selectProduct) => {
+        if (selectedProduct.length == 0){
+            selectedProduct.push(selectProduct)
+            // 조건문 수정필요함
+        } else if ( selectedProduct ) {
+            selectedProduct.push(selectProduct)
+        } else {
+            selectedProduct.forEach((element, index) => {
+                if (element[index] == selectProduct[0]){
+                    element[2] += 1;
+                }
+            });
         }
-        selectedProduct.push(selectProduct);
+
+        // for문사용해서 하다 수정
+        // for (let i = 0; i < selectedProduct.length; i++) {
+        //     if (selectedProduct[i][0] === selectProduct[0]);
+        //     selectedProduct[i][2] += 1;
+
+        // }
+        // console.log('selectProduct', selectProduct);
+        // selectedProduct.push(selectProduct);
+
     }
-
-    const btnClick =  (e) =>  {
-
+    // 버튼눌렀을때 id, name , amount , price를 구해오는 함수
+    const btnClick = (e) => {
         const id = e.target.value;
         const name = selectProductName(id);
-        let amount = 1 ;
+        let amount = 1;
         let price = selectedProductPriceHandler(id);
-        const selectProduct = [id,name,amount,price]
+        const selectProduct = [id, name, amount, price];
         selectProductHandler(selectProduct)
-        console.log('selectProduct' , selectProduct);
-        console.log('price', price);
-        console.log('name', name);
-        console.log('amount', amount);
+        console.log('selectProduct', selectProduct);
         console.log('selectedProduct', selectedProduct);
     }
 
-    useEffect(()=>{
-        console.log('바뀜');
-    },[selectedProduct])
-
+    // 구매눌렀을대 올라갈 데이터(임시)
     const saleslog = () => {
         const url = "/api/sales";
         const salesID = Math.random().toString(32).slice(2);
@@ -124,7 +119,7 @@ const Sales = () => {
         };
         return axios.post(url, formData, config);
     };
-   
+    // useEffect 사용해서 selectList 렌더링 시켜야함 
 
     return (
         <div>
