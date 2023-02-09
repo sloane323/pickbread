@@ -98,6 +98,22 @@ const AddProduct = () => {
     }
   }
 
+  const changeNameHandler = (event) => {
+    setName(event.target.value);
+  };
+
+  const changeSizeHandler = (event) => {
+    setSize(event.target.value)
+  }
+
+  const changeUnitHandler = (event) => {
+    setUnit(event.target.value)
+  }
+
+  const changePriceHandler = (event) => {
+    setPrice(event.target.value);
+  };
+
   /* 버튼을 통해서 실행 */
   const addRecipe = () => {
     /* recipeMaterials state를 다루고, 이전 재료들과 선택된 재료를 나열 */
@@ -117,6 +133,7 @@ const AddProduct = () => {
     setPrice("");
     setSize("");
     setUnit("");
+    setRecipeMaterials([]);
   };
 
   return (
@@ -130,33 +147,29 @@ const AddProduct = () => {
           이름
           <input
             type="text"
-            onChange={(e) => {
-              setName(e.target.value);
-            }}
+            value={name}
+            onChange={changeNameHandler}
           />
           <br />
           사이즈
           <input
             type="number"
-            onChange={(e) => {
-              setSize(e.target.value);
-            }}
+            value={size}
+            onChange={changeSizeHandler}
           />
           <br />
           단위
           <input
             type="text"
-            onChange={(e) => {
-              setUnit(e.target.value);
-            }}
+            value={unit}
+            onChange={changeUnitHandler}
           />
           <br />
           가격
           <input
             type="number"
-            onChange={(e) => {
-              setPrice(e.target.value);
-            }}
+            value={price}
+            onChange={changePriceHandler}
           />
           <br />
           {/* 레시피선택 */}
