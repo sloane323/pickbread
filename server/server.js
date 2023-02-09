@@ -115,6 +115,29 @@ app.get("/api/production/:id", (req, res)=>{
   })
 })
 
+//제품 제작 등록(AddProduct.jsx)
+app.post("/api/product", (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) {
+      throw err;
+    } else {
+      const sql = "INSERT INTO 제품 VALUES(?, ?, ?, ?, ?)";
+      const id = req.body.productId;
+      const name = req.body.name;
+      const size = req.body.size;
+      const unit = req.body.unit;
+      const price = req.body.price;
+      console.log(req.body)
+      const params = [id, name, size, unit, price]
+      conn.query(sql, params, (err, rows, fields)=>{
+        res.send(rows)
+        console.log(err);
+      });
+    }
+    conn.release();
+  });
+});
+
 app.post('/api/recipe', (req, res) => {
   pool.getConnection((err, conn) => {
     if (err) {
@@ -122,10 +145,11 @@ app.post('/api/recipe', (req, res) => {
     } else {
       const sql = `INSERT INTO 레시피 VALUES (?, ?, ?)`;
       const recipeId = Math.random().toString(32).slice(2);
-      const productId = Math.random().toString(32).slice(2);
-      const recipe = req.body.recipe;
-      console.log(recipeId, productId, recipe)
-      const params = [recipeId, productId, recipe];
+      /* 테스트 완료, 외래 키 받아오기 */
+      const productId = req.body.productId;
+      const materialId = req.body.materialId;
+      console.log(recipeId, productId, materialId)
+      const params = [recipeId, productId, materialId];
       conn.query(sql, params, (err, rows, fields) => {
         res.send(rows);
       });
