@@ -11,9 +11,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get("/", (req, res) => {
   res.send(`Response Complete`);
 });
-app.listen(PORT, () => {
-  console.log(`Server On : http://localhost:${PORT}/`);
-});
+
 app.get("/api/production", (req, res) => {
   pool.getConnection((err, conn) => {
     if (err) {
@@ -226,7 +224,7 @@ app.post("/api/customer", (req, res) => {
       const params = [id, name, phone, comment]
       conn.query(sql, params, (err, rows, fields)=>{
         res.send(rows)
-        console.log("둥록성공");
+        console.log("등록성공");
         console.log(err);
       });
     }

@@ -33,11 +33,11 @@ const AddCustomer = () => {
         try {
         const res = await post();
         setName(""); setPhone("");  setComment(""); 
-        alert("구매등록 완료"); 
+        alert("고객등록 완료"); 
         navigator(-1);
          }
         catch (e) {
-            alert("구매등록 실패");
+            alert("고객등록 실패");
         }
     };
 
