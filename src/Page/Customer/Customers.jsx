@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const Customers = () => {
-
+    const [rowData ,setRowData] =useState();
     const [inputData, setInputData] = useState([{
         customerid: '',
         name: '',
