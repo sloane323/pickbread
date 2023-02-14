@@ -1,6 +1,5 @@
 import React from "react";
 import { Link , useLocation } from "react-router-dom";
-import SidebarItem from "./SidebarItem";
 import styles from "../SideBar/SideBar.module.css";
 const SideBar = () => {
     const pathName = useLocation().pathname;
@@ -15,7 +14,7 @@ const SideBar = () => {
       ];
 
     return ( 
-        <div className={styles.sidebar}>
+        <div className={styles.mapsidebar}>
             <Link to ='/dashboard'> <div className={styles.dashboard}> 대시보드 </div> </Link>
             <Link to ='/production'><div> 생산 </div></Link>
             <Link to ='/production/add-material'><div> 재료 추가 </div></Link>
