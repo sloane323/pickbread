@@ -12,7 +12,19 @@ app.get("/", (req, res) => {
   res.send(`Response Complete`);
 });
 
-// 거래처 조회
+app.get("/api/production", (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) {
+      throw err;
+    } else {
+      const sql = "SELECT * FROM 제품 ORDER BY 이름";
+      conn.query(sql, (err, rows, fields) => {
+        res.send(rows);
+      });
+      conn.release();
+    }
+  });
+});
 app.get("/api/vendor", (req, res) => {
   pool.getConnection((err, conn) => {
     if (err) {
@@ -26,6 +38,7 @@ app.get("/api/vendor", (req, res) => {
     }
   });
 });
+
 app.get("/api/material", (req, res) => {
   pool.getConnection((err, conn) => {
     if (err) {
@@ -48,18 +61,18 @@ app.post("/api/vendor", (req, res) => {
       throw err;
     } else {
       const sql = "INSERT INTO 벤더 VALUES(?, ?, ?, ?, ?)";
-      const id = Math.random().toString(32).slice(2)
+      const id = Math.random().toString(32).slice(2);
       const name = req.body.name;
       const phone = req.body.phone;
       const officer = req.body.officer;
       const comment = req.body.comment;
-      const params = [id, name, phone, officer, comment]
-      conn.query(sql, params, (err, rows, fields)=>{
-        res.send(rows)
+      const params = [id, name, phone, officer, comment];
+      conn.query(sql, params, (err, rows, fields) => {
+        res.send(rows);
         console.log(err);
       });
+      conn.release();
     }
-    conn.release();
   });
 });
 //제품 제작 등록(AddProduct.jsx)
@@ -112,7 +125,6 @@ app.post("/api/purchasing", (req, res) => {
       const params = [purchasingID, vendorID, purchaseDate, totalCost];
       conn.query(sql, params, (err, rows, fields) => {
         res.send(rows);
-        console.log(err);
       });
       conn.release();
     }
@@ -123,14 +135,17 @@ app.post("/api/m_stock", (req, res) => {
     if (err) {
       throw err;
     } else {
-      const sql = "INSERT INTO 원자재재고 VALUES (?, ?, ?, ?, ?, ?)";
+      const sql = "INSERT INTO 원자재재고 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
       const stockID = req.body.stockID;
       const purchasingID = req.body.purchasingID;
       const materialID = req.body.materialID;
       const name = req.body.name;
+      const size = req.body.size;
       const amount = req.body.amount;
+      const balance = req.body.balance;
+      const unit = req.body.unit;
       const expDate = req.body.expDate;
-      const params = [stockID, purchasingID, materialID, name, amount, expDate];
+      const params = [stockID, purchasingID, materialID, name, size, amount, balance, unit, expDate];
       conn.query(sql, params, (err, rows, fields) => {
         res.send(rows);
         console.log(err);
@@ -209,7 +224,7 @@ app.post("/api/customer", (req, res) => {
       const params = [id, name, phone, comment]
       conn.query(sql, params, (err, rows, fields)=>{
         res.send(rows)
-        console.log("둥록성공");
+        console.log("등록성공");
         console.log(err);
       });
     }
@@ -253,26 +268,6 @@ app.get("/api/customer", (req, res) => {
 //     conn.release();
 //   })
 // });
-
-app.post("/api/purchasing", (req, res) => {
-  pool.getConnection((err, conn) => {
-    if (err) {
-      throw err;
-    } else {
-      const sql = "INSERT INTO 원자재구매 VALUES (?, ?, ?, ?, null)";
-      const purchasingID = req.body.purchasingID;
-      const vendorID = req.body.vendorID;
-      const purchaseDate = req.body.purchaseDate;
-      const totalCost = req.body.totalCost;
-      const params = [purchasingID, vendorID, purchaseDate, totalCost];
-      conn.query(sql, params, (err, rows, fields) => {
-        res.send(rows);
-        console.log(err);
-      });
-      conn.release();
-    }
-  });
-});
 
 // 판매 내역 받아오기 
 app.get("/api/saleslog", (req, res) => {

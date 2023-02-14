@@ -36,16 +36,10 @@ const PurchaseForm = () => {
   }, []);
   useEffect(() => {
     if (!selectedVendor && vendors && vendors.length !== 0) {
-      const id = vendors[0].벤더ID;
-      const name = vendors[0].이름;
-      setSelectedVendor({ id, name });
+      setSelectedVendor(vendors[0]);
     }
     if (!selectedMaterial && materials && materials.length !== 0) {
-      const id = materials[0].원자재ID;
-      const name = materials[0].이름;
-      const size = materials[0].사이즈;
-      const cost = materials[0].가격;
-      setSelectedMaterial({ id, name, size, cost });
+      setSelectedMaterial(materials[0]);
     }
   }, [vendors, materials]);
 
@@ -54,15 +48,11 @@ const PurchaseForm = () => {
   };
   const selectVendorHandler = (e) => {
     const idx = e.target.options.selectedIndex;
-    const id = vendors[idx].벤더ID;
-    setSelectedVendor({ id, name: e.target.value });
+    setSelectedVendor(vendors[idx]);
   };
   const selectMaterialHandler = (e) => {
     const idx = e.target.options.selectedIndex;
-    const id = materials[idx].원자재ID;
-    const size = materials[idx].사이즈;
-    const cost = materials[idx].가격;
-    setSelectedMaterial({ id, name: e.target.value, size, cost });
+    setSelectedMaterial(materials[idx]);
   };
   const changeAmountHandler = (e) => {
     setEnteredAmount(e.target.value);
@@ -75,11 +65,13 @@ const PurchaseForm = () => {
   };
   const addPurchasingMaterialHandler = () => {
     const addedMaterial = {
-      materialID: selectedMaterial.id,
-      name: selectedMaterial.name,
+      materialID: selectedMaterial.원자재ID,
+      name: selectedMaterial.이름,
+      size: selectedMaterial.사이즈,
+      cost: selectedMaterial.가격,
+      unit: selectedMaterial.단위,
       amount: enteredAmount,
       expDate: expDate,
-      cost: selectedMaterial.cost,
     };
     setPurchaingMaterials((prev) => {
       return [...prev, addedMaterial];
@@ -90,7 +82,7 @@ const PurchaseForm = () => {
     const url = "/api/purchasing";
     const formData = new FormData();
     formData.append("purchasingID", purchasingID);
-    formData.append("vendorID", selectedVendor.id);
+    formData.append("vendorID", selectedVendor.벤더ID);
     formData.append("purchaseDate", purchaseDate);
     formData.append("totalCost", totalCost);
     const config = {
@@ -106,7 +98,10 @@ const PurchaseForm = () => {
     formData.append("purchasingID", purchasingID);
     formData.append("materialID", purchasingMaterials[idx].materialID);
     formData.append("name", purchasingMaterials[idx].name);
+    formData.append("size", purchasingMaterials[idx].size);
     formData.append("amount", purchasingMaterials[idx].amount);
+    formData.append("balance", purchasingMaterials[idx].size * purchasingMaterials[idx].amount);
+    formData.append("unit", purchasingMaterials[idx].unit);
     formData.append("expDate", purchasingMaterials[idx].expDate);
     const config = {
       headers: { "Content-Type": "application/json" },
@@ -135,7 +130,7 @@ const PurchaseForm = () => {
       </div>
       <div>
         <label htmlFor="vendor">벤더</label>
-        <select onChange={selectVendorHandler} value={selectedVendor.name}>
+        <select onChange={selectVendorHandler}>
           {vendors &&
             vendors?.map((vendor) => {
               return <VendorOption key={vendor.벤더ID} vendor={vendor} />;
@@ -144,7 +139,7 @@ const PurchaseForm = () => {
       </div>
       <div>
         <span>원자재 종류</span>
-        <select onChange={selectMaterialHandler} value={selectedMaterial.name}>
+        <select onChange={selectMaterialHandler}>
           {materials &&
             materials?.map((material) => {
               return <MaterialOption key={material.원자재ID} material={material} />;
