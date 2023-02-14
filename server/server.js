@@ -17,6 +17,33 @@ app.get("/", (req, res) => {
   res.send(`Response Complete`);
 });
 
+app.get("/api/production", (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) {
+      throw err;
+    } else {
+      const sql = "SELECT * FROM 제품 ORDER BY 이름";
+      conn.query(sql, (err, rows, fields) => {
+        res.send(rows);
+      });
+      conn.release();
+    }
+  });
+});
+app.get("/api/vendor", (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) {
+      throw err;
+    } else {
+      const sql = "SELECT * FROM 벤더 order by 이름";
+      conn.query(sql, (err, rows, fields) => {
+        res.send(rows);
+      });
+      conn.release();
+    }
+  });
+});
+
 /* 안 쓰는 쿼리문이라 간주, user 테이블 없음
 
   app.get("/api/users", (req, res) => {
@@ -359,16 +386,11 @@ app.put("/api/customer/:id", (req, res) => {
       const name = req.body.name;
       const phone = req.body.phone;
       const comment = req.body.comment;
-      const id = req.params.id;
-      const params = [name, phone, comment, id];
-      console.log(params);
-      conn.query(sql, params, (err, rows, fields) => {
-        if (err) {
-          throw err;
-        } else {
-          res.send(rows);
-          console.log(err);
-        }
+      const params = [id, name, phone, comment]
+      conn.query(sql, params, (err, rows, fields)=>{
+        res.send(rows)
+        console.log("등록성공");
+        console.log(err);
       });
     }
     conn.release();
@@ -438,4 +460,8 @@ app.get("/api/saleslog", (req, res) => {
       conn.release();
     }
   });
+});
+
+app.listen(PORT, () => {
+  console.log(`Server On : http://localhost:${PORT}/`);
 });

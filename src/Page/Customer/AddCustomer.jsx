@@ -9,14 +9,12 @@ const AddCustomer = () => {
   const [name, setName] = useState("");
   const [comment, setComment] = useState("");
 
-  // 거래처 등록 함수
-  const post = () => {
+  const addCustomer = () => {
     const url = "/api/customer";
     const formData = new FormData();
     formData.append("name", name);
     formData.append("phone", phone);
     formData.append("comment", comment);
-
     const config = {
       headers: { "Content-Type": "application/json" },
     };
@@ -26,58 +24,61 @@ const AddCustomer = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await post();
+      const res = await addCustomer();
       setName("");
       setPhone("");
       setComment("");
-      alert("고객등록 완료");
+      alert("구매등록 완료");
       navigator(-1);
     } catch (e) {
-      alert("고객등록 실패");
+      alert("구매등록 실패");
     }
   };
 
   return (
     <div>
       <div>
-        {" "}
         <h1>Customers </h1>
       </div>
       <button>
-        {" "}
-        <Link to="/customers"> 뒤로 </Link>{" "}
+        <Link to="/customers"> 뒤로 </Link>
       </button>
-
       <div>
         <form onSubmit={onSubmit}>
           <div>
-            <lable> 이름 </lable>
-            <input
-              tpye="input"
-              onChange={(e) => {
-                setName(e.target.value);
-              }}
-            ></input>
+            <label>
+              이름
+              <input
+                type="text"
+                onChange={(e) => {
+                  setName(e.target.value);
+                }}
+              />
+            </label>
           </div>
 
           <div>
-            <lable> 전화번호 </lable>
-            <input
-              tpye="input"
-              onChange={(e) => {
-                setPhone(e.target.value);
-              }}
-            ></input>
+            <label>
+              전화번호
+              <input
+                type="text"
+                onChange={(e) => {
+                  setPhone(e.target.value);
+                }}
+              />
+            </label>
           </div>
 
           <div>
-            <lable> 코멘트 </lable>
-            <input
-              tpye="input"
-              onChange={(e) => {
-                setComment(e.target.value);
-              }}
-            ></input>
+            <label>
+              코멘트
+              <input
+                type="text"
+                onChange={(e) => {
+                  setComment(e.target.value);
+                }}
+              />
+            </label>
           </div>
 
           <button> 등록 </button>
