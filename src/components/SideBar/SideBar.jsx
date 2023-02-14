@@ -16,21 +16,12 @@ const SideBar = () => {
 
     return ( 
         <div className={styles.sidebar}>
-
-<div className={styles.mapsidebar}>
-      {menus.map((menu, index) => {
-        return (
-          <Link to={menu.path} key={index} className={styles.links}>
-            <SidebarItem
-              menu={menu}
-              isActive={pathName === menu.path ? true : false}
-              	// 현재 URL pathname과 객체에 담긴 path값 일치 여부 확인
-            />
-          </Link>
-        );
-      })}
-    </div>
-
+            <Link to ='/dashboard'> <div className={styles.dashboard}> 대시보드 </div> </Link>
+            <Link to ='/production'><div> 생산 </div></Link>
+            <Link to ='/production/add-material'><div> 재료 추가 </div></Link>
+            <Link to ='/sales'><div> 판매 </div></Link>
+            <Link to ='/customers'> <div> 고객 </div></Link>
+            <Link to ='/reports'> <div> 리포트 </div></Link>
         </div>
     );
 }
