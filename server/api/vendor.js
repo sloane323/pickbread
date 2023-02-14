@@ -1,6 +1,5 @@
-const pool = require("./config/db");
-const app = express();
-const getVendors = app.get("/api/vendor", (req, res) => {
+const pool = require('../config/db')
+exports.getVendors = (req, res) => {
   pool.getConnection((err, conn) => {
     if (err) {
       throw err;
@@ -9,8 +8,7 @@ const getVendors = app.get("/api/vendor", (req, res) => {
       conn.query(sql, params, (err, rows, fields) => {
         res.send(rows);
       });
+      conn.release();
     }
-    conn.release();
   });
-});
-module.exports = getVendors;
+};
