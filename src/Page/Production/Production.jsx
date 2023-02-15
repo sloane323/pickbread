@@ -6,11 +6,13 @@ const Production = () => {
     return (  
     <div>
         <h1>Production Page</h1>
-        <Link to ='/production/add-material'>▶원자재 등록</Link>
-        <Link to ='/production/purchase'>▶원자재 구매</Link>
-        <Link to ='/production/add-product'>▶제품 등록</Link>
-        <Link to ='/production/manufacture'>▶제품 생산</Link>
         <Link to ='/production/add-vendor'>▶거래처 등록</Link>
+        <Link to ='/production/add-material'>▶원자재 등록</Link> <br /><br />
+
+        <Link to ='/production/purchase'>▶원자재 구매</Link>
+        <Link to ='/production/add-product'>▶제품 등록</Link><br /><br />
+
+        <Link to ='/production/manufacture'>▶제품 생산</Link><br /><br />
         <Link to ='/production/stock'>▶재고확인</Link>
     </div> 
     );
