@@ -2,17 +2,6 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-const Customers = () => {
-
-    const [inputData, setInputData] = useState([{
-        customerid: '',
-        name: '',
-        phone: '',
-        comment: ''
-      }])
-
-
-
 
 
 const Customers = () => {
@@ -30,15 +19,21 @@ useEffect(()=>{
 },[]);
 
 
-                {/* <tr>
-                    <td> 1 </td>
-                    <td> {rowData.name} </td>
-                    <td> {rowData.phone}</td>
-                    <td>  {rowData.comment} </td>
-                    <td>  {rowData.id} </td>
-                </tr> */}
-                
-            </table>
+  return (
+    <div>
+      <div>
+        <h1>Customers 목록</h1>
+      </div>
+      <div>
+        <button>
+          <Link to="/customers/add">고객 등록하러 가기</Link>
+        </button>
+      </div>
+      <div>
+        <input type="text" />
+        <button> 검색 </button>
+      </div>
+      <div>
 
       </div>
       <h2>조회</h2>
