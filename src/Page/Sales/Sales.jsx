@@ -126,6 +126,10 @@ const Sales = () => {
             <div className={styles.salestitle}>
                 <h1> Sales </h1> </div>
             <button onClick={() => log()}>test</button>
+
+            <button className={styles.product_btn3}>고객추가</button>
+            <button className={styles.product_btn3}>결제하기</button>
+
             <div className={styles.salesmain}>
                 <div className={styles.salesmenu}>
                     {/* <tr>
@@ -160,8 +164,7 @@ const Sales = () => {
                                 <td>총 가격 </td>
                             </tr>
                         </table>
-                        <button className={styles.product_btn3}>고객등록</button>
-                        <button className={styles.product_btn4}>구매</button>
+
                     </div>
                 </div>
             </div>
