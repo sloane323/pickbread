@@ -1,31 +1,105 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
 const Dashboard = () => {
-    const todayTime = () => {
-        let now = new Date();  // 현재 날짜 및 시간
-        let todayYear = now.getFullYear(); 
-        let todayMonth = now.getMonth() + 1;
-        let todayDate = now.getDate();
-        const week = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
-        let dayOfWeek = week[now.getDay()];
+  const [vendor, setVendor] = useState();
+  const [purchasing, setPurchasing] = useState();
+  const [customer, setCustomer] = useState();
+  const [p_stock, setP_stock] = useState();
+  const [product, setProduct] = useState();
+  const [today, setToday] = useState(new Date().toISOString().slice(0, 10));
 
-        return todayYear + '.' + todayMonth + '.' + todayDate + ' - ' +  dayOfWeek 
-        ;
-    }
+  // 거래처
+  const getVendor = async () => {
+    const url = "/api/vendor";
+    const response = await axios.get(url);
+    setVendor(response.data);
+  };
 
-    return ( <div>
-       <h1>Dashboard </h1> 
-       <div>
-       <div>{todayTime().slice(0, 9)}
-          <span>{todayTime().slice(9, 15)}</span>
-        </div>
-             고객 이름 </div>
-       <div> <span>생산</span>
-       원자재 구입 /  제품 생산 / 유통기한 확인 
-         </div>
+  // 원자재구매
+  const getPurchasing = async () => {
+    const url = "/api/purchasing";
+    const response = await axios.get(url);
+    setPurchasing(response.data);
+  };
 
-       <div> <span>판매</span>
-       어제 판매 / 오늘 판매 / 방문고객 </div>
-    
-    </div> );
-}
- 
+  // 고객
+  const getCustomer = async () => {
+    const url = "/api/customer";
+    const response = await axios.get(url);
+    setCustomer(response.data);
+  };
+
+  // 제품 재고
+  const getP_stock = async () => {
+    const url = "/api/p_stock";
+    const response = await axios.get(url);
+    setP_stock(response.data);
+  };
+
+  // 제품 받아오기
+  const getProduct = async () => {
+    const url = "/api/product";
+    const response = await axios.get(url);
+    setProduct(response.data);
+  };
+
+  useEffect(() => {
+    getVendor();
+    getPurchasing();
+    getCustomer();
+    getP_stock();
+    getProduct();
+  }, []);
+
+  // 날짜 비교하는 함수
+  const dateDiff = (d1, d2) => {
+    const date1 = new Date(d1);
+    const date2 = new Date(d2);
+    const diffDate = date1.getTime() - date2.getTime();
+    return Math.abs(diffDate / (1000 * 60 * 60 * 24));
+  };
+
+  // 원자재 구매 날짜 비교
+  const purchasingDate = () => {
+    // for (let i = 0; i < purchasing.length; i++) {
+    //   const PDate = purchasing[i].구매일;
+    //   console.log(dateDiff(today, PDate));
+    // }
+    // 정렬하는함수
+    purchasing.sort(function (a, b) {
+      if (a > b) return 1;
+      if (a === b) return 0;
+      if (a < b) return -1;
+    });
+  };
+
+  const colog = () => {
+    console.log("vendor", vendor);
+    console.log("purchasing", purchasing);
+    console.log("customer", customer);
+    console.log("p_stock", p_stock);
+    console.log("product", product);
+    console.log("today", today);
+  };
+  return (
+    <div>
+      Dashboard
+      <button
+        onClick={() => {
+          colog();
+        }}
+      >
+        테스트용
+      </button>
+      <button
+        onClick={() => {
+          purchasingDate();
+        }}
+      >
+        구매날짜
+      </button>
+    </div>
+  );
+};
+
 export default Dashboard;
