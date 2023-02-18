@@ -1,3 +1,5 @@
+import PaymentMain from "./Payment/PaymentMain";
+
 const PaymentMode = (props) => {
     const { open, close } = props;
 
@@ -5,7 +7,7 @@ const PaymentMode = (props) => {
         <div className={open ? 'openModal modal' : 'modal'}>
       {open ? (
         <section>
-          <header> 이건 결제  </header>
+          <header> <PaymentMain />  </header>
            <button className="close" onClick={close}>
               X 
             </button>
