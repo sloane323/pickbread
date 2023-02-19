@@ -16,6 +16,7 @@ import Purchase from "./Page/Production/Purchase";
 import AddVendor from "./Page/Production/AddVendor";
 import Manufacture from "./Page/Production/Manufacture";
 import AddCustomer from './Page/Customer/AddCustomer';
+import AddPurchase from "./Page/Production/AddPurchase";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         <Route path="/production" element={<Production />} />
         <Route path="/production/add-material" element={<AddMaterial />} />
         <Route path="/production/purchase" element={<Purchase />} />
+        <Route path="/production/add-purchase" element={<AddPurchase />} />
         <Route path="/production/add-product" element={<AddProduct />} />
         <Route path="/production/manufacture" element={<Manufacture/>}/>
         <Route path="/production/add-vendor" element={<AddVendor />} />

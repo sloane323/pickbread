@@ -3,9 +3,11 @@ import axios from "axios";
 import VendorOption from "./VendorOption";
 import MaterialOption from "./MaterialOption";
 import PurchasingMaterials from "./PurchasingMaterials";
+import { useNavigate } from "react-router";
 
 const PurchaseForm = () => {
   const purchasingID = Math.random().toString(32).slice(2);
+  const navigate = useNavigate();
   const [vendors, setVendors] = useState("");
   const [materials, setMaterials] = useState("");
   const [purchaseDate, setPurchaseDate] = useState(new Date().toISOString().slice(0, 10));
@@ -14,12 +16,14 @@ const PurchaseForm = () => {
   const [enteredAmount, setEnteredAmount] = useState("");
   const [purchasingMaterials, setPurchaingMaterials] = useState([]);
   const [expDate, setExpDate] = useState(new Date().toISOString().slice(0, 10));
-  const totalCost = purchasingMaterials
+  const [discount, setDiscount] = useState(0);
+  const [receipt, setReceipt] = useState("");
+  const prevCost = purchasingMaterials
     ? purchasingMaterials.reduce((accumulator, currentValue) => {
         return accumulator + currentValue.cost * currentValue.amount;
       }, 0)
     : 0;
-  const [receipt, setReceipt] = useState("");
+  const totalCost = Math.ceil(prevCost - prevCost * discount * 0.01);
   const getVendor = async () => {
     const url = "/api/vendor";
     const response = await axios.get(url);
@@ -84,6 +88,8 @@ const PurchaseForm = () => {
     formData.append("purchasingID", purchasingID);
     formData.append("vendorID", selectedVendor.벤더ID);
     formData.append("purchaseDate", purchaseDate);
+    formData.append("prevCost", prevCost);
+    formData.append("discount", discount);
     formData.append("totalCost", totalCost);
     const config = {
       headers: { "Content-Type": "application/json" },
@@ -121,6 +127,7 @@ const PurchaseForm = () => {
     } catch (e) {
       alert("구매등록 실패");
     }
+    navigate("/production/purchase")
   };
   return (
     <form onSubmit={submitHandler}>
@@ -154,7 +161,11 @@ const PurchaseForm = () => {
         </button>
         <PurchasingMaterials materials={purchasingMaterials} />
       </div>
-      <div>총 금액 : {totalCost}</div>
+      <div>할인 전 금액 : {prevCost}</div>
+      <label>
+        할인율 : <input type="number" onChange={changeDiscountHandler} value={discount} /> %
+      </label>
+      <div>최종 금액 : {totalCost}</div>
       <div>
         <span>영수증</span>
         <input type="file" onChange={changeReceiptHandler} />

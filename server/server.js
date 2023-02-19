@@ -101,7 +101,104 @@ app.get("/api/material", (req, res) => {
     }
   });
 });
-/* 원자재재고 등록 */
+
+//
+//거래처 등록(추가)
+app.post("/api/vendor", (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) {
+      throw err;
+    } else {
+      const sql = "INSERT INTO 벤더 VALUES(?, ?, ?, ?, ?)";
+      const id = Math.random().toString(32).slice(2);
+      const name = req.body.name;
+      const phone = req.body.phone;
+      const officer = req.body.officer;
+      const comment = req.body.comment;
+      const params = [id, name, phone, officer, comment];
+      conn.query(sql, params, (err, rows, fields) => {
+        res.send(rows);
+        console.log(err);
+      });
+      conn.release();
+    }
+  });
+});
+//제품 제작 등록(AddProduct.jsx)
+app.post("/api/product", (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) {
+      throw err;
+    } else {
+      const sql = "INSERT INTO 제품 VALUES(?, ?, ?, ?, ?)";
+      const productId = req.body.productId;
+      const name = req.body.name;
+      const size = req.body.size;
+      const unit = req.body.unit;
+      const price = req.body.price;
+      console.log(req.body);
+      const params = [productId, name, size, unit, price];
+      conn.query(sql, params, (err, rows, fields) => {
+        res.send(rows);
+        console.log(err);
+      });
+    }
+    conn.release();
+  });
+});
+app.post("/api/recipe", (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) {
+      throw err;
+    } else {
+      const sql = "INSERT INTO 레시피 VALUES (?, ?, ?)";
+      const recipeId = Math.random().toString(32).slice(2);
+      const productId = req.body.productId;
+      const materialId = req.body.materialId;
+      const params = [recipeId, productId, materialId];
+      conn.query(sql, params, (err, rows, fields) => {
+        res.send(rows);
+        console.log(err);
+      });
+    }
+    conn.release();
+  });
+});
+
+// 제품 조회
+app.get("/api/product", (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) {
+      throw err;
+    } else {
+      const sql = "SELECT * FROM 제품";
+      conn.query(sql, (err, rows, fields) => {
+        res.send(rows);
+      });
+      conn.release();
+    }
+  });
+});
+app.post("/api/purchasing", (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) {
+      throw err;
+    } else {
+      const sql = "INSERT INTO 원자재구매 VALUES (?, ?, ?, ?, ?, ?, null)";
+      const purchasingID = req.body.purchasingID;
+      const vendorID = req.body.vendorID;
+      const purchaseDate = req.body.purchaseDate;
+      const prevCost = req.body.prevCost;
+      const discount = req.body.discount;
+      const totalCost = req.body.totalCost;
+      const params = [purchasingID, vendorID, purchaseDate, prevCost, discount, totalCost];
+      conn.query(sql, params, (err, rows, fields) => {
+        res.send(rows);
+      });
+      conn.release();
+    }
+  });
+});
 app.post("/api/m_stock", (req, res) => {
   pool.getConnection((err, conn) => {
     if (err) {
@@ -454,6 +551,21 @@ app.get("/api/saleslog", (req, res) => {
       throw err;
     } else {
       const sql = "SELECT * FROM 판매내역";
+      conn.query(sql, (err, rows, fields) => {
+        res.send(rows);
+      });
+      conn.release();
+    }
+  });
+});
+
+//구매내역 받아오기
+app.get("/api/purchasing", (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) {
+      throw err;
+    } else {
+      const sql = "select 원자재구매.*, 벤더.이름 from 원자재구매 left join 벤더 on 원자재구매.벤더ID = 벤더.벤더ID order by 구매일 desc;";
       conn.query(sql, (err, rows, fields) => {
         res.send(rows);
       });
