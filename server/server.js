@@ -39,6 +39,29 @@ app.get("/api/vendor", (req, res) => {
   });
 });
 
+/* 원자재 추가 */
+app.post('/api/material', (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) {
+      throw err;
+    } else {
+      const sql = `INSERT INTO 원자재 VALUES (?, ?, ?, ?, ?, ?)`;
+      const id = Math.random().toString(32).slice(2);
+      const name = req.body.name;
+      const size = req.body.size;
+      const unit = req.body.unit;
+      const price = req.body.price;
+      const brand = req.body.brand;
+      const params = [id, name, size, unit, price, brand];
+      conn.query(sql, params, (err, rows, fields) => {
+        res.send(rows);
+        console.log(err)
+      });
+    }
+    conn.release();
+  });
+});
+/* 원자재 조회 */
 app.get("/api/material", (req, res) => {
   pool.getConnection((err, conn) => {
     if (err) {
@@ -98,13 +121,13 @@ app.post("/api/product", (req, res) => {
       throw err;
     } else {
       const sql = "INSERT INTO 제품 VALUES(?, ?, ?, ?, ?)";
-      const id = req.body.productId;
+      const productId = req.body.productId;
       const name = req.body.name;
       const size = req.body.size;
       const unit = req.body.unit;
       const price = req.body.price;
       console.log(req.body)
-      const params = [id, name, size, unit, price]
+      const params = [productId, name, size, unit, price]
       conn.query(sql, params, (err, rows, fields)=>{
         res.send(rows)
         console.log(err);
@@ -113,6 +136,25 @@ app.post("/api/product", (req, res) => {
     conn.release();
   });
 });
+app.post("/api/recipe", (req, res) => {
+  pool.getConnection((err, conn) => {
+    if(err) {
+      throw err;
+    } else {
+      const sql = "INSERT INTO 레시피 VALUES (?, ?, ?)"
+      const recipeId = Math.random().toString(32).slice(2);
+      const productId = req.body.productId;
+      const materialId = req.body.materialId;
+      const params = [recipeId, productId, materialId]
+      conn.query(sql, params, (err, rows, fields) => {
+        res.send(rows)
+        console.log(err);
+      })
+    }
+    conn.release();
+  });
+});
+
 // 제품 조회
 app.get("/api/product", (req, res) => {
   pool.getConnection((err, conn) => {

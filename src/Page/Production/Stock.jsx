@@ -11,7 +11,7 @@ const Stock = () => {
     try {
       const response = await axios.get(`/api/material`);
       /* console.log(response.data) */
-      setStocks(response.data)
+      setStocks(response.data);
     } catch (error) {
       console.log(error);
     }
@@ -20,11 +20,11 @@ const Stock = () => {
   const getProducts = async () => {
     try {
       const response = await axios.get(`/api/production`);
-      setProducts(response.data)
+      setProducts(response.data);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   useEffect(() => {
     getStocks();
@@ -44,17 +44,25 @@ const Stock = () => {
           </tr>
         </thead>
         <tbody>
-          {stocks ? stocks.map((stock) =>
-          <tr key={stock.원자재ID}>
-            <td>{stock.이름}</td>
-            <td>{stock.사이즈}</td>
-            <td>{stock.가격}</td>
-            <td>{stock.브랜드}</td>
-            <td><Link to={`/production/stock/${stock.원자재ID}`}>▶재고확인(detail)</Link></td>
-          </tr>) :
-          <tr>
-            <td>NOT YET</td>
-          </tr>}
+          {stocks ? (
+            stocks.map((stock) => (
+              <tr key={stock.원자재ID}>
+                <td>{stock.이름}</td>
+                <td>{stock.사이즈}</td>
+                <td>{stock.가격}</td>
+                <td>{stock.브랜드}</td>
+                <td>
+                  <Link to={`/production/stock/${stock.원자재ID}`}>
+                    ▶재고확인(detail)
+                  </Link>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td>NOT YET</td>
+            </tr>
+          )}
         </tbody>
       </table>
       <h1>제품 재고 확인</h1>
@@ -68,14 +76,22 @@ const Stock = () => {
           </tr>
         </thead>
         <tbody>
-          {products ? products.map((product) =>
-          <tr key={product.제품ID}>
-            <td>{product.제품ID}</td>
-            <td><Link to={`/production/product/${product.제품ID}`}>▶재고확인(detail)</Link></td>
-          </tr>) :
-          <tr>
-            <td>NOT YET</td>
-          </tr>}
+          {products ? (
+            products.map((product) => (
+              <tr key={product.제품ID}>
+                <td>{product.제품ID}</td>
+                <td>
+                  <Link to={`/production/product/${product.제품ID}`}>
+                    ▶재고확인(detail)
+                  </Link>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td>NOT YET</td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>
