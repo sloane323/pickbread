@@ -11,6 +11,7 @@ import AddMaterial from "./Page/Production/AddMaterial";
 import AddProduct from "./Page/Production/AddProduct";
 import Stock from "./Page/Production/Stock";
 import StockDetail from "./Page/Production/StockDetail";
+import ProductDetail from "./Page/Production/ProductDetail";
 import Purchase from "./Page/Production/Purchase";
 import AddVendor from "./Page/Production/AddVendor";
 import Manufacture from "./Page/Production/Manufacture";
@@ -32,6 +33,7 @@ function App() {
         <Route path="/production/add-vendor" element={<AddVendor />} />
         <Route path="/production/stock" element={<Stock />} />
         <Route path="/production/stock/:id" element={<StockDetail />} />
+        <Route path="/production/product/:id" element={<ProductDetail />} />
         <Route path="/sales" element={<Sales />}></Route>
         <Route path="/customers" element={<Customers />}></Route>
         <Route path="/customers/add" element={<AddCustomer />}></Route>
