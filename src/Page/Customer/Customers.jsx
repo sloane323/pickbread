@@ -2,43 +2,69 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
+
+
 const Customers = () => {
+
+  // 고객 조회 화면 출력을 위한 state
+const [customers, setCustomers] = useState("");
+  // 고객 조회 함수
+const getCustomer =()=> {
+  axios.get('/api/customer')
+  .then(res => setCustomers(res.data))
+}
+  // 렌더되면 바로 조회
+useEffect(()=>{
+  getCustomer();
+},[]);
+
+
   return (
     <div>
       <div>
-        <h1>Customers </h1>
+        <h1>Customers 목록</h1>
       </div>
       <div>
         <button>
-          <Link to="/customers/add"> 고객등록 </Link>
+          <Link to="/customers/add">고객 등록하러 가기</Link>
         </button>
       </div>
       <div>
         <input type="text" />
         <button> 검색 </button>
       </div>
+      <div>
 
-      <table>
-        <thead>
-          <tr>
-            <td> no. </td>
-            <td> 고객이름 </td>
-            <td> 전화번호 </td>
-            <td> 사용가능 포인트 </td>
-            <td> 기타내용 </td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td> 1 </td>
-            <td> 호올리 </td>
-            <td> 010-7416-1811 </td>
-            <td> 500 </td>
-            <td> VIP </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+      </div>
+      <h2>조회</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>no</th>
+                            <th>고객명</th>
+                            <th>전화번호</th>
+                            <th>포인트</th>
+                            <th>기타</th>
+                            <th>설정</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {
+                        customers && customers.map((d, idx)=>(
+                        <tr key={idx}>
+                            <td>{idx+1}</td>
+                            <td>{d.이름}</td>
+                            <td>{d.전화번호}</td>
+                            <td>0</td>
+                            <td>{d.코멘트}</td>
+                            <td>.</td>
+                        </tr>
+                        ))
+                    }
+                    </tbody>
+                </table>
+            </div>
+
   );
 };
 

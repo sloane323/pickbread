@@ -9,7 +9,7 @@ const AddCustomer = () => {
   const [name, setName] = useState("");
   const [comment, setComment] = useState("");
 
-  const addCustomer = () => {
+  const post = () => {
     const url = "/api/customer";
     const formData = new FormData();
     formData.append("name", name);
@@ -24,14 +24,14 @@ const AddCustomer = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await addCustomer();
+      const res = await post();
       setName("");
       setPhone("");
       setComment("");
-      alert("구매등록 완료");
+      alert("고객등록 완료");
       navigator(-1);
     } catch (e) {
-      alert("구매등록 실패");
+      alert("고객등록 실패");
     }
   };
 
