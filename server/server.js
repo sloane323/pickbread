@@ -75,8 +75,24 @@ app.get("/api/material", (req, res) => {
     }
   });
 });
-
-// 
+/* 파라미터 받기, req.params 형태로 확인할 수 있다. */
+app.get("/api/currentstock/:id", (req, res)=>{
+  pool.getConnection((err, conn) => {
+    if (err) {
+      throw err;
+    } else {
+      const sql = `SELECT * FROM 원자재재고 WHERE 원자재ID=?`;
+      /* 파라미터 넘기기 */
+      const id = req.params.id;
+      const params = [id]
+      console.log(params)
+      conn.query(sql, params, (err, rows, fields) => {
+        res.send(rows)
+      });
+    }
+    conn.release();
+  })
+})
 //거래처 등록(추가)
 app.post("/api/vendor", (req, res) => {
   pool.getConnection((err, conn) => {
@@ -151,6 +167,26 @@ app.get("/api/product", (req, res) => {
       });
       conn.release();
     }
+  });
+});
+/* 레시피 테이블 */
+app.post('/api/recipe', (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) {
+      throw err;
+    } else {
+      const sql = `INSERT INTO 레시피 VALUES (?, ?, ?)`;
+      const recipeId = Math.random().toString(32).slice(2);
+      /* 테스트 완료, 외래 키 받아오기 */
+      const productId = req.body.productId;
+      const materialId = req.body.materialId;
+      console.log(recipeId, productId, materialId)
+      const params = [recipeId, productId, materialId];
+      conn.query(sql, params, (err, rows, fields) => {
+        res.send(rows);
+      });
+    }
+    conn.release();
   });
 });
 app.post("/api/purchasing", (req, res) => {
@@ -272,7 +308,6 @@ app.post("/api/customer", (req, res) => {
     conn.release();
   });
 });
-
 // 고객 조회
 app.get("/api/customer", (req, res) => {
   pool.getConnection((err, conn) => {
@@ -287,7 +322,6 @@ app.get("/api/customer", (req, res) => {
     }
   });
 });
-
 // 판매 등록
 // app.post("/api/sales", (req,res) => {
 //   pool.getConnection((err, conn) => {
