@@ -2,6 +2,7 @@ import styles from "../Sales/Sales.module.css";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import SelectList from "./SelectList";
+import SalesPoint from "../../SalesPoint";
 
 const Sales = () => {
     const [product, setProduct] = useState("");
@@ -168,6 +169,7 @@ const Sales = () => {
                     </div>
                 </div>
             </div>
+            <SalesPoint />
         </div>
     );
 }

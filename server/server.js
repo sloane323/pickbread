@@ -271,6 +271,8 @@ app.post("/api/customer", (req, res) => {
     }
   });
 });
+
+// 고객 포인트 추가
 app.post("/api/point", (req, res) => {
   pool.getConnection((err, conn) => {
     if (err) {
@@ -292,13 +294,13 @@ app.post("/api/point", (req, res) => {
   });
 });
 
-// 고객 조회
+// 고객 조회 +포인트조회
 app.get("/api/customer", (req, res) => {
   pool.getConnection((err, conn) => {
     if (err) {
       throw err;
     } else {
-      const sql = "SELECT * FROM 고객 order by 이름";
+      const sql = "select 고객.*, 포인트.포인트 from 고객 left join 포인트 on 고객.고객ID = 포인트.고객ID order by 이름";
       conn.query(sql, (err, rows, fields) => {
         res.send(rows);
       });
@@ -306,6 +308,24 @@ app.get("/api/customer", (req, res) => {
     }
   });
 });
+
+
+app.get("/api/sales", (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) {
+      throw err;
+    } else {
+      const sql = "select * from 판매";
+      conn.query(sql, (err, rows, fields) => {
+        res.send(rows);
+      });
+      conn.release();
+    }
+  });
+});
+
+
+
 
 // 판매 등록
 // app.post("/api/sales", (req,res) => {

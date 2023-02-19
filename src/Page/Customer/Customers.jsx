@@ -34,10 +34,10 @@ const Customers = () => {
         <thead>
           <tr>
             <th>no</th>
-            <th>고객명</th>
+            <th>고객이름</th>
             <th>전화번호</th>
             <th>포인트</th>
-            <th>기타</th>
+            <th>코멘트</th>
             <th>설정</th>
           </tr>
         </thead>
@@ -48,9 +48,9 @@ const Customers = () => {
                 <td>{idx + 1}</td>
                 <td>{d.이름}</td>
                 <td>{d.전화번호}</td>
-                <td>0</td>
+                <td>{d.포인트}</td>
                 <td>{d.코멘트}</td>
-                <td>.</td>
+                <td><button>X</button></td>
               </tr>
             ))}
         </tbody>
