@@ -10,23 +10,64 @@ const AddMaterial = () => {
   const [size, setSize] = useState(0);
   const [unit, setUnit] = useState("");
   const [price, setPrice] = useState("");
+  const [defaultPrice, setDefaultPrice] = useState("");
+  const [category, setCategory] = useState("");
+  const [expiryDate, setExpiryDate] = useState("");
   const [brand, setBrand] = useState("");
+  const [pcsBarcode, setPcsBarcode] = useState("");
+  const [boxBarcode, setBoxBarcode] = useState("");
+  const [origin, setOrigin] = useState("");
+
+  const unitsArray = ["kg", "g", "L", "ml", "cc", "pcs"];
+  const categorysArray = [
+    "과일",
+    "채소",
+    "견과류",
+    "쌀",
+    "잡곡",
+    "가루",
+    "양념",
+    "오일",
+    "건강식품",
+    "잡화",
+    "도구",
+    "기타",
+  ];
+  const expirysArray = ["2일", "7일", "14일"];
 
   const changeNameHandler = (event) => {
     setName(event.target.value);
   };
   const changeSizeHandler = (event) => {
-    setSize(event.target.value)
-  }
+    setSize(event.target.value);
+  };
   const changeUnitHandler = (event) => {
-    setUnit(event.target.value)
-  }
+    setUnit(event.target.value);
+  };
   const changePriceHandler = (event) => {
     setPrice(event.target.value);
+  };
+  const changeDefaultPriceHandler = (event) => {
+    setDefaultPrice(event.target.value);
+  };
+  const changeCategoryHandler = (event) => {
+    setCategory(event.target.value);
+  };
+  const changeExpiryDateHandler = (event) => {
+    setExpiryDate(event.target.value);
   };
   const changeBrandHandler = (event) => {
     setBrand(event.target.value);
   };
+  const changePcsBarcodeHandler = (event) => {
+    setPcsBarcode(event.target.value);
+  };
+  const changeBoxBarcodeHandler = (event) => {
+    setBoxBarcode(event.target.value);
+  };
+  const changeOriginHandler = (event) => {
+    setOrigin(event.target.value)
+  }
 
   const post = () => {
     const url = "/api/material";
@@ -35,7 +76,13 @@ const AddMaterial = () => {
     material.append("size", size);
     material.append("unit", unit);
     material.append("price", price);
+    material.append("defaultPrice", defaultPrice);
+    material.append("category", category);
+    material.append("expiryDate", expiryDate);
     material.append("brand", brand);
+    material.append("pcsBarcode", pcsBarcode);
+    material.append("boxBarcode", boxBarcode);
+    material.append("origin", origin);
     const config = {
       headers: { "Content-Type": "application/json" },
     };
@@ -50,12 +97,17 @@ const AddMaterial = () => {
     setSize(0);
     setUnit("");
     setPrice("");
+    setDefaultPrice("");
+    setCategory("");
+    setExpiryDate("");
     setBrand("");
+    setPcsBarcode("");
+    setBoxBarcode("");
+    setOrigin("");
   };
-  
+
   return (
     <div>
-      {/* 특정 페이지로 갈까, js 파일로 갈까? */}
       <form onSubmit={onSubmit}>
         {/* 원자재 이름 */}
         <input
@@ -72,25 +124,63 @@ const AddMaterial = () => {
           onChange={changeSizeHandler}
         ></input>
         {/* 원자재 단위 */}
-        <input
-          type="text"
-          placeholder="원자재 단위"
-          value={unit}
-          onChange={changeUnitHandler}
-        />
+        <select value={unit} onChange={changeUnitHandler}>
+          {unitsArray.map((unitItem) => (
+            <option>{unitItem}</option>
+          ))}
+        </select>
         {/* 원자재 가격 */}
         <input
-          type="text"
+          type="number"
           placeholder="원자재 가격"
           value={price}
           onChange={changePriceHandler}
         />
+        {/* 원자재 기본 가격 */}
+        <input
+          type="number"
+          placeholder="원자재 기본 가격"
+          value={defaultPrice}
+          onChange={changeDefaultPriceHandler}
+        />
+        {/* 원자재 카테고리 추가 */}
+        <select value={category} onChange={changeCategoryHandler}>
+          {categorysArray.map((categoryItem) => (
+            <option>{categoryItem}</option>
+          ))}
+        </select>
+        {/* 원자재 카테고리 추가 */}
+        <select value={expiryDate} onChange={changeExpiryDateHandler}>
+          {expirysArray.map((expiryItem) => (
+            <option>{expiryItem}</option>
+          ))}
+        </select>
         {/* 원자재 브랜드 */}
         <input
           type="text"
           placeholder="원자재 브랜드"
           value={brand}
           onChange={changeBrandHandler}
+        />
+        {/* 개수 바코드 */}
+        <input
+          type="number"
+          placeholder="개수 바코드"
+          value={pcsBarcode}
+          onChange={changePcsBarcodeHandler}
+        />
+        {/* 박스 바코드 */}
+        <input
+          type="number"
+          placeholder="박스 바코드"
+          value={boxBarcode}
+          onChange={changeBoxBarcodeHandler}
+        />
+        <input
+          type="text"
+          placeholder="원산지"
+          value={origin}
+          onChange={changeOriginHandler}
         />
         <input type="submit" value="제출" />
       </form>
