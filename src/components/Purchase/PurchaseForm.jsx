@@ -20,6 +20,7 @@ const PurchaseForm = () => {
       }, 0)
     : 0;
   const [receipt, setReceipt] = useState("");
+  const [discount, setDiscount] = useState(0);
   const getVendor = async () => {
     const url = "/api/vendor";
     const response = await axios.get(url);
@@ -63,12 +64,15 @@ const PurchaseForm = () => {
   const changeReceiptHandler = (e) => {
     setReceipt(e.target.files[0]);
   };
+  const changeDiscountHandler = (e) => {
+    setDiscount(e.target.value);
+  };
   const addPurchasingMaterialHandler = () => {
     const addedMaterial = {
       materialID: selectedMaterial.원자재ID,
       name: selectedMaterial.이름,
       size: selectedMaterial.사이즈,
-      cost: selectedMaterial.가격,
+      cost: selectedMaterial.현재가격,
       unit: selectedMaterial.단위,
       amount: enteredAmount,
       expDate: expDate,
@@ -154,7 +158,11 @@ const PurchaseForm = () => {
         </button>
         <PurchasingMaterials materials={purchasingMaterials} />
       </div>
-      <div>총 금액 : {totalCost}</div>
+      <div>할인 전 금액 : {totalCost}</div>
+      <label>
+        할인율 : <input type="number" onChange={changeDiscountHandler} value={discount} /> %
+      </label>
+      <div>최종 금액 : {totalCost - totalCost * discount * 0.01}</div>
       <div>
         <span>영수증</span>
         <input type="file" onChange={changeReceiptHandler} />

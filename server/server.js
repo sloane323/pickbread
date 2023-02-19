@@ -39,6 +39,29 @@ app.get("/api/vendor", (req, res) => {
   });
 });
 
+/* 원자재 추가 */
+app.post("/api/material", (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) {
+      throw err;
+    } else {
+      const sql = `INSERT INTO 원자재 VALUES (?, ?, ?, ?, ?, ?)`;
+      const id = Math.random().toString(32).slice(2);
+      const name = req.body.name;
+      const size = req.body.size;
+      const unit = req.body.unit;
+      const price = req.body.price;
+      const brand = req.body.brand;
+      const params = [id, name, size, unit, price, brand];
+      conn.query(sql, params, (err, rows, fields) => {
+        res.send(rows);
+        console.log(err);
+      });
+    }
+    conn.release();
+  });
+});
+/* 원자재 조회 */
 app.get("/api/material", (req, res) => {
   pool.getConnection((err, conn) => {
     if (err) {
@@ -53,7 +76,7 @@ app.get("/api/material", (req, res) => {
   });
 });
 
-// 
+//
 //거래처 등록(추가)
 app.post("/api/vendor", (req, res) => {
   pool.getConnection((err, conn) => {
@@ -82,15 +105,33 @@ app.post("/api/product", (req, res) => {
       throw err;
     } else {
       const sql = "INSERT INTO 제품 VALUES(?, ?, ?, ?, ?)";
-      const id = req.body.id;
+      const productId = req.body.productId;
       const name = req.body.name;
       const size = req.body.size;
       const unit = req.body.unit;
       const price = req.body.price;
-      console.log(req.body)
-      const params = [id, name, size, unit, price]
-      conn.query(sql, params, (err, rows, fields)=>{
-        res.send(rows)
+      console.log(req.body);
+      const params = [productId, name, size, unit, price];
+      conn.query(sql, params, (err, rows, fields) => {
+        res.send(rows);
+        console.log(err);
+      });
+    }
+    conn.release();
+  });
+});
+app.post("/api/recipe", (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) {
+      throw err;
+    } else {
+      const sql = "INSERT INTO 레시피 VALUES (?, ?, ?)";
+      const recipeId = Math.random().toString(32).slice(2);
+      const productId = req.body.productId;
+      const materialId = req.body.materialId;
+      const params = [recipeId, productId, materialId];
+      conn.query(sql, params, (err, rows, fields) => {
+        res.send(rows);
         console.log(err);
       });
     }
@@ -193,22 +234,21 @@ app.post("/api/p_stock", (req, res) => {
 });
 
 // 거래처 삭제
-app.delete('/api/vendor', (req,res)=>{
-  pool.getConnection((err, conn)=>{
+app.delete("/api/vendor", (req, res) => {
+  pool.getConnection((err, conn) => {
     if (err) {
       throw err;
     } else {
       const sql = "DELETE FROM 벤더 WHERE 벤더ID = ?";
       const id = req.body.id;
-      conn.query(sql, [id], (err, rows, fields)=>{
+      conn.query(sql, [id], (err, rows, fields) => {
         res.send(rows);
         console.log(err);
       });
       conn.release();
     }
-  })
-})
-
+  });
+});
 
 // 고객 등록(추가)
 app.post("/api/customer", (req, res) => {
@@ -217,18 +257,38 @@ app.post("/api/customer", (req, res) => {
       throw err;
     } else {
       const sql = "INSERT INTO 고객 VALUES(?, ?, ?, ?)";
-      const id = Math.random().toString(36).substring(2, 11);
+      const id = req.body.id;
       const name = req.body.name;
       const phone = req.body.phone;
       const comment = req.body.comment;
-      const params = [id, name, phone, comment]
-      conn.query(sql, params, (err, rows, fields)=>{
-        res.send(rows)
+      const params = [id, name, phone, comment];
+      conn.query(sql, params, (err, rows, fields) => {
+        res.send(rows);
         console.log("등록성공");
         console.log(err);
       });
+      conn.release();
     }
-    conn.release();
+  });
+});
+app.post("/api/point", (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) {
+      throw err;
+    } else {
+      const sql = "INSERT INTO 포인트 VALUES(?, ?, ?, ?, ?)";
+      const point = 1000;
+      const id = Math.random().toString(32).slice(2);
+      const customerId = req.body.customerId;
+      const content = "신규 등록";
+      const params = [id, customerId, null, content, point];
+      conn.query(sql, params, (err, rows, fields) => {
+        res.send(rows);
+        console.log("등록성공");
+        console.log(err);
+      });
+      conn.release();
+    }
   });
 });
 
@@ -256,7 +316,7 @@ app.get("/api/customer", (req, res) => {
 //       const sql = "INSERT INTO 판매내용 VALUES(?,?,?,?,?,?,?)";
 //       const productID = req.body.
 //       const saleslogID= Math.random().toString(36).substring(2,11);
-//       const 
+//       const
 
 //       const params = [id, amount]
 //       conn.query(sql, params, (err, rows, fields) => {
@@ -269,10 +329,10 @@ app.get("/api/customer", (req, res) => {
 //   })
 // });
 
-// 판매 내역 받아오기 
+// 판매 내역 받아오기
 app.get("/api/saleslog", (req, res) => {
-  pool.getConnection((err,conn) => {
-    if(err) {
+  pool.getConnection((err, conn) => {
+    if (err) {
       throw err;
     } else {
       const sql = "SELECT * FROM 판매내역";

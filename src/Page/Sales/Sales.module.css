@@ -4,7 +4,8 @@
     height: 65vh;
     display: grid;
     grid-template-rows: 8fr 4fr ;
-    background-color: aquamarine;
+    background-color: greenyellow;
+    overflow:scroll;
 }
 
 .salesmenu {
@@ -45,25 +46,9 @@
     opacity: 0.9;
 }
 .product_btn3 {
-    position: relative;
-    left: 50%;
-    background-color: cornsilk;
-    width: 10vw;
-    height: 10vh;
-    top: 5px;
-    border-radius: 10px;
-    border: 0.1px solid white;
+align-items: end;
 }
-.product_btn4 {
-    position: relative;
-    left: 25%;
-    background-color: #E01A2A;
-    width: 10vw;
-    height: 10vh;
-    top: 51%;
-    border-radius: 10px;
-    border: 0.1px solid white;
-}
+
 
 /* 버튼 예시 */
 .product_btn_ex1 {
