@@ -158,12 +158,14 @@ app.post("/api/purchasing", (req, res) => {
     if (err) {
       throw err;
     } else {
-      const sql = "INSERT INTO 원자재구매 VALUES (?, ?, ?, ?, null)";
+      const sql = "INSERT INTO 원자재구매 VALUES (?, ?, ?, ?, ?, ?, null)";
       const purchasingID = req.body.purchasingID;
       const vendorID = req.body.vendorID;
       const purchaseDate = req.body.purchaseDate;
+      const prevCost = req.body.prevCost;
+      const discount = req.body.discount;
       const totalCost = req.body.totalCost;
-      const params = [purchasingID, vendorID, purchaseDate, totalCost];
+      const params = [purchasingID, vendorID, purchaseDate, prevCost, discount, totalCost];
       conn.query(sql, params, (err, rows, fields) => {
         res.send(rows);
       });
@@ -336,6 +338,21 @@ app.get("/api/saleslog", (req, res) => {
       throw err;
     } else {
       const sql = "SELECT * FROM 판매내역";
+      conn.query(sql, (err, rows, fields) => {
+        res.send(rows);
+      });
+      conn.release();
+    }
+  });
+});
+
+//구매내역 받아오기
+app.get("/api/purchasing", (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) {
+      throw err;
+    } else {
+      const sql = "select 원자재구매.*, 벤더.이름 from 원자재구매 left join 벤더 on 원자재구매.벤더ID = 벤더.벤더ID order by 구매일 desc;";
       conn.query(sql, (err, rows, fields) => {
         res.send(rows);
       });
