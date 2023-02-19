@@ -11,6 +11,7 @@ import AddMaterial from "./Page/Production/AddMaterial";
 import AddProduct from "./Page/Production/AddProduct";
 import Stock from "./Page/Production/Stock";
 import StockDetail from "./Page/Production/StockDetail";
+import ProductDetail from "./Page/Production/ProductDetail";
 import Purchase from "./Page/Production/Purchase";
 import AddVendor from "./Page/Production/AddVendor";
 import Manufacture from "./Page/Production/Manufacture";

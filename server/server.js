@@ -5,37 +5,28 @@ const app = express();
 const PORT = process.env.PORT || 4000;
 const pool = require("./config/db");
 const bodyParser = require("body-parser");
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.listen(PORT, () => {
+  console.log(`Server On : http://localhost:${PORT}/`);
+});
 
 app.get("/", (req, res) => {
   res.send(`Response Complete`);
 });
 
-app.get("/api/production", (req, res) => {
+app.get("/api/users", (req, res) => {
   pool.getConnection((err, conn) => {
     if (err) {
       throw err;
     } else {
-      const sql = "SELECT * FROM 제품 ORDER BY 이름";
-      conn.query(sql, (err, rows, fields) => {
+      conn.query("SELECT * FROM users", (err, rows, fields) => {
         res.send(rows);
       });
-      conn.release();
     }
-  });
-});
-app.get("/api/vendor", (req, res) => {
-  pool.getConnection((err, conn) => {
-    if (err) {
-      throw err;
-    } else {
-      const sql = "SELECT * FROM 벤더 order by 이름";
-      conn.query(sql, (err, rows, fields) => {
-        res.send(rows);
-      });
-      conn.release();
-    }
+    conn.release();
   });
 });
 
@@ -51,8 +42,14 @@ app.post('/api/material', (req, res) => {
       const size = req.body.size;
       const unit = req.body.unit;
       const price = req.body.price;
+      const defaultPrice = req.body.defaultPrice;
+      const category = req.body.category;
+      const expiryDate = req.body.expiryDate;
       const brand = req.body.brand;
-      const params = [id, name, size, unit, price, brand];
+      const pcsBarcode = req.body.pcsBarcode;
+      const boxBarcode = req.body.boxBarcode;
+      const origin = req.body.origin;
+      const params = [id, name, size, unit, price, defaultPrice, category, expiryDate, brand, pcsBarcode, boxBarcode, origin];
       conn.query(sql, params, (err, rows, fields) => {
         res.send(rows);
         console.log(err)
@@ -75,7 +72,37 @@ app.get("/api/material", (req, res) => {
     }
   });
 });
-/* 파라미터 받기, req.params 형태로 확인할 수 있다. */
+
+app.get("/api/production", (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) {
+      throw err;
+    } else {
+      const sql = "SELECT * FROM 제품 ORDER BY 이름";
+      conn.query(sql, (err, rows, fields) => {
+        res.send(rows);
+      });
+      conn.release();
+    }
+  });
+});
+app.get("/api/production/:id", (req, res)=>{
+  pool.getConnection((err, conn) => {
+    if (err) {
+      throw err;
+    } else {
+      const sql = `SELECT * FROM 제품재고 WHERE 제품ID=?`;
+      /* 파라미터 넘기기 */
+      const id = req.params.id;
+      const params = [id]
+      console.log(params)
+      conn.query(sql, params, (err, rows, fields) => {
+        res.send(rows)
+      });
+    }
+    conn.release();
+  })
+})
 app.get("/api/currentstock/:id", (req, res)=>{
   pool.getConnection((err, conn) => {
     if (err) {
@@ -93,6 +120,20 @@ app.get("/api/currentstock/:id", (req, res)=>{
     conn.release();
   })
 })
+
+app.get("/api/vendor", (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) {
+      throw err;
+    } else {
+      const sql = "SELECT * FROM 벤더 order by 이름";
+      conn.query(sql, (err, rows, fields) => {
+        res.send(rows);
+      });
+      conn.release();
+    }
+  });
+});
 //거래처 등록(추가)
 app.post("/api/vendor", (req, res) => {
   pool.getConnection((err, conn) => {
@@ -338,9 +379,4 @@ app.get("/api/saleslog", (req, res) => {
       conn.release();
     }
   });
-});
-
-
-app.listen(PORT, () => {
-  console.log(`Server On : http://localhost:${PORT}/`);
 });
