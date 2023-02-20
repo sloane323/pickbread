@@ -6,38 +6,34 @@ import { useEffect, useState } from "react";
 const CustomerList = (props) => {
     const { open, close } = props;
 
-    const [customers, setCustomers] = useState("");
+    const [customers, setCustomers] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
 
-
-    useEffect(() => {
-      connection.query(`SELECT * FROM 고객 WHERE 이름 LIKE '%${searchQuery}%' OR 전화번호 LIKE '%${searchQuery}%'`, (error, results, fields) => {
-        if (error) {
-          console.error('Error retrieving customers: ', error);
-          return;
-        }
-        setCustomers(results);
+    const getCustomers = () => {
+      axios.get('/api/customers').then((response) => {
+        setCustomers(response.data);
       });
-    }, [searchQuery]);
-
+    };
+  
+    useEffect(() => {
+      getCustomers();
+    }, []);
+    
+  
     const handleSearch = (event) => {
+      
       event.preventDefault();
       // Reset the customer list if the search query is empty
       if (searchQuery.trim() === '') {
-        setCustomers([]);
+        getCustomers();
         return;
       }
-      setSearchQuery(event.target.search.value);
+      axios.get(`/api/customers?search=${searchQuery}`).then((response) => {
+        setCustomers(response.data);
+      });
     };
-  
 
-    const getCustomer = () => {
-    axios.get("/api/customer").then((res) => setCustomers(res.data));
-  };
-  // 렌더되면 바로 조회
-  useEffect(() => {
-    getCustomer();
-  }, []);
+
 
     return ( <div> 
 <div className={open ? 'openModal modal' : 'modal'}>
@@ -56,7 +52,7 @@ const CustomerList = (props) => {
       <ul>
         {customers.map((customer) => (
           <li key={customer.id}>
-            {customer.username} - {customer.email}
+            {customer.이름} - {customer.번호}
           </li>
         ))}
       </ul>
