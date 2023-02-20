@@ -10,7 +10,7 @@ const CustomerList = (props) => {
     const [searchQuery, setSearchQuery] = useState('');
 
     const getCustomers = () => {
-      axios.get('/api/customers').then((response) => {
+      axios.get('/api/customer').then((response) => {
         setCustomers(response.data);
       });
     };
@@ -28,7 +28,7 @@ const CustomerList = (props) => {
         getCustomers();
         return;
       }
-      axios.get(`/api/customers?search=${searchQuery}`).then((response) => {
+      axios.get(`/api/customer?search=${searchQuery}`).then((response) => {
         setCustomers(response.data);
       });
     };
@@ -46,12 +46,12 @@ const CustomerList = (props) => {
         </button>
         </div> 
         <form onSubmit={handleSearch}>
-        <input type="text" name="search" placeholder="Search by username or email" />
+        <input type="text" name="search" placeholder="이름 & 전화번호" />
         <button type="submit">Search</button>
       </form>
       <ul>
         {customers.map((customer) => (
-          <li key={customer.id}>
+          <li key={customer.이름}>
             {customer.이름} - {customer.번호}
           </li>
         ))}
