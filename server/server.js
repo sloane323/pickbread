@@ -252,11 +252,11 @@ app.post("/api/manufacture", (req, res) => {
       throw err;
     } else {
       const sql = "INSERT INTO 제품생산 VALUES (?, ?, ?, ?)";
-      const manufactureId = Math.random().toString(32).slice(2); 
-      const selectedProduction = req.body.selectedProduction;
+      const manufactureId = req.body.manufactureId;
+      const selectedProductionId = req.body.selectedProductionId;
       const enteredAmount = req.body.enteredAmount;
       const manufactureDate = req.body.manufactureDate;
-      const params = [manufactureId, selectedProduction, enteredAmount, manufactureDate];
+      const params = [manufactureId, selectedProductionId, enteredAmount, manufactureDate];
       conn.query(sql, params, (err, rows, fields) => {
         res.send(rows);
       })
@@ -264,6 +264,25 @@ app.post("/api/manufacture", (req, res) => {
     conn.release();
   });
 });
+app.post("/api/inventory", (req, res) => {
+  pool.getConnection((err, conn) => {
+    if(err) {
+      throw err;
+    } else {
+      const sql = "INSERT INTO 제품재고 VALUES (?, ?, ?, ?, ?)";
+      const inventoryId = Math.random().toString(32).slice(2);
+      const manufactureId = req.body.manufactureId;
+      const selectedProductionId = req.body.selectedProductionId;
+      const presentAmount = req.body.presentAmount;
+      const expiryDate = req.body.expiryDate;
+      const params = [inventoryId, manufactureId, selectedProductionId, presentAmount, expiryDate];
+      conn.query(sql, params, (err, rows, fields) => {
+        res.send(rows);
+      })
+    }
+    conn.release();
+  })
+})
 app.post("/api/purchasing", (req, res) => {
   pool.getConnection((err, conn) => {
     if (err) {
