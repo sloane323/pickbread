@@ -16,7 +16,6 @@ import Purchase from "./Page/Production/Purchase";
 import AddVendor from "./Page/Production/AddVendor";
 import Manufacture from "./Page/Production/Manufacture";
 import AddCustomer from './Page/Customer/AddCustomer';
-import ProductDetail from "./Page/Production/ProductDetail";
 
 function App() {
   return (
