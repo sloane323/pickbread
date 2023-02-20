@@ -10,6 +10,7 @@
 
 .salesmenu {
     grid-row :4fr;
+    overflow:scroll;
     
 }
 .bottom {
@@ -32,8 +33,6 @@
 
 .product_btn1 {
     background-color: #E01A2A;
-    width: 100px;
-    height: 100px;
     border: 1px solid black;
     margin: 5px;
 }
@@ -110,3 +109,4 @@ align-items: end;
           color: #fff;
           outline: 0;
         }
+
