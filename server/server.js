@@ -246,6 +246,24 @@ app.post('/api/recipe', (req, res) => {
     conn.release();
   });
 });
+app.post("/api/manufacture", (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) {
+      throw err;
+    } else {
+      const sql = "INSERT INTO 제품생산 VALUES (?, ?, ?, ?)";
+      const manufactureId = Math.random().toString(32).slice(2); 
+      const selectedProduction = req.body.selectedProduction;
+      const enteredAmount = req.body.enteredAmount;
+      const manufactureDate = req.body.manufactureDate;
+      const params = [manufactureId, selectedProduction, enteredAmount, manufactureDate];
+      conn.query(sql, params, (err, rows, fields) => {
+        res.send(rows);
+      })
+    }
+    conn.release();
+  });
+});
 app.post("/api/purchasing", (req, res) => {
   pool.getConnection((err, conn) => {
     if (err) {
