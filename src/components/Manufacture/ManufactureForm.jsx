@@ -8,7 +8,7 @@ const ManufactureForm = () => {
   const [selectedProduction, setSelectedProduction] = useState();
   const [enteredAmount, setEnteredAmount] = useState(1);
   const [manufactureDate, setManufactureDate] = useState(getNowDate());
-  const [expiryDate, setExpiryDate] = useState()
+  const [expiryDate, setExpiryDate] = useState(getTwoWeeksDate());
   const manufactureId = Math.random().toString(32).slice(2);
   const getProductions = async () => {
     const url = "/api/production";
