@@ -136,7 +136,6 @@ app.post("/api/purchasing", (req, res) => {
     }
   });
 });
-
 /* 제품 등록(product 경로) */
 app.post("/api/product", (req, res) => {
   pool.getConnection((err, conn) => {
