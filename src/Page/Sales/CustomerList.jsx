@@ -1,86 +1,89 @@
-
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 
 const CustomerList = (props) => {
-    const { open, close } = props;
+  const { open, close } = props;
 
-    const [customers, setCustomers] = useState([]);
-    const [searchQuery, setSearchQuery] = useState('');
+  const [customers, setCustomers] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
-    const getCustomers = () => {
-      axios.get('/api/customer').then((response) => {
-        setCustomers(response.data);
-      });
-    };
-  
-    useEffect(() => {
-      getCustomers();
-    }, []);
-    
-  
-    const handleSearch = (event) => {
-      
-      event.preventDefault();
-      // Reset the customer list if the search query is empty
-      if (searchQuery.trim() === '') {
-        getCustomers();
-        return;
-      }
-      axios.get(`/api/customer?search=${searchQuery}`).then((response) => {
-        setCustomers(response.data);
-      });
-    };
+  const getCustomers = () => {
+    axios.get("/api/customer").then((response) => {
+      setCustomers(response.data);
+    });
+  };
 
+  useEffect(() => {
+    getCustomers();
+  }, []);
 
+  const handleSearch = (event) => {
+    event.preventDefault();
+    axios.get(`/api/customer?search=${searchQuery}`).then((response) => {
+      setCustomers(response.data);
+    });
+  };
 
-    return ( <div> 
-<div className={open ? 'openModal modal' : 'modal'}>
-      {open ? (
-        <section>
-          <header>
-            <div> 
-          <button>
-          <Link to="/customers/add">고객 등록하러 가기</Link>
-        </button>
-        </div> 
-        <form onSubmit={handleSearch}>
-        <input type="text" name="search" placeholder="이름 & 전화번호" />
-        <button type="submit">Search</button>
-      </form>
-      <ul>
-        {customers.map((customer) => (
-          <li key={customer.이름}>
-            {customer.이름} - {customer.번호}
-          </li>
-        ))}
-      </ul>
-        <div> 
-        <table>
+  const handleReset = () => {
+    setSearchQuery("");
+    getCustomers();
+  };
 
-        <tbody>
-          {customers &&
-            customers.map((d, idx) => (
+  return (
+    <div>
+      <div className={open ? "openModal modal" : "modal"}>
+        {open ? (
+          <section>
+            <header>
               <div>
-                <button key={idx}>
-                <td>{idx + 1}</td>
-                <td>이름:{d.이름}</td>
-                <td>#:{d.전화번호}</td>
+                <button>
+                  <Link to="/customers/add">고객 등록하러 가기</Link>
                 </button>
               </div>
-            ))}
-        </tbody>
-      </table>
-
-        </div></header>
-           <button className="close" onClick={close}>
-              X 
+              <form onSubmit={handleSearch}>
+              <input
+  type="text"
+  name="searchQuery" // change name to searchQuery
+  value={searchQuery}
+  placeholder="이름 & 전화번호"
+  onChange={(event) => setSearchQuery(event.target.value)}
+/>
+                <button type="submit">Search</button>
+                <button type="button" onClick={handleReset}>
+                  Reset
+                </button>
+              </form>
+              <ul>
+                {customers.map((customer) => (
+                  <li key={customer.번호}>
+                    {customer.이름} - {customer.번호}
+                  </li>
+                ))}
+              </ul>
+              <div>
+                <table>
+                  <tbody>
+                    {customers &&
+                      customers.map((d, idx) => (
+                        <tr key={idx}>
+                          <td>{idx + 1}</td>
+                          <td>이름: {d.이름}</td>
+                          <td>#:{d.전화번호}</td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
+              </div>
+            </header>
+            <button className="close" onClick={close}>
+              X
             </button>
-        </section>
-      ) : null}
+          </section>
+        ) : null}
+      </div>
     </div>
-    </div> );
-}
- 
+  );
+};
+
 export default CustomerList;
