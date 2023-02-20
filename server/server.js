@@ -134,6 +134,25 @@ app.get("/api/vendor", (req, res) => {
     }
   });
 });
+<<<<<<< Updated upstream
+=======
+
+app.get("/api/material", (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) {
+      throw err;
+    } else {
+      const sql = "SELECT * FROM 원자재";
+      conn.query(sql, (err, rows, fields) => {
+        res.send(rows);
+      });
+      conn.release();
+    }
+  });
+});
+
+
+>>>>>>> Stashed changes
 //거래처 등록(추가)
 app.post("/api/vendor", (req, res) => {
   pool.getConnection((err, conn) => {
