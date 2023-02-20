@@ -5,7 +5,31 @@ import { useEffect, useState } from "react";
 
 const CustomerList = (props) => {
     const { open, close } = props;
+
     const [customers, setCustomers] = useState("");
+    const [searchQuery, setSearchQuery] = useState('');
+
+
+    useEffect(() => {
+      connection.query(`SELECT * FROM 고객 WHERE 이름 LIKE '%${searchQuery}%' OR 전화번호 LIKE '%${searchQuery}%'`, (error, results, fields) => {
+        if (error) {
+          console.error('Error retrieving customers: ', error);
+          return;
+        }
+        setCustomers(results);
+      });
+    }, [searchQuery]);
+
+    const handleSearch = (event) => {
+      event.preventDefault();
+      // Reset the customer list if the search query is empty
+      if (searchQuery.trim() === '') {
+        setCustomers([]);
+        return;
+      }
+      setSearchQuery(event.target.search.value);
+    };
+  
 
     const getCustomer = () => {
     axios.get("/api/customer").then((res) => setCustomers(res.data));
@@ -25,7 +49,17 @@ const CustomerList = (props) => {
           <Link to="/customers/add">고객 등록하러 가기</Link>
         </button>
         </div> 
-        <input type="text" />  <button> 검색 </button>
+        <form onSubmit={handleSearch}>
+        <input type="text" name="search" placeholder="Search by username or email" />
+        <button type="submit">Search</button>
+      </form>
+      <ul>
+        {customers.map((customer) => (
+          <li key={customer.id}>
+            {customer.username} - {customer.email}
+          </li>
+        ))}
+      </ul>
         <div> 
         <table>
 
