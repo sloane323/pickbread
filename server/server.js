@@ -134,8 +134,6 @@ app.get("/api/vendor", (req, res) => {
     }
   });
 });
-<<<<<<< Updated upstream
-=======
 
 app.get("/api/material", (req, res) => {
   pool.getConnection((err, conn) => {
@@ -152,7 +150,6 @@ app.get("/api/material", (req, res) => {
 });
 
 
->>>>>>> Stashed changes
 //거래처 등록(추가)
 app.post("/api/vendor", (req, res) => {
   pool.getConnection((err, conn) => {
