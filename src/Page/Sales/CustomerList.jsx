@@ -25,30 +25,20 @@ const CustomerList = (props) => {
           <Link to="/customers/add">고객 등록하러 가기</Link>
         </button>
         </div> 
-        
+        <input type="text" />  <button> 검색 </button>
         <div> 
         <table>
-        <thead>
-          <tr>
-            <th>no</th>
-            <th>고객명</th>
-            <th>전화번호</th>
-            <th>포인트</th>
-            <th>기타</th>
-            <th>설정</th>
-          </tr>
-        </thead>
+
         <tbody>
           {customers &&
             customers.map((d, idx) => (
-              <tr key={idx}>
+              <div>
+                <button key={idx}>
                 <td>{idx + 1}</td>
-                <td>{d.이름}</td>
-                <td>{d.전화번호}</td>
-                <td>0</td>
-                <td>{d.코멘트}</td>
-                <td>.</td>
-              </tr>
+                <td>이름:{d.이름}</td>
+                <td>#:{d.전화번호}</td>
+                </button>
+              </div>
             ))}
         </tbody>
       </table>
