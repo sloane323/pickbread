@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { getNowDate } from "../../common";
+import { getNowDate, getTwoWeeksDate } from "../../common";
 import ProductionOption from "./ProductionOption";
 
 const ManufactureForm = () => {
@@ -8,6 +8,8 @@ const ManufactureForm = () => {
   const [selectedProduction, setSelectedProduction] = useState();
   const [enteredAmount, setEnteredAmount] = useState(1);
   const [manufactureDate, setManufactureDate] = useState(getNowDate());
+  const [expiryDate, setExpiryDate] = useState(getTwoWeeksDate());
+  const manufactureId = Math.random().toString(32).slice(2);
   const getProductions = async () => {
     const url = "/api/production";
     const response = await axios.get(url);
@@ -31,18 +33,22 @@ const ManufactureForm = () => {
   };
   const manufactureDateHandler = (e) => {
     setManufactureDate(e.target.value);
+    const expiryValue = getTwoWeeksDate(e.target.value);
+    setExpiryDate(expiryValue);
   };
   const onSubmit = async (event) => {
     event.preventDefault();
-    const res = await post();
+    const resManufacture = await manufacturePost();
+    const resInventory = await inventoryPost();
     setSelectedProduction();
     setEnteredAmount(1);
     setManufactureDate(getNowDate());
   };
-  const post = () => {
+  const manufacturePost = () => {
     const url = "/api/manufacture";
     const formData = new FormData();
-    formData.append("selectedProduction", selectedProduction.제품ID);
+    formData.append("manufactureId", manufactureId);
+    formData.append("selectedProductionId", selectedProduction.제품ID);
     formData.append("enteredAmount", enteredAmount);
     formData.append("manufactureDate", manufactureDate);
     const config = {
@@ -51,6 +57,19 @@ const ManufactureForm = () => {
     console.log(formData);
     return axios.post(url, formData, config);
   };
+  const inventoryPost = () => {
+    const url = "/api/inventory";
+    const formData = new FormData();
+    formData.append("manufactureId", manufactureId);
+    formData.append("selectedProductionId", selectedProduction.제품ID);
+    formData.append("presentAmount", enteredAmount);
+    formData.append("expiryDate", expiryDate);
+    const config = {
+      headers: { "Content-Type": "application/json" },
+    };
+    console.log(formData);
+    return axios.post(url, formData, config);
+  }
   return (
     <form onSubmit={onSubmit}>
       <div>
