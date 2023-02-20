@@ -88,7 +88,7 @@ const ManufactureForm = () => {
           />
         </label>
       </div>
-      <input type="submit" value="제출" />
+      <input type="submit" value="제출 " />
     </form>
   );
 };
