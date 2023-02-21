@@ -44,7 +44,7 @@ const ManufactureForm = () => {
       </div>
       <div>
         <label>
-          생산 갯수
+          생산 개수
           <input type="number" value={enteredAmount} onChange={enteredAmountHandler} min={1}/>
         </label>
       </div>
