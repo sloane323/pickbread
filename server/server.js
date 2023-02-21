@@ -176,6 +176,26 @@ app.post("/api/purchasing", (req, res) => {
     }
   });
 });
+/* 원자재 사용량 등록 */
+app.post("/api/m_usage", (req, res) => {
+  pool.getConnection((err, conn) => {
+    if(err) {
+      throw err;
+    } else {
+      const sql = "INSERT INTO 원자재사용량 VALUES (?, ?, ?, ?)"
+      const usageId = Math.random().toString(32).slice(2);
+      const manufactureId = req.body.manufactureId;
+      const selectedMaterialStockId = req.body.selectedMaterialStockId;
+      const materialUsage = req.body.materialUsage;
+      const params = [usageId, manufactureId, selectedMaterialStockId, materialUsage];
+      conn.query(sql, params, (err, rows, fields) => {
+        res.send(rows);
+        console.log(err);
+      })
+      conn.release();
+    }
+  })
+})
 /* 제품 등록(product 경로) */
 app.post("/api/product", (req, res) => {
   pool.getConnection((err, conn) => {
@@ -335,13 +355,14 @@ app.post("/api/p_stock", (req, res) => {
     if (err) {
       throw err;
     } else {
-      const sql = "INSERT INTO 제품재고 VALUES (?, ?, ?, ?, ?)";
+      const sql = "INSERT INTO 제품재고 VALUES (?, ?, ?, ?, ?, ?)";
       const productStockId = req.body.productStockId;
       const manufactureId = req.body.manufactureId;
       const selectedProductionId = req.body.selectedProductionId;
       const presentAmount = req.body.presentAmount;
       const expiryDate = req.body.expiryDate;
-      const params = [productStockId, manufactureId, selectedProductionId, presentAmount, expiryDate];
+      const dispose = req.body.dispose;
+      const params = [productStockId, manufactureId, selectedProductionId, presentAmount, expiryDate, dispose];
       conn.query(sql, params, (err, rows, fields) => {
         res.send(rows);
         console.log(err);
