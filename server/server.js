@@ -349,22 +349,25 @@ app.delete('/api/vendor', (req,res)=>{
     }
   })
 })
-/* 고객 등록 */
-app.post("/api/customer", (req, res) => {
+/* 고객 수정 */
+app.put("/api/customer/:id", (req, res) => {
+  const id = req.params.id;
+  const name = req.body.name;
+  const phone = req.body.phone;
+  const comment = req.body.comment;
   pool.getConnection((err, conn) => {
     if (err) {
       throw err;
     } else {
-      const sql = "INSERT INTO 고객 VALUES(?, ?, ?, ?)";
-      const id = Math.random().toString(36).substring(2, 11);
-      const name = req.body.name;
-      const phone = req.body.phone;
-      const comment = req.body.comment;
-      const params = [id, name, phone, comment]
-      conn.query(sql, params, (err, rows, fields)=>{
-        res.send(rows)
-        console.log("등록성공");
-        console.log(err);
+      const sql = "UPDATE 고객 SET 이름 = ?, 전화번호 = ?, 코멘트 = ? WHERE id = ?";
+      const params = [name, phone, comment, id];
+      conn.query(sql, params, (err, rows, fields) => {
+        if (err) {
+          throw err;
+        } else {
+          console.log("수정 성공");
+          res.send(rows);
+        }
       });
     }
     conn.release();
@@ -372,7 +375,8 @@ app.post("/api/customer", (req, res) => {
 });
 
 
-// 고객 검색
+
+// 고객 검색 & 검색 
 app.get("/api/customer", (req, res) => {
   pool.getConnection((err, conn) => {
     if (err) {
@@ -393,6 +397,8 @@ app.get("/api/customer", (req, res) => {
     }
   });
 });
+
+
 
 
 
