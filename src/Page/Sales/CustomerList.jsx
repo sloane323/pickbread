@@ -43,12 +43,12 @@ const CustomerList = (props) => {
               </div>
               <form onSubmit={handleSearch}>
               <input
-  type="text"
-  name="searchQuery" // change name to searchQuery
-  value={searchQuery}
-  placeholder="이름 & 전화번호"
-  onChange={(event) => setSearchQuery(event.target.value)}
-/>
+                 type="text"
+                 name="searchQuery" // change name to searchQuery
+                 value={searchQuery}
+                 placeholder="이름 & 전화번호"
+                 onChange={(event) => setSearchQuery(event.target.value)}
+                 />
                 <button type="submit">Search</button>
                 <button type="button" onClick={handleReset}>
                   Reset
