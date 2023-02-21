@@ -4,7 +4,8 @@ import { useState } from "react";
 
 const AddCustomer = () => {
   const customerId = Math.random().toString(36).substring(2, 11);
-  const createtime = new Date(); 
+  const date = new Date();
+  const createtime = date.toLocaleString();
   const navigator = useNavigate();
   // 입력받을 state
   const [phone, setPhone] = useState("");
@@ -50,7 +51,7 @@ const AddCustomer = () => {
       alert("고객등록 실패");
     }
   };
-
+  console.log(createtime)
   return (
     <div>
       <div>
@@ -94,9 +95,10 @@ const AddCustomer = () => {
                   setComment(e.target.value);
                 }}
               />
+              
             </label>
           </div>
-
+         
           <button> 등록 </button>
         </form>
       </div>

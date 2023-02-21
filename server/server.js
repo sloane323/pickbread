@@ -378,13 +378,13 @@ app.post("/api/customer", (req, res) => {
     if (err) {
       throw err;
     } else {
-      const sql = "INSERT INTO 고객 VALUES(?, ?, ?, ?)";
-      const id = req.body.id;
+      const sql = "INSERT INTO 고객 VALUES(?, ?, ?, ?, ?)";
+      const customerId = req.body.customerId;
       const name = req.body.name;
       const phone = req.body.phone;
       const comment = req.body.comment;
       const createtime = req.body.createtime;
-      const params = [id, name, phone, comment,createtime];
+      const params = [id, name, phone, comment, createtime];
       conn.query(sql, params, (err, rows, fields) => {
         res.send(rows);
         console.log("등록성공");
@@ -394,6 +394,8 @@ app.post("/api/customer", (req, res) => {
     }
   });
 });
+
+/* 포인트 */
 app.post("/api/point", (req, res) => {
   pool.getConnection((err, conn) => {
     if (err) {
