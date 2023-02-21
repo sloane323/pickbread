@@ -55,24 +55,34 @@ const Customers = () => {
 
   const EditForm = ({ customer, onSave, onCancel }) => {
     const [name, setName] = useState(customer.name);
-    const [phoneNumber, setPhoneNumber] = useState(customer.phoneNumber);
+    const [phone, setPhone] = useState(customer.phone);
+    const [comment, setComment] = useState(customer.comment);
+
 
     const handleSubmit = (event) => {
       event.preventDefault();
-      onSave({ ...customer, name, phoneNumber });
+      onSave({ ...customer, name, phone,comment });
     };
 
     return (
       <form onSubmit={handleSubmit}>
         <input
           type="text"
-          value={name}
+          value={name|| ""}
           onChange={(e) => setName(e.target.value)}
+          placeholder="이름"
         />
         <input
           type="text"
-          value={phoneNumber}
-          onChange={(e) => setPhoneNumber(e.target.value)}
+          value={phone || ""}
+          onChange={(e) => setPhone(e.target.value)}
+          placeholder="전화번호"
+        />
+                <input
+          type="text"
+          value={comment|| ""}
+          onChange={(e) => setComment(e.target.value)}
+          placeholder="코멘트"
         />
         <button type="submit">Save</button>
         <button type="button" onClick={onCancel}>
@@ -120,15 +130,25 @@ const Customers = () => {
               <th>설정</th>
             </tr>
           </thead>
+
           <tbody>
+          {showEditForm && selectedCustomer && (
+          <EditForm
+            customer={selectedCustomer}
+            onSave={handleSave}
+            onCancel={handleCancel}
+          />
+        )}
             {customers &&
               customers.map((d, idx) => (
                 <tr key={idx}>
                   <td>{idx + 1}</td>
-                  <td>{d.name}</td>
-                  <td>{d.phoneNumber}</td>
-                  <td>{d.point}</td>
-                  <td>{d.comment}</td>
+                  <td>{d.고객ID}</td>
+                  <td>{d.이름}</td>
+                  <td>{d.전화번호}</td>
+                  <td>{d.포인트}</td>
+                  <td>{d.코멘트}</td>
+                  <td>{d.등록일}</td>                 
                   <td>
                     <button onClick={() => handleEdit(d)}>Edit</button>
                   </td>
@@ -136,13 +156,7 @@ const Customers = () => {
               ))}
           </tbody>
         </table>
-        {showEditForm && selectedCustomer && (
-          <EditForm
-            customer={selectedCustomer}
-            onSave={handleSave}
-            onCancel={handleCancel}
-          />
-        )}
+
       </div>
     );
     
