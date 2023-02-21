@@ -74,6 +74,24 @@ app.get("/api/material", (req, res) => {
     }
   });
 });
+/* 각 원자재 조회 */
+app.get("/api/currentstock/:id", (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) {
+      throw err;
+    } else {
+      const sql = `SELECT * FROM 원자재재고 WHERE 원자재ID=?`;
+      /* 파라미터 넘기기 */
+      const id = req.params.id;
+      const params = [id];
+      console.log(params);
+      conn.query(sql, params, (err, rows, fields) => {
+        res.send(rows);
+      });
+    }
+    conn.release();
+  });
+});
 /* 원자재재고 등록 */
 app.post("/api/m_stock", (req, res) => {
   pool.getConnection((err, conn) => {
@@ -99,22 +117,19 @@ app.post("/api/m_stock", (req, res) => {
     }
   });
 });
-/* 각 원자재 조회 */
-app.get("/api/currentstock/:id", (req, res) => {
+/* 원자재재고 조회 */
+app.get("/api/m_stock", (req, res) => {
   pool.getConnection((err, conn) => {
-    if (err) {
+    if(err) {
       throw err;
     } else {
-      const sql = `SELECT * FROM 원자재재고 WHERE 원자재ID=?`;
-      /* 파라미터 넘기기 */
-      const id = req.params.id;
-      const params = [id];
-      console.log(params);
-      conn.query(sql, params, (err, rows, fields) => {
+      const sql = "SELECT * FROM 원자재재고";
+      conn.query(sql, (err, rows, fields) => {
         res.send(rows);
+        console.log(err);
       });
+      conn.release();
     }
-    conn.release();
   });
 });
 // 원자재 구매 조회
@@ -226,7 +241,6 @@ app.get("/api/recipe", (req, res) => {
     conn.release();
   });
 });
-
 /* 레시피 등록 */
 app.post("/api/recipe", (req, res) => {
   pool.getConnection((err, conn) => {
@@ -266,47 +280,26 @@ app.post("/api/manufacture", (req, res) => {
   });
 });
 /* 제품재고 등록 */
-app.post("/api/inventory", (req, res) => {
+app.post("/api/p_stock", (req, res) => {
   pool.getConnection((err, conn) => {
     if (err) {
       throw err;
     } else {
       const sql = "INSERT INTO 제품재고 VALUES (?, ?, ?, ?, ?)";
-      const inventoryId = Math.random().toString(32).slice(2);
+      const productStockId = req.body.productStockId;
       const manufactureId = req.body.manufactureId;
       const selectedProductionId = req.body.selectedProductionId;
       const presentAmount = req.body.presentAmount;
       const expiryDate = req.body.expiryDate;
-      const params = [inventoryId, manufactureId, selectedProductionId, presentAmount, expiryDate];
+      const params = [productStockId, manufactureId, selectedProductionId, presentAmount, expiryDate];
       conn.query(sql, params, (err, rows, fields) => {
         res.send(rows);
+        console.log(err);
       });
     }
     conn.release();
   });
 });
-/* 제품재고 등록(p_stock 경로) */
-/* app.post("/api/p_stock", (req, res) => {
-  pool.getConnection((err, conn) => {
-    if (err) {
-      throw err;
-    } else {
-      const sql = "INSERT INTO 제품재고 VALUES (?, ?, ?, ?, )";
-      const stockID = req.body.stockID;
-      // 생산ID 임시
-      const productionID = Math.random().toString(32).slice(2);
-      const productID = req.body.productID;
-      const amount = req.body.amount;
-      const expDate = req.body.expDate;
-      const params = [stockID, productID, amount, expDate];
-      conn.query(sql, params, (err, rows, fields) => {
-        res.send(rows);
-        console.log(err);
-      });
-      conn.release();
-    }
-  });
-}); */
 /* 제품재고 조회 */
 app.get("/api/p_stock", (req, res) => {
   pool.getConnection((err, conn) => {
