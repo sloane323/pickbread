@@ -3,16 +3,31 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const Customers = () => {
-  // 고객 조회 화면 출력을 위한 state
-  const [customers, setCustomers] = useState("");
-  // 고객 조회 함수
-  const getCustomer = () => {
-    axios.get("/api/customer").then((res) => setCustomers(res.data));
+
+  const [customers, setCustomers] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const getCustomers = () => {
+    axios.get("/api/customer").then((response) => {
+      setCustomers(response.data);
+    });
   };
-  // 렌더되면 바로 조회
+
   useEffect(() => {
-    getCustomer();
+    getCustomers();
   }, []);
+
+  const handleSearch = (event) => {
+    event.preventDefault();
+    axios.get(`/api/customer?search=${searchQuery}`).then((response) => {
+      setCustomers(response.data);
+    });
+  };
+
+  const handleReset = () => {
+    setSearchQuery("");
+    getCustomers();
+  };
 
   return (
     <div>
@@ -25,8 +40,19 @@ const Customers = () => {
         </button>
       </div>
       <div>
-        <input type="text" />
-        <button> 검색 </button>
+      <form onSubmit={handleSearch}>
+              <input
+                 type="text"
+                 name="searchQuery" // change name to searchQuery
+                 value={searchQuery}
+                 placeholder="이름 & 전화번호"
+                 onChange={(event) => setSearchQuery(event.target.value)}
+                 />
+                <button type="submit">Search</button>
+                <button type="button" onClick={handleReset}>
+                  Reset
+                </button>
+              </form>
       </div>
       <div></div>
       <h2>조회</h2>
@@ -48,7 +74,7 @@ const Customers = () => {
                 <td>{idx + 1}</td>
                 <td>{d.이름}</td>
                 <td>{d.전화번호}</td>
-                <td>0</td>
+                <td>{d.포인트}</td>
                 <td>{d.코멘트}</td>
                 <td>.</td>
               </tr>
