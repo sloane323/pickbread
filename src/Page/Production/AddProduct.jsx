@@ -4,6 +4,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import MaterialOption from "../../components/Purchase/MaterialOption";
 
+
 const AddProduct = () => {
   //제품등록 입력받을 state
   const [name, setName] = useState("");
