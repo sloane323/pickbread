@@ -414,7 +414,8 @@ app.post("/api/point", (req, res) => {
   });
 });
 
-// 고객 검색
+
+// 고객 검색 & 검색 
 app.get("/api/customer", (req, res) => {
   pool.getConnection((err, conn) => {
     if (err) {
@@ -433,6 +434,32 @@ app.get("/api/customer", (req, res) => {
       });
       conn.release();
     }
+  });
+});
+
+/** 고객 수정  */
+app.put("/api/customer/:id", (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) {
+      throw err;
+    } else {
+      const sql = "UPDATE 고객 SET 이름 = ?, 전화번호 = ?, 코멘트 = ? WHERE 고객ID = ?";
+      const name = req.body.name;
+      const phone = req.body.phone;
+      const comment = req.body.comment;
+      const id = req.params.id;
+      const params = [name, phone, comment, id];
+      console.log(params);
+      conn.query(sql, params, (err, rows, fields) => {
+        if (err) {
+          throw err;
+        } else {
+          res.send(rows);
+          console.log(err);
+        }
+      });
+    }
+    conn.release();
   });
 });
 
