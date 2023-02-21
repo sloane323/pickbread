@@ -18,6 +18,7 @@ import Manufacture from "./Page/Production/Manufacture";
 import AddCustomer from './Page/Customer/AddCustomer';
 import AddPurchase from "./Page/Production/AddPurchase";
 import Product from "./Page/Production/Product";
+import EditProduct from "./components/Product/EditProduct";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
         <Route path="/production/add-purchase" element={<AddPurchase />} />
         <Route path="/production/product" element={<Product />} />
         <Route path="/production/add-product" element={<AddProduct />} />
+        <Route path="/production/edit-product/:id" element={<EditProduct />} />
         <Route path="/production/manufacture" element={<Manufacture/>}/>
         <Route path="/production/add-vendor" element={<AddVendor />} />
         <Route path="/production/stock" element={<Stock />} />

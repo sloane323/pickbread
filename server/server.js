@@ -5,6 +5,7 @@ const app = express();
 const PORT = process.env.PORT || 4000;
 const pool = require("./config/db");
 const bodyParser = require("body-parser");
+const getVendors = require("./api/vendor");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -109,7 +110,6 @@ app.get("/api/currentstock/:id", (req, res) => {
       /* 파라미터 넘기기 */
       const id = req.params.id;
       const params = [id];
-      console.log(params);
       conn.query(sql, params, (err, rows, fields) => {
         res.send(rows);
       });
@@ -159,7 +159,6 @@ app.post("/api/product", (req, res) => {
       const size = req.body.size;
       const unit = req.body.unit;
       const price = req.body.price;
-      console.log(req.body);
       const params = [productId, name, size, unit, price];
       conn.query(sql, params, (err, rows, fields) => {
         res.send(rows);
@@ -183,6 +182,18 @@ app.get("/api/product", (req, res) => {
     }
   });
 });
+//제품 삭제
+app.delete("/api/product", (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) throw err;
+    const sql = `DELETE FROM 제품 WHERE 제품ID = "${req.body.id}"`;
+    conn.query(sql, (err, rows, fields) => {
+      res.send(rows);
+    });
+    conn.release();
+  });
+});
+
 /* 제품 조회(production 경로, ORDER BY 이름) */
 app.get("/api/production", (req, res) => {
   pool.getConnection((err, conn) => {
@@ -207,7 +218,6 @@ app.get("/api/production/:id", (req, res) => {
       /* 파라미터 넘기기 */
       const id = req.params.id;
       const params = [id];
-      console.log(params);
       conn.query(sql, params, (err, rows, fields) => {
         res.send(rows);
       });
@@ -219,7 +229,8 @@ app.get("/api/production/:id", (req, res) => {
 app.get("/api/recipe", (req, res) => {
   pool.getConnection((err, conn) => {
     if (err) throw err;
-    const sql = "select 제품.*, 원자재.이름 from 레시피 left join 제품 on 제품.제품ID = 레시피.제품ID left join 원자재 on 레시피.원자재ID = 원자재.원자재ID";
+    const sql =
+      "select 레시피.레시피ID, 제품.*, 원자재.이름 from 레시피 left join 제품 on 제품.제품ID = 레시피.제품ID left join 원자재 on 레시피.원자재ID = 원자재.원자재ID";
     conn.query(sql, (err, rows, fields) => {
       res.send(rows);
     });
@@ -243,6 +254,17 @@ app.post("/api/recipe", (req, res) => {
         console.log(err);
       });
     }
+    conn.release();
+  });
+});
+/* 레시피 삭제 */
+app.delete("/api/recipe", (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) throw err;
+    const sql = `DELETE FROM 레시피 WHERE 레시피ID = "${req.body.id}"`;
+    conn.query(sql, (err, rows, fields) => {
+      res.send(rows);
+    });
     conn.release();
   });
 });
@@ -356,6 +378,7 @@ app.get("/api/vendor", (req, res) => {
     }
   });
 });
+
 /* 거래처 삭제 */
 app.delete("/api/vendor", (req, res) => {
   pool.getConnection((err, conn) => {
