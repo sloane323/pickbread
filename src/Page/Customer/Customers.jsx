@@ -33,14 +33,15 @@ const Customers = () => {
   const handleEdit = (customer) => {
     setSelectedCustomer(customer);
     setShowEditForm(true);
+
   };
 
   const handleSave = (updatedCustomer) => {
     axios
-      .put(`/api/customer/${updatedCustomer.id}`, updatedCustomer)
+      .put(`/api/customer/${updatedCustomer.고객ID}`, updatedCustomer)
       .then((response) => {
         const updatedCustomers = customers.map((c) =>
-          c.id === updatedCustomer.id ? updatedCustomer : c
+          c.id === updatedCustomer.고객ID ? updatedCustomer : c
         );
         setCustomers(updatedCustomers);
         setShowEditForm(false);
@@ -60,7 +61,7 @@ const Customers = () => {
 
 
     const handleSubmit = (event) => {
-      event.preventDefault();
+      window.location.reload();
       onSave({ ...customer, name, phone,comment });
     };
 
@@ -84,7 +85,7 @@ const Customers = () => {
           onChange={(e) => setComment(e.target.value)}
           placeholder="코멘트"
         />
-        <button type="submit">Save</button>
+        <button type="submit">저장</button>
         <button type="button" onClick={onCancel}>
           Cancel
         </button>
@@ -130,34 +131,30 @@ const Customers = () => {
               <th>설정</th>
             </tr>
           </thead>
-
           <tbody>
-          {showEditForm && selectedCustomer && (
+            {customers &&
+              customers.map((d, idx) => (
+                <tr key={idx}>
+                  <td>{idx + 1}</td>
+                  <td>{d.이름}</td>
+                  <td>{d.전화번호}</td>
+                  <td>{d.코멘트}</td>
+                  <td>{d.등록일}</td>
+                  <td>
+                    <button onClick={() => handleEdit(d)}>수정</button>
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+        {showEditForm && selectedCustomer && (
           <EditForm
             customer={selectedCustomer}
             onSave={handleSave}
             onCancel={handleCancel}
           />
         )}
-            {customers &&
-              customers.map((d, idx) => (
-                <tr key={idx}>
-                  <td>{idx + 1}</td>
-                  <td>{d.고객ID}</td>
-                  <td>{d.이름}</td>
-                  <td>{d.전화번호}</td>
-                  <td>{d.포인트}</td>
-                  <td>{d.코멘트}</td>
-                  <td>{d.등록일}</td>                 
-                  <td>
-                    <button onClick={() => handleEdit(d)}>Edit</button>
-                  </td>
-                </tr>
-              ))}
-          </tbody>
-        </table>
-
-      </div>
+              </div>
     );
     
 
