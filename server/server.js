@@ -370,20 +370,33 @@ app.post("/api/customer", (req, res) => {
     conn.release();
   });
 });
-/* 고객 조회 */
+
+
+// 고객 검색
 app.get("/api/customer", (req, res) => {
   pool.getConnection((err, conn) => {
     if (err) {
       throw err;
     } else {
-      const sql = "SELECT * FROM 고객 order by 이름";
+      let sql = "SELECT * FROM 고객 order by 이름";
+      if (req.query.search) {
+        sql = `select * from 고객 where 이름 = '${req.query.search}'`;
+      }
       conn.query(sql, (err, rows, fields) => {
-        res.send(rows);
+        if (err) {
+          throw err;
+        } else {
+          res.send(rows);
+        }
       });
       conn.release();
     }
   });
 });
+
+
+
+
 // 판매 등록
 // app.post("/api/sales", (req,res) => {
 //   pool.getConnection((err, conn) => {
