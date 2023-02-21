@@ -17,7 +17,11 @@ const StockDetail = () => {
     }
   };
 
-  console.log(stock);
+  const disposeStockHandler = async (id, dispose) => {
+    const url = `/api/m_stock/dispose/${id}`;
+    await axios.put(url, { dispose });
+    getStock();
+  };
 
   useEffect(() => {
     getStock();
@@ -35,6 +39,8 @@ const StockDetail = () => {
             <td>개수</td>
             <td>잔량</td>
             <td>사용기한</td>
+            <td>폐기여부</td>
+            <td>설정</td>
           </tr>
         </thead>
         <tbody>
@@ -53,6 +59,10 @@ const StockDetail = () => {
                 {stock.단위}
               </td>
               <td>{stock.사용기한}</td>
+              <td>{stock.폐기여부 ? "O" : "X"}</td>
+              <td>
+                <button onClick={() => disposeStockHandler(stock.재고ID, stock.폐기여부)}>{stock.폐기여부 ? "폐기취소" : "폐기"}</button>
+              </td>
             </tr>
           ) : (
             <tr>

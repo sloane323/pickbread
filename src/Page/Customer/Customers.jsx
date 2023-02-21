@@ -130,7 +130,15 @@ const Customers = () => {
               <th>설정</th>
             </tr>
           </thead>
+
           <tbody>
+          {showEditForm && selectedCustomer && (
+          <EditForm
+            customer={selectedCustomer}
+            onSave={handleSave}
+            onCancel={handleCancel}
+          />
+        )}
             {customers &&
               customers.map((d, idx) => (
                 <tr key={idx}>
@@ -140,6 +148,7 @@ const Customers = () => {
                   <td>{d.전화번호}</td>
                   <td>{d.포인트}</td>
                   <td>{d.코멘트}</td>
+                  <td>{d.등록일}</td>                 
                   <td>
                     <button onClick={() => handleEdit(d)}>Edit</button>
                   </td>
@@ -147,13 +156,7 @@ const Customers = () => {
               ))}
           </tbody>
         </table>
-        {showEditForm && selectedCustomer && (
-          <EditForm
-            customer={selectedCustomer}
-            onSave={handleSave}
-            onCancel={handleCancel}
-          />
-        )}
+
       </div>
     );
     
