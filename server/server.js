@@ -100,6 +100,19 @@ app.post("/api/m_stock", (req, res) => {
     }
   });
 });
+/* 원자재 폐기 */
+app.put("/api/m_stock/dispose/:id", (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) throw err;
+    const { id } = req.params;
+    const dispose = req.body.dispose;
+    const sql = `UPDATE 원자재재고 SET 폐기여부=${!dispose} WHERE 재고ID = "${id}"`;
+    conn.query(sql, (err, rows, fields) => {
+      res.send(rows);
+    });
+    conn.release();
+  });
+});
 /* 각 원자재 조회 */
 app.get("/api/currentstock/:id", (req, res) => {
   pool.getConnection((err, conn) => {
@@ -209,12 +222,13 @@ app.get("/api/production", (req, res) => {
   });
 });
 /* 각 제품재고 조회 */
-app.get("/api/production/:id", (req, res) => {
+app.get("/api/p_stock/:id", (req, res) => {
   pool.getConnection((err, conn) => {
     if (err) {
       throw err;
     } else {
-      const sql = `SELECT * FROM 제품재고 WHERE 제품ID=?`;
+      const sql =
+        "SELECT 제품.*, 제품재고.재고ID, 제품재고.잔량, 제품재고.유통기한, 제품재고.폐기여부 FROM 제품 LEFT JOIN 제품재고 ON 제품.제품ID = 제품재고.제품ID WHERE 제품.제품ID = ? ORDER BY 유통기한";
       /* 파라미터 넘기기 */
       const id = req.params.id;
       const params = [id];
@@ -222,6 +236,19 @@ app.get("/api/production/:id", (req, res) => {
         res.send(rows);
       });
     }
+    conn.release();
+  });
+});
+/* 재고수정 */
+app.put("/api/p_stock/dispose/:id", (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) throw err;
+    const { id } = req.params;
+    const { dispose } = req.body;
+    const sql = `UPDATE 제품재고 SET 폐기여부=${!dispose} WHERE 재고ID = "${id}"`;
+    conn.query(sql, (err, rows, fields) => {
+      res.send(rows);
+    });
     conn.release();
   });
 });
@@ -407,7 +434,7 @@ app.post("/api/customer", (req, res) => {
       const phone = req.body.phone;
       const comment = req.body.comment;
       const createtime = req.body.createtime;
-      const params = [id, name, phone, comment,createtime];
+      const params = [id, name, phone, comment, createtime];
       conn.query(sql, params, (err, rows, fields) => {
         res.send(rows);
         console.log("등록성공");
@@ -438,8 +465,7 @@ app.post("/api/point", (req, res) => {
   });
 });
 
-
-// 고객 검색 & 검색 
+// 고객 검색 & 검색
 app.get("/api/customer", (req, res) => {
   pool.getConnection((err, conn) => {
     if (err) {
@@ -473,7 +499,7 @@ app.put("/api/customer/:id", (req, res) => {
       const comment = req.body.comment;
       const id = req.params.id;
       const createtime = req.params.createtime;
-      const params = [name, phone, comment, id ,createtime];
+      const params = [name, phone, comment, id, createtime];
       console.log(params);
       conn.query(sql, params, (err, rows, fields) => {
         if (err) {
