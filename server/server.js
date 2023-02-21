@@ -483,9 +483,10 @@ app.put("/api/customer/:id", (req, res) => {
       const name = req.body.name;
       const phone = req.body.phone;
       const comment = req.body.comment;
-      const params = [id, name, phone, comment]
-      conn.query(sql, params, (err, rows, fields)=>{
-        res.send(rows)
+      const createtime = req.body.createtime;
+      const params = [id, name, phone, comment,createtime];
+      conn.query(sql, params, (err, rows, fields) => {
+        res.send(rows);
         console.log("등록성공");
         console.log(err);
       });
@@ -529,7 +530,8 @@ app.put("/api/customer/:id", (req, res) => {
       const phone = req.body.phone;
       const comment = req.body.comment;
       const id = req.params.id;
-      const params = [name, phone, comment, id];
+      const createtime = req.params.createtime;
+      const params = [name, phone, comment, id ,createtime];
       console.log(params);
       conn.query(sql, params, (err, rows, fields) => {
         if (err) {
@@ -565,6 +567,7 @@ app.put("/api/customer/:id", (req, res) => {
 //     conn.release();
 //   })
 // });
+
 /* 판매 내역 조회 */
 app.get("/api/saleslog", (req, res) => {
   pool.getConnection((err,conn) => {

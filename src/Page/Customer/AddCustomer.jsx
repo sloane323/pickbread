@@ -3,18 +3,23 @@ import axios from "axios";
 import { useState } from "react";
 
 const AddCustomer = () => {
+  const customerId = Math.random().toString(36).substring(2, 11);
+  const createtime = new Date(); 
   const navigator = useNavigate();
   // 입력받을 state
   const [phone, setPhone] = useState("");
   const [name, setName] = useState("");
   const [comment, setComment] = useState("");
 
-  const addCustomer = () => {
+
+
+  const post = () => {
     const url = "/api/customer";
     const formData = new FormData();
     formData.append("name", name);
     formData.append("phone", phone);
     formData.append("comment", comment);
+    formData.append("createtime", createtime);
     const config = {
       headers: { "Content-Type": "application/json" },
     };
