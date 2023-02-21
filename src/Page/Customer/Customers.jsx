@@ -120,6 +120,14 @@ const Customers = () => {
         </div>
         <div></div>
         <h2>조회</h2>
+        {showEditForm && selectedCustomer && (
+          <div>
+          <EditForm
+            customer={selectedCustomer}
+            onSave={handleSave}
+            onCancel={handleCancel}
+          /> <hr/></div>
+        )}
         <table>
           <thead>
             <tr>
@@ -147,13 +155,7 @@ const Customers = () => {
               ))}
           </tbody>
         </table>
-        {showEditForm && selectedCustomer && (
-          <EditForm
-            customer={selectedCustomer}
-            onSave={handleSave}
-            onCancel={handleCancel}
-          />
-        )}
+        
               </div>
     );
     

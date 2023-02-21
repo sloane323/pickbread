@@ -485,7 +485,7 @@ app.put("/api/customer/:id", (req, res) => {
       const phone = req.body.phone;
       const comment = req.body.comment;
       const createtime = req.body.createtime;
-      const params = [id, name, phone, comment, createtime];
+      const params = [customerId, name, phone, comment, createtime];
       conn.query(sql, params, (err, rows, fields) => {
         res.send(rows);
         console.log("등록성공");
@@ -502,7 +502,7 @@ app.post("/api/point", (req, res) => {
     if (err) {
       throw err;
     } else {
-      const sql = "INSERT INTO 포인트 VALUES(?, ?, ?, ?, ?)";
+      const sql = "INSERT INTO 포인트 VALUES(?, ?, ?, ?)";
       const point = 1000;
       const id = Math.random().toString(32).slice(2);
       const customerId = req.body.customerId;
