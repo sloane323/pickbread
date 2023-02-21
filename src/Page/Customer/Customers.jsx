@@ -68,19 +68,19 @@ const Customers = () => {
       <form onSubmit={handleSubmit}>
         <input
           type="text"
-          value={name}
+          value={name|| ""}
           onChange={(e) => setName(e.target.value)}
           placeholder="이름"
         />
         <input
           type="text"
-          value={phone}
+          value={phone || ""}
           onChange={(e) => setPhone(e.target.value)}
           placeholder="전화번호"
         />
                 <input
           type="text"
-          value={comment}
+          value={comment|| ""}
           onChange={(e) => setComment(e.target.value)}
           placeholder="코멘트"
         />
