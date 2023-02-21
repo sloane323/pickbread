@@ -370,20 +370,6 @@ app.post("/api/customer", (req, res) => {
     conn.release();
   });
 });
-/* 고객 조회 */
-app.get("/api/customer", (req, res) => {
-  pool.getConnection((err, conn) => {
-    if (err) {
-      throw err;
-    } else {
-      const sql = "SELECT * FROM 고객 order by 이름";
-      conn.query(sql, (err, rows, fields) => {
-        res.send(rows);
-      });
-      conn.release();
-    }
-  });
-});
 
 
 // 고객 검색

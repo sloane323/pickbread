@@ -54,13 +54,6 @@ const CustomerList = (props) => {
                   Reset
                 </button>
               </form>
-              <ul>
-                {customers.map((customer) => (
-                  <li key={customer.번호}>
-                    {customer.이름} - {customer.번호}
-                  </li>
-                ))}
-              </ul>
               <div>
                 <table>
                   <tbody>
