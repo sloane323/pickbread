@@ -3,60 +3,150 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const Customers = () => {
-  // 고객 조회 화면 출력을 위한 state
-  const [customers, setCustomers] = useState("");
-  // 고객 조회 함수
-  const getCustomer = () => {
-    axios.get("/api/customer").then((res) => setCustomers(res.data));
+  const [customers, setCustomers] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showEditForm, setShowEditForm] = useState(false);
+  const [selectedCustomer, setSelectedCustomer] = useState(null);
+
+  const getCustomers = () => {
+    axios.get("/api/customer").then((response) => {
+      setCustomers(response.data);
+    });
   };
-  // 렌더되면 바로 조회
+
   useEffect(() => {
-    getCustomer();
+    getCustomers();
   }, []);
 
-  return (
-    <div>
-      <div>
-        <h1>Customers 목록</h1>
-      </div>
-      <div>
-        <button>
-          <Link to="/customers/add">고객 등록하러 가기</Link>
+  const handleSearch = (event) => {
+    event.preventDefault();
+    axios.get(`/api/customer?search=${searchQuery}`).then((response) => {
+      setCustomers(response.data);
+    });
+  };
+
+  const handleReset = () => {
+    setSearchQuery("");
+    getCustomers();
+  };
+
+  const handleEdit = (customer) => {
+    setSelectedCustomer(customer);
+    setShowEditForm(true);
+  };
+
+  const handleSave = (updatedCustomer) => {
+    axios
+      .put(`/api/customer/${updatedCustomer.id}`, updatedCustomer)
+      .then((response) => {
+        const updatedCustomers = customers.map((c) =>
+          c.id === updatedCustomer.id ? updatedCustomer : c
+        );
+        setCustomers(updatedCustomers);
+        setShowEditForm(false);
+        setSelectedCustomer(null);
+      });
+  };
+
+  const handleCancel = () => {
+    setShowEditForm(false);
+    setSelectedCustomer(null);
+  };
+
+  const EditForm = ({ customer, onSave, onCancel }) => {
+    const [name, setName] = useState(customer.name);
+    const [phoneNumber, setPhoneNumber] = useState(customer.phoneNumber);
+
+    const handleSubmit = (event) => {
+      event.preventDefault();
+      onSave({ ...customer, name, phoneNumber });
+    };
+
+    return (
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <input
+          type="text"
+          value={phoneNumber}
+          onChange={(e) => setPhoneNumber(e.target.value)}
+        />
+        <button type="submit">Save</button>
+        <button type="button" onClick={onCancel}>
+          Cancel
         </button>
-      </div>
+      </form>
+    );
+  };
+
+    return (
       <div>
-        <input type="text" />
-        <button> 검색 </button>
+        <div>
+          <h1>Customers 목록</h1>
+        </div>
+        <div>
+          <button>
+            <Link to="/customers/add">고객 등록하러 가기</Link>
+          </button>
+        </div>
+        <div>
+          <form onSubmit={handleSearch}>
+            <input
+              type="text"
+              name="searchQuery"
+              value={searchQuery}
+              placeholder="이름 & 전화번호"
+              onChange={(event) => setSearchQuery(event.target.value)}
+            />
+            <button type="submit">Search</button>
+            <button type="button" onClick={handleReset}>
+              Reset
+            </button>
+          </form>
+        </div>
+        <div></div>
+        <h2>조회</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>no</th>
+              <th>고객명</th>
+              <th>전화번호</th>
+              <th>포인트</th>
+              <th>기타</th>
+              <th>설정</th>
+            </tr>
+          </thead>
+          <tbody>
+            {customers &&
+              customers.map((d, idx) => (
+                <tr key={idx}>
+                  <td>{idx + 1}</td>
+                  <td>{d.name}</td>
+                  <td>{d.phoneNumber}</td>
+                  <td>{d.point}</td>
+                  <td>{d.comment}</td>
+                  <td>
+                    <button onClick={() => handleEdit(d)}>Edit</button>
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+        {showEditForm && selectedCustomer && (
+          <EditForm
+            customer={selectedCustomer}
+            onSave={handleSave}
+            onCancel={handleCancel}
+          />
+        )}
       </div>
-      <div></div>
-      <h2>조회</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>no</th>
-            <th>고객명</th>
-            <th>전화번호</th>
-            <th>포인트</th>
-            <th>기타</th>
-            <th>설정</th>
-          </tr>
-        </thead>
-        <tbody>
-          {customers &&
-            customers.map((d, idx) => (
-              <tr key={idx}>
-                <td>{idx + 1}</td>
-                <td>{d.이름}</td>
-                <td>{d.전화번호}</td>
-                <td>0</td>
-                <td>{d.코멘트}</td>
-                <td>.</td>
-              </tr>
-            ))}
-        </tbody>
-      </table>
-    </div>
-  );
-};
+    );
+    
+
+ }
 
 export default Customers;

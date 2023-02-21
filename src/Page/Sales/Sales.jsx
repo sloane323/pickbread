@@ -2,6 +2,9 @@ import styles from "../Sales/Sales.module.css";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import SelectList from "./SelectList";
+import CustomerList from "./CustomerList";
+import PaymentMode from "./PaymentMode";
+
 
 const Sales = () => {
     const [product, setProduct] = useState("");
@@ -14,6 +17,23 @@ const Sales = () => {
     const [selectProduct, setSelectProduct] = useState();
     const [saleDate, setSaleDate] = useState(new Date().toISOString().slice(0, 10));
     const totalCost = purchaseingProducts
+
+    const [modalOpen, setModalOpen] = useState(false);
+    const [modalOpen1, setModalOpen1] = useState(false);
+
+    const openModal = () => {
+        setModalOpen(true);
+      };
+      const closeModal = () => {
+        setModalOpen(false);
+      };
+
+      const openModal1 = () => {
+        setModalOpen1(true);
+      };
+      const closeModal1 = () => {
+        setModalOpen1(false);
+      };
 
     const getProduct = async () => {
         const url = "/api/product"
@@ -43,7 +63,7 @@ const Sales = () => {
         console.log('p_stock', p_stock);
         console.log('selectedProduct', selectedProduct);
         for (let i = 0; i < product.length; i++) {
-            console.log('product제품ID', product[i].제품ID);
+            console.log('product제품이름', product[i].제품이름);
         }
     }
     // for문 => foreach문으로 교체
@@ -51,7 +71,7 @@ const Sales = () => {
     const selectProductName = (a) => {
         let name = '';
         product.forEach((element) => {
-            if (element.제품ID == a)
+            if (element.제품이름 == a)
                 return name = element.이름
         })
         return name
@@ -127,8 +147,11 @@ const Sales = () => {
                 <h1> Sales </h1> </div>
             <button onClick={() => log()}>test</button>
 
-            <button className={styles.product_btn3}>고객추가</button>
-            <button className={styles.product_btn3}>결제하기</button>
+            <button className={styles.product_btn3} onClick={openModal} >고객추가</button>
+            <CustomerList open={modalOpen} close={closeModal} > </CustomerList>
+
+            <button className={styles.product_btn3} onClick={openModal1}>결제하기</button>
+            <PaymentMode open={modalOpen1} close={closeModal1} > </PaymentMode>
 
             <div className={styles.salesmain}>
                 <div className={styles.salesmenu}>
@@ -140,7 +163,7 @@ const Sales = () => {
                         {product &&
                             product?.map((product) => {
                                 return (
-                                    <button onClick={(e) => btnClick(e)} className={styles.product_btn1} value={product.제품ID}> {product.제품ID}</button>
+                                    <button onClick={(e) => btnClick(e)} className={styles.product_btn1} value={product.이름}> {product.이름}</button>
                                 )
                             })}
                     </tr>
