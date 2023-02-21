@@ -17,6 +17,7 @@ const ManufactureForm = () => {
   const [materialUsageWrap, setMaterialUsageWrap] = useState([]);
   const [manufactureDate, setManufactureDate] = useState(getNowDate());
   const [expiryDate, setExpiryDate] = useState(getTwoWeeksDate());
+  const [dispose, setDispose] = useState(false);
   const manufactureId = Math.random().toString(32).slice(2);
   const productStockId = Math.random().toString(32).slice(2);
   const getProductions = async () => {
@@ -56,6 +57,8 @@ const ManufactureForm = () => {
     setExpiryDate(getTwoWeeksDate());
     setSelectedProduction(productions[0]);
     setSelectedMaterialStockWrap([]);
+    setMaterialUsageWrap([]);
+    setDispose(false);
   };
   const manufacturePost = () => {
     const url = "/api/manufacture";
@@ -78,6 +81,7 @@ const ManufactureForm = () => {
     formData.append("selectedProductionId", selectedProduction.제품ID);
     formData.append("presentAmount", enteredAmount);
     formData.append("expiryDate", expiryDate);
+    formData.append("dispose", dispose);
     const config = {
       headers: { "Content-Type": "application/json" },
     };
@@ -130,6 +134,13 @@ const ManufactureForm = () => {
       return [...prev, materialUsage];
     });
   };
+  const disposeHandler = () => {
+    if(dispose === false) {
+      setDispose(true);
+    } else {
+      setDispose(false);
+    }
+  }
   return (
     <form onSubmit={onSubmit}>
       <div>
@@ -209,6 +220,10 @@ const ManufactureForm = () => {
               <p>{materialUsage}</p>
             </div>
           ))}
+        <button type="button" onClick={disposeHandler}>
+          폐기 여부 체크
+        </button>
+        {dispose ? <p>폐기</p> : <p>유통</p>}
       </div>
       <input type="submit" value="제출 " />
     </form>
