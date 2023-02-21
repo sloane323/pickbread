@@ -55,11 +55,13 @@ const Customers = () => {
 
   const EditForm = ({ customer, onSave, onCancel }) => {
     const [name, setName] = useState(customer.name);
-    const [phoneNumber, setPhoneNumber] = useState(customer.phoneNumber);
+    const [phone, setPhone] = useState(customer.phone);
+    const [comment, setComment] = useState(customer.comment);
+
 
     const handleSubmit = (event) => {
       event.preventDefault();
-      onSave({ ...customer, name, phoneNumber });
+      onSave({ ...customer, name, phone,comment });
     };
 
     return (
@@ -72,9 +74,15 @@ const Customers = () => {
         />
         <input
           type="text"
-          value={phoneNumber}
-          onChange={(e) => setPhoneNumber(e.target.value)}
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
           placeholder="전화번호"
+        />
+                <input
+          type="text"
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+          placeholder="코멘트"
         />
         <button type="submit">Save</button>
         <button type="button" onClick={onCancel}>
