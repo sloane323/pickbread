@@ -72,14 +72,16 @@ const Stock = () => {
             <td>이름</td>
             <td>사이즈</td>
             <td>가격</td>
-            <td>브랜드</td>
+            <td>설정</td>
           </tr>
         </thead>
         <tbody>
           {products ? (
             products.map((product) => (
               <tr key={product.제품ID}>
-                <td>{product.제품ID}</td>
+                <td>{product.이름}</td>
+                <td>{product.사이즈}{product.단위}</td>
+                <td>{product.가격}</td>
                 <td>
                   <Link to={`/production/product/${product.제품ID}`}>
                     ▶재고확인(detail)

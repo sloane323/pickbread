@@ -136,10 +136,10 @@ const EditProduct = () => {
 
   return (
     <div>
-      <h1>제품 제작 등록</h1>
+      <h1>제품 제작 수정(미구현)</h1>
       <div>
         {/* 제품 등록하면서 레시피가 함께 등록되는 구조 */}
-        <h3>제품 등록</h3>
+        <h3>제품 수정</h3>
         <form onSubmit={onSubmit}>
           {/* 제품ID 제외 -랜덤생성 */}
           이름
