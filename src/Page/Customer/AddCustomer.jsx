@@ -3,7 +3,7 @@ import axios from "axios";
 import { useState } from "react";
 
 const AddCustomer = () => {
-  const customerId = Math.random().toString(36).substring(2, 11);
+  const customerId =Math.random().toString(32).slice(2);
   const date = new Date();
   const createtime = date.toLocaleString();
   const navigator = useNavigate();
@@ -17,7 +17,7 @@ const AddCustomer = () => {
   const post = () => {
     const url = "/api/customer";
     const formData = new FormData();
-    formData.append("id", customerId);
+    formData.append("customerId", customerId);
     formData.append("name", name);
     formData.append("phone", phone);
     formData.append("comment", comment);
