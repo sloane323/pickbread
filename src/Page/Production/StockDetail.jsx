@@ -32,7 +32,7 @@ const StockDetail = () => {
           <tr>
             <td>종류</td>
             <td>사이즈</td>
-            <td>갯수</td>
+            <td>개수</td>
             <td>잔량</td>
             <td>사용기한</td>
           </tr>
@@ -47,7 +47,7 @@ const StockDetail = () => {
                 {stock.사이즈}
                 {stock.단위}
               </td>
-              <td>{stock.갯수}</td>
+              <td>{stock.개수}</td>
               <td>
                 {stock.잔량}
                 {stock.단위}
