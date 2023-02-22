@@ -17,7 +17,9 @@ const ManufactureForm = () => {
   const [materialUsageWrap, setMaterialUsageWrap] = useState([]);
   const [manufactureDate, setManufactureDate] = useState(getNowDate());
   const [expiryDate, setExpiryDate] = useState(getTwoWeeksDate());
-  const [dispose, setDispose] = useState(false);
+  const [productDispose, setProductDispose] = useState(false);
+  const [materialDispose, setMaterialDispose] = useState(false);
+  const [materialDisposeWrap, setMaterialDisposeWrap] = useState([]);
   const manufactureId = Math.random().toString(32).slice(2);
   const productStockId = Math.random().toString(32).slice(2);
   const getProductions = async () => {
@@ -51,14 +53,19 @@ const ManufactureForm = () => {
     for (let i = 0; i < selectedMaterialStockWrap.length; i++) {
       const req = await materialUsagePost(i);
     }
+    for (let i = 0; i < materialUsageWrap.length; i++) {
+      const req = await materialCalcPost(i);
+    }
     setEnteredAmount(1);
     setMaterialUsage(1);
+    setMaterialUsageWrap([]);
     setManufactureDate(getNowDate());
     setExpiryDate(getTwoWeeksDate());
     setSelectedProduction(productions[0]);
+    setProductDispose(false);
     setSelectedMaterialStockWrap([]);
-    setMaterialUsageWrap([]);
-    setDispose(false);
+    setMaterialDispose(false);
+    setMaterialDisposeWrap([]);
   };
   const manufacturePost = () => {
     const url = "/api/manufacture";
@@ -81,7 +88,7 @@ const ManufactureForm = () => {
     formData.append("selectedProductionId", selectedProduction.제품ID);
     formData.append("presentAmount", enteredAmount);
     formData.append("expiryDate", expiryDate);
-    formData.append("dispose", dispose);
+    formData.append("productDispose", productDispose);
     const config = {
       headers: { "Content-Type": "application/json" },
     };
@@ -103,6 +110,23 @@ const ManufactureForm = () => {
       };
       console.log(formData);
       return axios.post(url, formData, config);
+    }
+  };
+  const materialCalcPost = (i) => {
+    if (materialUsageWrap.length && materialDisposeWrap.length > 0) {
+      const url = "/api/m_stock";
+      const formData = new FormData();
+      formData.append("materialUsage", materialUsageWrap[i]);
+      formData.append("materialDispose", materialDisposeWrap[i]);
+      formData.append(
+        "selectedMaterialStockId",
+        selectedMaterialStockWrap[i].id
+      );
+      const config = {
+        headers: { "Content-Type": "application/json" },
+      };
+      console.log(formData);
+      return axios.put(url, formData, config);
     }
   };
   const selectedProductionHandler = (e) => {
@@ -133,12 +157,22 @@ const ManufactureForm = () => {
     setMaterialUsageWrap((prev) => {
       return [...prev, materialUsage];
     });
+    setMaterialDisposeWrap((prev) => {
+      return [...prev, materialDispose];
+    })
   };
-  const disposeHandler = () => {
-    if(dispose === false) {
-      setDispose(true);
+  const productDisposeHandler = () => {
+    if (productDispose === false) {
+      setProductDispose(true);
     } else {
-      setDispose(false);
+      setProductDispose(false);
+    }
+  };
+  const materialDisposeHandler = () => {
+    if(materialDispose === false) {
+      setMaterialDispose(true);
+    } else {
+      setMaterialDispose(false);
     }
   }
   return (
@@ -203,7 +237,7 @@ const ManufactureForm = () => {
       </label>
       <div>
         <button type="button" onClick={addMaterialUsage}>
-          원자재 및 사용량 추가
+          원자재 및 사용량, 유통 및 폐기 상태 추가
         </button>
         {selectedMaterialStockWrap &&
           selectedMaterialStockWrap.length > 0 &&
@@ -220,10 +254,22 @@ const ManufactureForm = () => {
               <p>{materialUsage}</p>
             </div>
           ))}
-        <button type="button" onClick={disposeHandler}>
-          폐기 여부 체크
-        </button>
-        {dispose ? <p>폐기</p> : <p>유통</p>}
+        {materialDisposeWrap &&
+          materialDisposeWrap.length > 0 && materialDisposeWrap.map((materialDispose, index) => (
+            <div key={index}>
+              <p>{materialDispose ? "원자재 폐기 진행" : "원자재 유통 중"}</p>
+            </div>
+          ))}
+        <div>
+          <button type="button" onClick={productDisposeHandler}>
+            제품 폐기 여부 체크
+          </button>
+          {productDispose ? <p>제품 폐기</p> : <p>제품 유통</p>}
+          <button type="button" onClick={materialDisposeHandler}>
+            원자재 폐기 여부 체크
+          </button>
+          {materialDispose ? <p>원자재 폐기</p> : <p>원자재 유통</p>}
+        </div>
       </div>
       <input type="submit" value="제출 " />
     </form>
