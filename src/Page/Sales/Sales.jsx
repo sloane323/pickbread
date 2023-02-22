@@ -23,17 +23,17 @@ const Sales = () => {
 
     const openModal = () => {
         setModalOpen(true);
-      };
-      const closeModal = () => {
+    };
+    const closeModal = () => {
         setModalOpen(false);
-      };
+    };
 
-      const openModal1 = () => {
+    const openModal1 = () => {
         setModalOpen1(true);
-      };
-      const closeModal1 = () => {
+    };
+    const closeModal1 = () => {
         setModalOpen1(false);
-      };
+    };
 
     const getProduct = async () => {
         const url = "/api/product"
@@ -62,24 +62,22 @@ const Sales = () => {
         console.log('customer', customer);
         console.log('p_stock', p_stock);
         console.log('selectedProduct', selectedProduct);
-        for (let i = 0; i < product.length; i++) {
-            console.log('product제품이름', product[i].제품이름);
         }
-    }
+    
     // for문 => foreach문으로 교체
     // 버튼을 눌렀을때ID(a)와 제품ID가 같은 데이터의 이름을 불러옴
     const selectProductName = (a) => {
-        let name = '';
+        let name;
         product.forEach((element) => {
-            if (element.제품이름 == a)
+            if (element.제품ID == a)
                 return name = element.이름
         })
         return name
     }
     // for문 => foreach문으로 교체
     // 버튼을 눌렀을때ID(a)와 제품ID가 같은 데이터의 가격을 불러옴
-    const selectedProductPriceHandler = (a) => {
-        let price;
+    const selectProductPriceHandler = (a) => {
+        let price = 0;
         product.forEach((element) => {
             if (element.제품ID == a)
                 return price = element.가격
@@ -87,41 +85,25 @@ const Sales = () => {
         return price;
     }
 
-    // for문 => foreach문으로 교체
+    // 02/22 foreach문 -> findIndex로 수정 
     const selectProductHandler = (selectProduct) => {
-        if (selectedProduct.length == 0){
-            selectedProduct.push(selectProduct)
-            // 조건문 수정필요함
-        } else if ( selectedProduct ) {
-            selectedProduct.push(selectProduct)
+        const index = selectedProduct.findIndex((element)=>element[0] === selectProduct[0]);
+        if(index === -1){
+            selectedProduct.push(selectProduct);
         } else {
-            selectedProduct.forEach((element, index) => {
-                if (element[index] == selectProduct[0]){
-                    element[2] += 1;
-                }
-            });
+            selectedProduct[index][2] += 1;
         }
-
-        // for문사용해서 하다 수정
-        // for (let i = 0; i < selectedProduct.length; i++) {
-        //     if (selectedProduct[i][0] === selectProduct[0]);
-        //     selectedProduct[i][2] += 1;
-
-        // }
-        // console.log('selectProduct', selectProduct);
-        // selectedProduct.push(selectProduct);
-
     }
+
+
     // 버튼눌렀을때 id, name , amount , price를 구해오는 함수
     const btnClick = (e) => {
         const id = e.target.value;
         const name = selectProductName(id);
         let amount = 1;
-        let price = selectedProductPriceHandler(id);
+        const price = selectProductPriceHandler(id);
         const selectProduct = [id, name, amount, price];
         selectProductHandler(selectProduct)
-        console.log('selectProduct', selectProduct);
-        console.log('selectedProduct', selectedProduct);
     }
 
     // 구매눌렀을대 올라갈 데이터(임시)
@@ -140,7 +122,7 @@ const Sales = () => {
         return axios.post(url, formData, config);
     };
     // useEffect 사용해서 selectList 렌더링 시켜야함 
-
+    
     return (
         <div>
             <div className={styles.salestitle}>
@@ -163,7 +145,7 @@ const Sales = () => {
                         {product &&
                             product?.map((product) => {
                                 return (
-                                    <button onClick={(e) => btnClick(e)} className={styles.product_btn1} value={product.이름}> {product.이름}</button>
+                                    <button onClick={(e) => btnClick(e)} className={styles.product_btn1} value={product.제품ID}> {product.이름}</button>
                                 )
                             })}
                     </tr>
