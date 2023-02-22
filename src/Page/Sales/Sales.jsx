@@ -2,8 +2,8 @@ import styles from "../Sales/Sales.module.css";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import SelectList from "./SelectList";
-import CustomerList from "./CustomerList";
 import PaymentMode from "./PaymentMode";
+import CustomerList from "./CustomerList";
 
 
 const Sales = () => {
@@ -139,7 +139,7 @@ const Sales = () => {
             <button onClick={() => log()}>test</button>
 
             <button className={styles.product_btn3} onClick={openModal} >고객추가</button>
-            <CustomerList open={modalOpen} close={closeModal} > </CustomerList>
+            <CustomerList open={modalOpen} close={closeModal} /> 
 
             <button className={styles.product_btn3} onClick={openModal1}>결제하기</button>
             <PaymentMode open={modalOpen1} close={closeModal1} > </PaymentMode>

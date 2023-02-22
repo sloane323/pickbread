@@ -21,7 +21,17 @@ const AddCustomer = () => {
     formData.append("name", name);
     formData.append("phone", phone);
     formData.append("comment", comment);
-    formData.append("createtime", createtime);
+    formData.append("time", new Date().toISOString().slice(0, 19).replace("T", " "));
+
+    const config = {
+      headers: { "Content-Type": "application/json" },
+    };
+    return axios.post(url, formData, config);
+  };
+  const getPoint = () => {
+    const url = "/api/point";
+    const formData = new FormData();
+    formData.append("customerId", customerId);
     const config = {
       headers: { "Content-Type": "application/json" },
     };
@@ -35,8 +45,9 @@ const AddCustomer = () => {
       setName("");
       setPhone("");
       setComment("");
-      alert("구매등록 완료");
-      navigator(-1);
+      window.location.reload();
+      alert("고객등록 완료");
+      
     } catch (e) {
       alert("구매등록 실패");
     }
@@ -45,15 +56,11 @@ const AddCustomer = () => {
   return (
     <div>
       <div>
-        <h1>Customers </h1>
+        <h3> 고객등록 </h3>
       </div>
-      <button>
-        <Link to="/customers"> 뒤로 </Link>
-      </button>
+
       <div>
         <form onSubmit={onSubmit}>
-          <div>
-            <label>
               이름
               <input
                 type="text"
@@ -61,11 +68,7 @@ const AddCustomer = () => {
                   setName(e.target.value);
                 }}
               />
-            </label>
-          </div>
 
-          <div>
-            <label>
               전화번호
               <input
                 type="text"
@@ -73,11 +76,7 @@ const AddCustomer = () => {
                   setPhone(e.target.value);
                 }}
               />
-            </label>
-          </div>
 
-          <div>
-            <label>
               코멘트
               <input
                 type="text"
@@ -86,8 +85,6 @@ const AddCustomer = () => {
                 }}
               />
               
-            </label>
-          </div>
          
           <button> 등록 </button>
         </form>
