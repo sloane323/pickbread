@@ -145,6 +145,26 @@ app.post("/api/m_stock", (req, res) => {
     }
   });
 });
+/* 제품 제작에 따른 원자재 재고 수정 */
+app.put("/api/m_stock", (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) {
+      throw err;
+    } else {
+      const sql = "UPDATE 원자재재고 SET 잔량 = 잔량 - ?, 폐기여부 = 폐기여부 + ? WHERE 재고ID = ?"
+      const materialUsage = req.body.materialUsage;
+      const materialDispose = req.body.materialDispose;
+      const selectedMaterialStockId = req.body.selectedMaterialStockId;
+      const params = [materialUsage, materialDispose, selectedMaterialStockId]
+      console.log(params);
+      conn.query(sql, params, (err, rows, fields) => {
+        res.send(rows);
+        console.log(err);
+      });
+      conn.release();
+    }
+  })
+})
 /* 원자재 폐기 */
 app.put("/api/m_stock/dispose/:id", (req, res) => {
   pool.getConnection((err, conn) => {
@@ -391,8 +411,8 @@ app.post("/api/p_stock", (req, res) => {
       const selectedProductionId = req.body.selectedProductionId;
       const presentAmount = req.body.presentAmount;
       const expiryDate = req.body.expiryDate;
-      const dispose = req.body.dispose;
-      const params = [productStockId, manufactureId, selectedProductionId, presentAmount, expiryDate, dispose];
+      const productDispose = req.body.productDispose;
+      const params = [productStockId, manufactureId, selectedProductionId, presentAmount, expiryDate, productDispose];
       conn.query(sql, params, (err, rows, fields) => {
         res.send(rows);
         console.log(err);
