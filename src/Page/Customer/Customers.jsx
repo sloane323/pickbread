@@ -1,33 +1,39 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import AddCustomer from "./AddCustomer";
 
 const Customers = () => {
   const [customers, setCustomers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [resultsPerPage, setResultsPerPage] = useState(3);
+  const [resultsPerPage, setResultsPerPage] = useState(10);
+  const totalPages = Math.ceil(customers.length / resultsPerPage);
+
   const [searchQuery, setSearchQuery] = useState("");
   const [showEditForm, setShowEditForm] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
 
-  const getCustomers = () => {
-    axios.get("/api/customer").then((response) => {
-      setCustomers(response.data);
-    });
+  const handlePaginationClick = (data) => {
+    const selectedPage = data.selected;
+    setCurrentPage(selectedPage);
   };
+
+  const getCustomers = async () => {
+    const response = await axios.get(`/api/customer?page=${currentPage}&resultsPerPage=10`);
+    setCustomers(response.data);
+  };
+  
   const nextPage = () => {
     setCurrentPage(currentPage + 1);
   };
-
+  
   const prevPage = () => {
     setCurrentPage(currentPage - 1);
   };
-
-
+  
   useEffect(() => {
     getCustomers();
-  }, []);
+  }, [currentPage]);
+  
 
   const handleSearch = (event) => {
     event.preventDefault();
@@ -82,19 +88,21 @@ const Customers = () => {
     };
 
     useEffect(() => {
-      const fetchCustomer = async () => {
-        try {
-          const response = await axios.get(`/api/customer?page=${currentPage}&resultsPerPage=${resultsPerPage}`);
-          setCustomers(response.data);
-        } catch (error) {
-          console.error(error);
-        }
+      const fetchCustomers = async () => {
+        const response = await axios.get(`/api/customer?page=${currentPage}&resultsPerPage=
+        ${resultsPerPage}`);
+        setCustomers(response.data);
       };
-    
-      fetchCustomer();
-    }, [currentPage, resultsPerPage]);
-    
   
+      fetchCustomers();
+    }, [currentPage, resultsPerPage]);
+  
+    const startIndex = currentPage * resultsPerPage;
+
+  const displayedCustomers = customer.slice(
+    startIndex,
+    startIndex + resultsPerPage
+  );
 
     return (
       <form onSubmit={handleSubmit}>
@@ -124,13 +132,17 @@ const Customers = () => {
     );
   };
 
+
+
     return (
       <div>
         <div>
-            <AddCustomer />
+          <h1>Customers 목록</h1>
         </div>
         <div>
-           <h3> 고객 조회 </h3>
+          <button>
+            <Link to="/customers/add">고객 등록하러 가기</Link>
+          </button>
         </div>
         <div>
           <form onSubmit={handleSearch}>
@@ -188,9 +200,11 @@ const Customers = () => {
           </tbody>
         </table>
         <div>
-        <button onClick={prevPage} disabled={currentPage === 1}>Prev</button>
-        <span>{currentPage}</span>
-        <button onClick={nextPage}>Next</button>
+        {Array.from({ length: totalPages }).map((_, index) => (
+          <button key={index} onClick={() => handlePaginationClick(index + 1)}>
+            {index + 1}
+          </button>
+        ))}
         </div>
               </div>
     );
