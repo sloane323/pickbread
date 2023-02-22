@@ -20,6 +20,7 @@ const AddCustomer = () => {
     formData.append("phone", phone);
     formData.append("comment", comment);
     formData.append("time", new Date().toISOString().slice(0, 19).replace("T", " "));
+
     const config = {
       headers: { "Content-Type": "application/json" },
     };
@@ -43,8 +44,9 @@ const AddCustomer = () => {
       setName("");
       setPhone("");
       setComment("");
+      window.location.reload();
       alert("고객등록 완료");
-      navigator(-1);
+      
     } catch (e) {
       alert("고객등록 실패");
     }
@@ -52,15 +54,11 @@ const AddCustomer = () => {
   return (
     <div>
       <div>
-        <h1>Customers </h1>
+        <h3> 고객등록 </h3>
       </div>
-      <button>
-        <Link to="/customers"> 뒤로 </Link>
-      </button>
+
       <div>
         <form onSubmit={onSubmit}>
-          <div>
-            <label>
               이름
               <input
                 type="text"
@@ -68,11 +66,7 @@ const AddCustomer = () => {
                   setName(e.target.value);
                 }}
               />
-            </label>
-          </div>
 
-          <div>
-            <label>
               전화번호
               <input
                 type="text"
@@ -80,11 +74,7 @@ const AddCustomer = () => {
                   setPhone(e.target.value);
                 }}
               />
-            </label>
-          </div>
 
-          <div>
-            <label>
               코멘트
               <input
                 type="text"
@@ -93,8 +83,6 @@ const AddCustomer = () => {
                 }}
               />
               
-            </label>
-          </div>
          
           <button> 등록 </button>
         </form>

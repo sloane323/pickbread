@@ -1,9 +1,12 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import AddCustomer from "./AddCustomer";
 
 const Customers = () => {
   const [customers, setCustomers] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [resultsPerPage, setResultsPerPage] = useState(3);
   const [searchQuery, setSearchQuery] = useState("");
   const [showEditForm, setShowEditForm] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
@@ -13,6 +16,14 @@ const Customers = () => {
       setCustomers(response.data);
     });
   };
+  const nextPage = () => {
+    setCurrentPage(currentPage + 1);
+  };
+
+  const prevPage = () => {
+    setCurrentPage(currentPage - 1);
+  };
+
 
   useEffect(() => {
     getCustomers();
@@ -53,24 +64,37 @@ const Customers = () => {
     setShowEditForm(false);
     setSelectedCustomer(null);
   };
+  
   const handleDelete = (id) => {
     axios.delete(`/api/customer`, { data: { id } }).then((response) => {
       const updatedCustomers = customers.filter((c) => c.고객ID !== id);
       setCustomers(updatedCustomers);
     });
   };
-
-
   const EditForm = ({ customer, onSave, onCancel }) => {
-    const [name, setName] = useState(customer.name);
-    const [phone, setPhone] = useState(customer.phone);
-    const [comment, setComment] = useState(customer.comment);
-
+    const [name, setName] = useState(customer.이름);
+    const [phone, setPhone] = useState(customer.전화번호);
+    const [comment, setComment] = useState(customer.코멘트);
 
     const handleSubmit = (event) => {
       window.location.reload();
       onSave({ ...customer, name, phone,comment });
     };
+
+    useEffect(() => {
+      const fetchCustomer = async () => {
+        try {
+          const response = await axios.get(`/api/customer?page=${currentPage}&resultsPerPage=${resultsPerPage}`);
+          setCustomers(response.data);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+    
+      fetchCustomer();
+    }, [currentPage, resultsPerPage]);
+    
+  
 
     return (
       <form onSubmit={handleSubmit}>
@@ -103,12 +127,10 @@ const Customers = () => {
     return (
       <div>
         <div>
-          <h1>Customers 목록</h1>
+            <AddCustomer />
         </div>
         <div>
-          <button>
-            <Link to="/customers/add">고객 등록하러 가기</Link>
-          </button>
+           <h3> 고객 조회 </h3>
         </div>
         <div>
           <form onSubmit={handleSearch}>
@@ -138,6 +160,7 @@ const Customers = () => {
         <table>
           <thead>
             <tr>
+              <th>V</th>
               <th>no</th>
               <th>고객명</th>
               <th>전화번호</th>
@@ -148,22 +171,27 @@ const Customers = () => {
           </thead>
           <tbody>
             {customers &&
-              customers.map((d, idx) => (
+              customers.map((customer, idx) => (
                 <tr key={idx}>
+                  <td> <input type="checkbox"></input></td>
                   <td>{idx + 1}</td>
-                  <td>{d.이름}</td>
-                  <td>{d.전화번호}</td>
-                  <td>{d.코멘트}</td>
-                  <td>{d.등록일}</td>
+                  <td>{customer.이름}</td>
+                  <td>{customer.전화번호}</td>
+                  <td>{customer.코멘트}</td>
+                  <td>{customer.등록일}</td>
                   <td>
-                  <button onClick={() => handleDelete(d.고객ID)}>삭제</button> 
-                    <button onClick={() => handleEdit(d)}>수정</button>
+                  <button onClick={() => handleDelete(customer.고객ID)}>삭제</button> 
+                    <button onClick={() => handleEdit(customer)}>수정</button>
                   </td>
                 </tr>
               ))}
           </tbody>
         </table>
-        
+        <div>
+        <button onClick={prevPage} disabled={currentPage === 1}>Prev</button>
+        <span>{currentPage}</span>
+        <button onClick={nextPage}>Next</button>
+        </div>
               </div>
     );
     
