@@ -443,13 +443,13 @@ app.post("/api/customer", (req, res) => {
     if (err) {
       throw err;
     } else {
-      const sql = "INSERT INTO 고객 VALUES(?, ?, ?, ?)";
-      const id = req.body.id;
+      const sql = "INSERT INTO 고객 VALUES(?, ?, ?, ?,?)";
+      const customerId = req.body.customerId;
       const name = req.body.name;
       const phone = req.body.phone;
       const comment = req.body.comment;
-      const createtime = req.body.createtime;
-      const params = [id, name, phone, comment, createtime];
+      const time = req.body.time;
+      const params = [customerId, name, phone, comment,time];
       conn.query(sql, params, (err, rows, fields) => {
         res.send(rows);
         console.log("등록성공");
@@ -459,12 +459,26 @@ app.post("/api/customer", (req, res) => {
     }
   });
 });
+
+/** 고객삭제 */
+app.delete("/api/customer", (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) throw err;
+    const sql = `DELETE FROM 고객 WHERE 고객ID = "${req.body.id}"`;
+    conn.query(sql, (err, rows, fields) => {
+      res.send(rows);
+    });
+    conn.release();
+  });
+});
+
+/* 포인트 */
 app.post("/api/point", (req, res) => {
   pool.getConnection((err, conn) => {
     if (err) {
       throw err;
     } else {
-      const sql = "INSERT INTO 포인트 VALUES(?, ?, ?, ?, ?)";
+      const sql = "INSERT INTO 포인트 VALUES(?, ?, ?, ?)";
       const point = 1000;
       const id = Math.random().toString(32).slice(2);
       const customerId = req.body.customerId;

@@ -2,8 +2,8 @@ import styles from "../Sales/Sales.module.css";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import SelectList from "./SelectList";
-import CustomerList from "./CustomerList";
 import PaymentMode from "./PaymentMode";
+import CustomerList from "./CustomerList";
 
 
 const Sales = () => {
@@ -63,7 +63,7 @@ const Sales = () => {
         console.log('p_stock', p_stock);
         console.log('selectedProduct', selectedProduct);
         for (let i = 0; i < product.length; i++) {
-            console.log('product제품이름', product[i].제품이름);
+           // console.log('product제품이름', product[i].제품이름);
         }
     }
     // for문 => foreach문으로 교체
@@ -102,15 +102,6 @@ const Sales = () => {
             });
         }
 
-        // for문사용해서 하다 수정
-        // for (let i = 0; i < selectedProduct.length; i++) {
-        //     if (selectedProduct[i][0] === selectProduct[0]);
-        //     selectedProduct[i][2] += 1;
-
-        // }
-        // console.log('selectProduct', selectProduct);
-        // selectedProduct.push(selectProduct);
-
     }
     // 버튼눌렀을때 id, name , amount , price를 구해오는 함수
     const btnClick = (e) => {
@@ -148,7 +139,7 @@ const Sales = () => {
             <button onClick={() => log()}>test</button>
 
             <button className={styles.product_btn3} onClick={openModal} >고객추가</button>
-            <CustomerList open={modalOpen} close={closeModal} > </CustomerList>
+            <CustomerList open={modalOpen} close={closeModal} /> 
 
             <button className={styles.product_btn3} onClick={openModal1}>결제하기</button>
             <PaymentMode open={modalOpen1} close={closeModal1} > </PaymentMode>
@@ -163,7 +154,8 @@ const Sales = () => {
                         {product &&
                             product?.map((product) => {
                                 return (
-                                    <button onClick={(e) => btnClick(e)} className={styles.product_btn1} value={product.이름}> {product.이름}</button>
+                                    <button onClick={(e) => btnClick(e)} 
+                                    className={styles.product_btn1} value={product.이름}> {product.이름}</button>
                                 )
                             })}
                     </tr>
