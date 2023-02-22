@@ -4,8 +4,6 @@ import { useState } from "react";
 
 const AddCustomer = () => {
   const customerId =Math.random().toString(32).slice(2);
-  const date = new Date();
-  const createtime = date.toLocaleString();
   const navigator = useNavigate();
   // 입력받을 state
   const [phone, setPhone] = useState("");
@@ -21,7 +19,7 @@ const AddCustomer = () => {
     formData.append("name", name);
     formData.append("phone", phone);
     formData.append("comment", comment);
-    formData.append("createtime", createtime);
+    formData.append("time", new Date().toISOString().slice(0, 19).replace("T", " "));
     const config = {
       headers: { "Content-Type": "application/json" },
     };
@@ -51,7 +49,6 @@ const AddCustomer = () => {
       alert("고객등록 실패");
     }
   };
-  console.log(createtime)
   return (
     <div>
       <div>

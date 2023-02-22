@@ -14,6 +14,18 @@ const GetProduct = () => {
     const response = await axios.get(url);
     setRecipes(response.data);
   };
+  const deleteData = (url, id) => {
+    return axios.delete(url, { data: { id } });
+  };
+  const deleteHandler = async (id) => {
+    const filteredRecipe = recipes.filter((recipe) => recipe.제품ID === id);
+    for(let recipes of filteredRecipe){
+      await deleteData("/api/recipe", recipes.레시피ID);  
+    }
+    await deleteData("/api/product", id);
+    getProducts();
+    getRecipes();
+  };
   useEffect(() => {
     getProducts();
     getRecipes();
@@ -35,6 +47,7 @@ const GetProduct = () => {
             <th>사이즈</th>
             <th>가격</th>
             <th>레시피</th>
+            <th>설정</th>
           </tr>
         </thead>
         <tbody>
@@ -55,10 +68,16 @@ const GetProduct = () => {
                         .filter((recipe) => {
                           return recipe.제품ID === product.제품ID;
                         })
-                        .map((recipe) => {
-                          return <li>{recipe.이름}</li>;
+                        .map((recipe, idx) => {
+                          return <li key={idx}>{recipe.이름}</li>;
                         })}
                   </ul>
+                </td>
+                <td>
+                  <button>
+                    <Link to={`/production/edit-product/${product.제품ID}`}>수정</Link>
+                  </button>
+                  <button onClick={() => deleteHandler(product.제품ID)}>삭제</button>
                 </td>
               </tr>
             ))}

@@ -53,6 +53,13 @@ const Customers = () => {
     setShowEditForm(false);
     setSelectedCustomer(null);
   };
+  const handleDelete = (id) => {
+    axios.delete(`/api/customer`, { data: { id } }).then((response) => {
+      const updatedCustomers = customers.filter((c) => c.고객ID !== id);
+      setCustomers(updatedCustomers);
+    });
+  };
+
 
   const EditForm = ({ customer, onSave, onCancel }) => {
     const [name, setName] = useState(customer.name);
@@ -134,8 +141,8 @@ const Customers = () => {
               <th>no</th>
               <th>고객명</th>
               <th>전화번호</th>
-              <th>포인트</th>
-              <th>기타</th>
+              <th>코멘트</th>
+              <th>시간</th>
               <th>설정</th>
             </tr>
           </thead>
@@ -149,6 +156,7 @@ const Customers = () => {
                   <td>{d.코멘트}</td>
                   <td>{d.등록일}</td>
                   <td>
+                  <button onClick={() => handleDelete(d.고객ID)}>삭제</button> 
                     <button onClick={() => handleEdit(d)}>수정</button>
                   </td>
                 </tr>
