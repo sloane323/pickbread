@@ -522,7 +522,6 @@ app.post("/api/point/", (req, res) => {
       const id = Math.random().toString(32).slice(2);
       const customerId = req.body.customerId;
       const content = "신규 등록";
-      ƒ;
       const params = [id, customerId, content, point];
       conn.query(sql, params, (err, rows, fields) => {
         res.send(rows);
