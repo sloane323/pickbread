@@ -40,7 +40,15 @@ const StockDetail = () => {
             <td>잔량</td>
             <td>사용기한</td>
             <td>폐기여부</td>
-            <td>설정</td>
+            <td>폐기여부설정</td>
+            <td>현재가격</td>
+            <td>기준가격</td>
+            <td>카테고리</td>
+            <td>유효기한</td>
+            <td>브랜드</td>
+            <td>낱개바코드</td>
+            <td>박스바코드</td>
+            <td>원산지</td>
           </tr>
         </thead>
         <tbody>
@@ -63,6 +71,14 @@ const StockDetail = () => {
               <td>
                 <button onClick={() => disposeStockHandler(stock.재고ID, stock.폐기여부)}>{stock.폐기여부 ? "폐기취소" : "폐기"}</button>
               </td>
+              <td>{stock.현재가격}</td>
+              <td>{stock.기준가격}</td>
+              <td>{stock.카테고리}</td>
+              <td>{stock.유효기한}</td>
+              <td>{stock.브랜드}</td>
+              <td>{stock.낱개바코드}</td>
+              <td>{stock.박스바코드}</td>
+              <td>{stock.원산지}</td>
             </tr>
           ) : (
             <tr>
