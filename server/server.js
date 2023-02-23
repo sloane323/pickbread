@@ -516,7 +516,7 @@ app.post("/api/point", (req, res) => {
 
 // 고객 검색 & 검색
 app.get("/api/customer", (req, res) => {
-  const resultsPerPage = 10;
+  const resultsPerPage = 7;
   const currentPage = req.query.page || 1;
   const offset = (currentPage - 1) * resultsPerPage;
 
@@ -524,14 +524,17 @@ app.get("/api/customer", (req, res) => {
     if (err) {
       throw err;
     } else {
+      let sqlCount = `SELECT COUNT(*) as total FROM 고객`;
       let sql = `SELECT * FROM 고객 ORDER BY 이름 LIMIT ${resultsPerPage} OFFSET ${offset}`;
       if (req.query.search) {
+        sqlCount = `SELECT COUNT(*) as total FROM 고객 WHERE 이름 = '${req.query.search}'`;
         sql = `SELECT * FROM 고객 WHERE 이름 = '${req.query.search}' ORDER BY 이름 LIMIT ${resultsPerPage} OFFSET ${offset}`;
       }
       conn.query(sql, (err, rows, fields) => {
         if (err) {
           throw err;
         } else {
+          
           res.send(rows);
         }
       });
