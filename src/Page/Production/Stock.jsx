@@ -37,16 +37,12 @@ const Stock = () => {
         <thead>
           <tr>
             <td>이름</td>
+            <td>원자재ID</td>
             <td>사이즈</td>
             <td>단위</td>
             <td>현재가격</td>
             <td>기준가격</td>
-            <td>카테고리</td>
-            <td>유효기한</td>
-            <td>브랜드</td>
-            <td>낱개바코드</td>
-            <td>박스바코드</td>
-            <td>원산지</td>
+            <td>재고</td>
             <td>원자재 재고 상세 조회</td>
           </tr>
         </thead>
@@ -55,16 +51,12 @@ const Stock = () => {
             materialStocks.map((materialStock) => (
               <tr key={materialStock.원자재ID}>
                 <td>{materialStock.이름}</td>
+                <td>{materialStock.원자재ID}</td>
                 <td>{materialStock.사이즈}</td>
                 <td>{materialStock.단위}</td>
                 <td>{materialStock.현재가격}</td>
                 <td>{materialStock.기준가격}</td>
-                <td>{materialStock.카테고리}</td>
-                <td>{materialStock.유효기한}</td>
-                <td>{materialStock.브랜드}</td>
-                <td>{materialStock.낱개바코드}</td>
-                <td>{materialStock.박스바코드}</td>
-                <td>{materialStock.원산지}</td>
+                {materialStock.재고 ? <td>{materialStock.재고}</td> : <td>SOLD OUT</td>}
                 <td>
                   <Link to={`/production/stock/${materialStock.원자재ID}`}>
                     ▶재고확인(detail)
