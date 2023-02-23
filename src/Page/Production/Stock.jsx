@@ -83,25 +83,25 @@ const Stock = () => {
       <table>
         <thead>
           <tr>
-            <td>재고ID</td>
-            <td>생산ID</td>
+            <td>이름</td>
+            <td>사이즈</td>
             <td>제품ID</td>
-            <td>잔량</td>
-            <td>유통기한</td>
-            <td>폐기여부</td>
+            <td>단위</td>
+            <td>가격</td>
+            <td>재고</td>
             <td>재고확인</td>
           </tr>
         </thead>
         <tbody>
           {productStocks ? (
             productStocks.map((productStock) => (
-              <tr key={productStock.재고ID}>
-                <td>{productStock.재고ID}</td>
-                <td>{productStock.생산ID}</td>
+              <tr key={productStock.제품ID}>
+                <td>{productStock.이름}</td>
+                <td>{productStock.사이즈}</td>
                 <td>{productStock.제품ID}</td>
-                <td>{productStock.잔량}</td>
-                <td>{productStock.유통기한}</td>
-                <td>{productStock.폐기여부}</td>
+                <td>{productStock.단위}</td>
+                <td>{productStock.가격}</td>
+                {productStock.재고 ? <td>{productStock.재고}</td> : <td>SOLD OUT</td>}
                 <td>
                   <Link to={`/production/product/${productStock.제품ID}`}>
                     ▶재고확인(detail)

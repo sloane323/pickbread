@@ -397,7 +397,7 @@ app.get("/api/p_stock", (req, res) => {
     if (err) {
       throw err;
     } else {
-      const sql = "SELECT * FROM 제품재고";
+      const sql = "SELECT DISTINCT 제품.*, (SELECT SUM(잔량) FROM 제품재고 WHERE 제품.제품ID = 제품재고.제품ID) AS 재고 FROM 제품;";
       conn.query(sql, (err, rows, fields) => {
         res.send(rows);
       });
