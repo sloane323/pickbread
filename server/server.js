@@ -535,13 +535,17 @@ app.post("/api/point", (req, res) => {
 
 // 고객 검색 & 검색
 app.get("/api/customer", (req, res) => {
+  const resultsPerPage = 10;
+  const currentPage = req.query.page || 1;
+  const offset = (currentPage - 1) * resultsPerPage;
+
   pool.getConnection((err, conn) => {
     if (err) {
       throw err;
     } else {
-      let sql = "SELECT * FROM 고객 order by 이름";
+      let sql = `SELECT * FROM 고객 ORDER BY 이름 LIMIT ${resultsPerPage} OFFSET ${offset}`;
       if (req.query.search) {
-        sql = `select * from 고객 where 이름 = '${req.query.search}'`;
+        sql = `SELECT * FROM 고객 WHERE 이름 = '${req.query.search}' ORDER BY 이름 LIMIT ${resultsPerPage} OFFSET ${offset}`;
       }
       conn.query(sql, (err, rows, fields) => {
         if (err) {
