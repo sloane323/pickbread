@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap');
+body {
+    font-family: 'Gowun Dodum', sans-serif;
+}
+
+button {
+    font-family: 'Gowun Dodum', sans-serif;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 0.5em;
+    margin: 1px;
+
+}
+
+button:hover {
+    background-color: black;
+    border: 1px solid white;
+    color:white;
+}
+
+input {
+    background: #fff;
+    border: none;
+    border-bottom: 1px solid black;
+    padding: 8px;
+}
+input:active {
+    border-bottom: 1px solid red;
+
+}

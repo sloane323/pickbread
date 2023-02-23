@@ -559,7 +559,7 @@ app.post("/api/point", (req, res) => {
 
 // 고객 검색 & 검색
 app.get("/api/customer", (req, res) => {
-  const resultsPerPage = 10;
+  const resultsPerPage = 7;
   const currentPage = req.query.page || 1;
   const offset = (currentPage - 1) * resultsPerPage;
   pool.getConnection((err, conn) => {
@@ -586,6 +586,7 @@ app.get("/api/customer", (req, res) => {
         if (err) {
           throw err;
         } else {
+          
           res.send(rows);
         }
       });
