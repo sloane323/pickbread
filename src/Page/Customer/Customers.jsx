@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import AddCustomer from "./AddCustomer";
 
 const Customers = () => {
   const [customers, setCustomers] = useState([]);
@@ -22,13 +23,7 @@ const Customers = () => {
     setCustomers(response.data);
   };
   
-  const nextPage = () => {
-    setCurrentPage(currentPage + 1);
-  };
-  
-  const prevPage = () => {
-    setCurrentPage(currentPage - 1);
-  };
+
   
   useEffect(() => {
     getCustomers();
@@ -99,10 +94,6 @@ const Customers = () => {
   
     const startIndex = currentPage * resultsPerPage;
 
-  const displayedCustomers = customer.slice(
-    startIndex,
-    startIndex + resultsPerPage
-  );
 
     return (
       <form onSubmit={handleSubmit}>
@@ -140,11 +131,10 @@ const Customers = () => {
           <h1>Customers 목록</h1>
         </div>
         <div>
-          <button>
-            <Link to="/customers/add">고객 등록하러 가기</Link>
-          </button>
+        <AddCustomer />
         </div>
         <div>
+          <h3>고객검색</h3>
           <form onSubmit={handleSearch}>
             <input
               type="text"
