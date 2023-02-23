@@ -1,7 +1,8 @@
 import styles from "../Sales/Sales.module.css";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import SelectList from "./SelectList";
+import SelectList from "../../components/sales/SelectList";
+import CustomerList from "./CustomerList";
 import PaymentMode from "./PaymentMode";
 import CustomerList from "./CustomerList";
 
@@ -13,10 +14,10 @@ const Sales = () => {
     const [selectedProduct, setSelectedProduct] = useState([])
 
     const [selectedP_stock, setSelectedP_stock] = useState("")
-    const [purchaseingProducts, setPurchaingProducts] = useState([])
+    
     const [selectProduct, setSelectProduct] = useState();
     const [saleDate, setSaleDate] = useState(new Date().toISOString().slice(0, 10));
-    const totalCost = purchaseingProducts
+    
 
     const [modalOpen, setModalOpen] = useState(false);
     const [modalOpen1, setModalOpen1] = useState(false);
@@ -74,6 +75,7 @@ const Sales = () => {
         })
         return name
     }
+
     // for문 => foreach문으로 교체
     // 버튼을 눌렀을때ID(a)와 제품ID가 같은 데이터의 가격을 불러옴
     const selectProductPriceHandler = (a) => {
@@ -89,12 +91,13 @@ const Sales = () => {
     const selectProductHandler = (selectProduct) => {
         const index = selectedProduct.findIndex((element)=>element[0] === selectProduct[0]);
         if(index === -1){
-            selectedProduct.push(selectProduct);
+            setSelectedProduct(prev => [...prev , selectProduct])
         } else {
+        const updateSelectedProduct = [...selectedProduct]; 
             selectedProduct[index][2] += 1;
+            setSelectedProduct(updateSelectedProduct)
         }
     }
-
 
     // 버튼눌렀을때 id, name , amount , price를 구해오는 함수
     const btnClick = (e) => {
@@ -106,6 +109,7 @@ const Sales = () => {
         selectProductHandler(selectProduct)
     }
 
+
     // 구매눌렀을대 올라갈 데이터(임시)
     const saleslog = () => {
         const url = "/api/sales";
@@ -113,7 +117,6 @@ const Sales = () => {
         const formData = new FormData();
         formData.append("productID", product);
         formData.append("customerID", customer);
-        formData.append("totalCost", totalCost);
         formData.append("salesID", salesID);
         formData.append("purchaseDate", saleDate);
         const config = {
@@ -121,8 +124,7 @@ const Sales = () => {
         };
         return axios.post(url, formData, config);
     };
-    // useEffect 사용해서 selectList 렌더링 시켜야함 
-    
+
     return (
         <div>
             <div className={styles.salestitle}>
