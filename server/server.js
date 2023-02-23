@@ -124,11 +124,11 @@ app.put("/api/m_stock", (req, res) => {
     if (err) {
       throw err;
     } else {
-      const sql = "UPDATE 원자재재고 SET 잔량 = 잔량 - ?, 폐기여부 = 폐기여부 + ? WHERE 재고ID = ?"
+      const sql = "UPDATE 원자재재고 SET 잔량 = 잔량 - ?, 폐기여부 = 폐기여부 + ? WHERE 재고ID = ?";
       const materialUsage = req.body.materialUsage;
       const materialDispose = req.body.materialDispose;
       const selectedMaterialStockId = req.body.selectedMaterialStockId;
-      const params = [materialUsage, materialDispose, selectedMaterialStockId]
+      const params = [materialUsage, materialDispose, selectedMaterialStockId];
       console.log(params);
       conn.query(sql, params, (err, rows, fields) => {
         res.send(rows);
@@ -136,8 +136,8 @@ app.put("/api/m_stock", (req, res) => {
       });
       conn.release();
     }
-  })
-})
+  });
+});
 /* 원자재 폐기 */
 app.put("/api/m_stock/dispose/:id", (req, res) => {
   pool.getConnection((err, conn) => {
@@ -154,7 +154,7 @@ app.put("/api/m_stock/dispose/:id", (req, res) => {
 /* 원자재재고 조회 */
 app.get("/api/m_stock", (req, res) => {
   pool.getConnection((err, conn) => {
-    if(err) {
+    if (err) {
       throw err;
     } else {
       const sql = "SELECT * FROM 원자재재고";
@@ -199,10 +199,10 @@ app.post("/api/purchasing", (req, res) => {
 /* 원자재 사용량 등록 */
 app.post("/api/m_usage", (req, res) => {
   pool.getConnection((err, conn) => {
-    if(err) {
+    if (err) {
       throw err;
     } else {
-      const sql = "INSERT INTO 원자재사용량 VALUES (?, ?, ?, ?)"
+      const sql = "INSERT INTO 원자재사용량 VALUES (?, ?, ?, ?)";
       const usageId = Math.random().toString(32).slice(2);
       const manufactureId = req.body.manufactureId;
       const selectedMaterialStockId = req.body.selectedMaterialStockId;
@@ -211,11 +211,11 @@ app.post("/api/m_usage", (req, res) => {
       conn.query(sql, params, (err, rows, fields) => {
         res.send(rows);
         console.log(err);
-      })
+      });
       conn.release();
     }
-  })
-})
+  });
+});
 /* 제품 등록(product 경로) */
 app.post("/api/product", (req, res) => {
   pool.getConnection((err, conn) => {
@@ -469,7 +469,7 @@ app.post("/api/customer", (req, res) => {
       const phone = req.body.phone;
       const comment = req.body.comment;
       const time = req.body.time;
-      const params = [customerId, name, phone, comment,time];
+      const params = [customerId, name, phone, comment, time];
       conn.query(sql, params, (err, rows, fields) => {
         res.send(rows);
         console.log("등록성공");
@@ -524,9 +524,19 @@ app.get("/api/customer", (req, res) => {
     if (err) {
       throw err;
     } else {
-      let sql = `SELECT * FROM 고객 ORDER BY 이름 LIMIT ${resultsPerPage} OFFSET ${offset}`;
+      let sql = `SELECT 고객.*, 포인트.포인트, (SELECT CEIL(COUNT(*) / ${resultsPerPage}) AS 페이지수 FROM 고객) AS 페이지수
+      FROM 고객
+      LEFT JOIN 포인트
+      ON 고객.고객ID = 포인트.고객ID
+      ORDER BY 이름
+      LIMIT ${resultsPerPage} OFFSET ${offset}`;
       if (req.query.search) {
-        sql = `SELECT * FROM 고객 WHERE 이름 = '${req.query.search}' ORDER BY 이름 LIMIT ${resultsPerPage} OFFSET ${offset}`;
+        sql = `SELECT 고객.*, 포인트.포인트, (SELECT CEIL(COUNT(*) / ${resultsPerPage}) FROM 고객 WHERE 이름 = '${req.query.search}') AS 페이지수
+        FROM 고객
+        LEFT JOIN 포인트
+        ON 고객.고객ID = 포인트.고객ID  
+        WHERE 이름 = '${req.query.search}'
+        ORDER BY 이름 LIMIT ${resultsPerPage} OFFSET ${offset}`;
       }
       conn.query(sql, (err, rows, fields) => {
         if (err) {
