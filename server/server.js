@@ -537,29 +537,24 @@ app.post("/api/point/", (req, res) => {
 
 // 고객 검색 & 검색
 app.get("/api/customer", (req, res) => {
-  const resultsPerPage = 10;
+  const resultsPerPage = 7;
   const currentPage = req.query.page || 1;
   const offset = (currentPage - 1) * resultsPerPage;
   pool.getConnection((err, conn) => {
     if (err) {
       throw err;
     } else {
-      let sql = `SELECT DISTINCT 고객.*, (SELECT SUM(포인트) FROM 포인트 WHERE 고객.고객ID = 포인트.고객ID) AS 포인트,
-      (SELECT CEIL(COUNT(*) / ${resultsPerPage}) FROM 고객) AS 페이지수
-      FROM 고객
-      ORDER BY 이름
-      LIMIT ${resultsPerPage} OFFSET ${offset}`;
+      let sqlCount = `SELECT COUNT(*) as total FROM 고객`;
+      let sql = `SELECT * FROM 고객 ORDER BY 이름 LIMIT ${resultsPerPage} OFFSET ${offset}`;
       if (req.query.search) {
-        sql = `SELECT DISTINCT 고객.*, (SELECT SUM(포인트) FROM 포인트 WHERE 고객.고객ID = 포인트.고객ID) AS 포인트,
-        (SELECT CEIL(COUNT(*) / ${resultsPerPage}) FROM 고객 WHERE 이름 = '${req.query.search}') AS 페이지수
-        FROM 고객
-        WHERE 이름 = '${req.query.search}'
-        ORDER BY 이름 LIMIT ${resultsPerPage} OFFSET ${offset}`;
+        sqlCount = `SELECT COUNT(*) as total FROM 고객 WHERE 이름 = '${req.query.search}'`;
+        sql = `SELECT * FROM 고객 WHERE 이름 = '${req.query.search}' ORDER BY 이름 LIMIT ${resultsPerPage} OFFSET ${offset}`;
       }
       conn.query(sql, (err, rows, fields) => {
         if (err) {
           throw err;
         } else {
+          
           res.send(rows);
         }
       });
