@@ -516,12 +516,13 @@ app.post("/api/point", (req, res) => {
     if (err) {
       throw err;
     } else {
-      const sql = "INSERT INTO 포인트 VALUES(?, ?, ?, ?)";
+      const sql = "INSERT INTO 포인트 VALUES(?, ?, null, ?, ?)";
       const point = 1000;
       const id = Math.random().toString(32).slice(2);
       const customerId = req.body.customerId;
       const content = "신규 등록";
-      const params = [id, customerId, null, content, point];
+      ƒ;
+      const params = [id, customerId, content, point];
       conn.query(sql, params, (err, rows, fields) => {
         res.send(rows);
         console.log("등록성공");
@@ -538,19 +539,20 @@ app.get("/api/customer", (req, res) => {
   const resultsPerPage = 10;
   const currentPage = req.query.page || 1;
   const offset = (currentPage - 1) * resultsPerPage;
-
   pool.getConnection((err, conn) => {
     if (err) {
       throw err;
     } else {
-      let sql = `SELECT 고객.*, 포인트.포인트, (SELECT CEIL(COUNT(*) / ${resultsPerPage}) AS 페이지수 FROM 고객) AS 페이지수
+      let sql = `SELECT DISTINCT 고객.*, (SELECT SUM(포인트) FROM 포인트 WHERE 고객.고객ID = 포인트.고객ID) AS 포인트,
+      (SELECT CEIL(COUNT(*) / ${resultsPerPage}) FROM 고객) AS 페이지수
       FROM 고객
       LEFT JOIN 포인트
       ON 고객.고객ID = 포인트.고객ID
       ORDER BY 이름
       LIMIT ${resultsPerPage} OFFSET ${offset}`;
       if (req.query.search) {
-        sql = `SELECT 고객.*, 포인트.포인트, (SELECT CEIL(COUNT(*) / ${resultsPerPage}) FROM 고객 WHERE 이름 = '${req.query.search}') AS 페이지수
+        sql = `SELECT DISTINCT 고객.*, (SELECT SUM(포인트) FROM 포인트 WHERE 고객.고객ID = 포인트.고객ID) AS 포인트,
+        (SELECT CEIL(COUNT(*) / ${resultsPerPage}) FROM 고객 WHERE 이름 = '${req.query.search}') AS 페이지수
         FROM 고객
         LEFT JOIN 포인트
         ON 고객.고객ID = 포인트.고객ID  
