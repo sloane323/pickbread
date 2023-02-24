@@ -13,12 +13,10 @@ const GetPurchase = () => {
   },[])
   return (
     <div>
-      <Link to="/production/add-purchase">원자재 구매 등록</Link>
       <div>
         <input type="text" />
         <button> 검색 </button>
       </div>
-      <h2>조회</h2>
       <table>
         <thead>
           <tr>
