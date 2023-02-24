@@ -60,36 +60,43 @@ const AddCustomer = () => {
       </div>
 
       <div>
-        <form onSubmit={onSubmit}>
-              이름
+
+        <div class="input-wrapper">
               <input
                 type="text"
                 onChange={(e) => {
                   setName(e.target.value);
                 }}
+                required
               />
+                <label for="name">이름</label>
+        </div>
 
-              전화번호
+        <div class="input-wrapper">
               <input
                 type="text"
                 onChange={(e) => {
                   setPhone(e.target.value);
                 }}
-              />
+                required/>
+              <label for="phone">전화번호</label>
+        </div>
 
-              코멘트
+        <div class="input-wrapper">
               <input
                 type="text"
                 onChange={(e) => {
                   setComment(e.target.value);
                 }}
+                required
               />
-              
+              <label for="comment">코멘트</label>
+        </div>
          
-          <button> 등록 </button>
-        </form>
+          <button onClick={onSubmit}> 등록 </button>
+
       </div>
-    </div>
+      </div>
   );
 };
 

@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap');
+
 body {
     font-family: 'Gowun Dodum', sans-serif;
 }
@@ -6,25 +7,81 @@ body {
 button {
     font-family: 'Gowun Dodum', sans-serif;
     background-color: white;
-    border: 1px solid black;
+    border: 1px solid #bbb;
     border-radius: 0.5em;
     margin: 1px;
-
+    padding: 5px;
+    width: 10em;
+    height: 3em;
 }
 
 button:hover {
-    background-color: black;
+    background-color: #FF0000;
     border: 1px solid white;
     color:white;
 }
 
-input {
-    background: #fff;
-    border: none;
-    border-bottom: 1px solid black;
-    padding: 8px;
+.input-wrapper {
+  position:relative;
+  line-height:14px;
+  margin:0 10px;
+  display:inline-block;
 }
-input:active {
-    border-bottom: 1px solid red;
 
+label {
+  color:#bbb;
+  font-size:11px;
+  text-transform:uppercase;
+  position:absolute;
+  z-index:2;
+  left:20px;
+  top:14px;
+  padding:0 2px;
+  pointer-events:none;
+  background:white;
+  transition:transform 100ms ease;
+  transform:translateY(-20px);
+}
+
+input  {
+  font-size:13px;
+  color:#555;
+  outline:none;
+  border:1px solid #bbb;
+  padding:10px 20px;
+  border-radius:5px;
+  position:relative;
+}
+
+input:invalid + label {
+    transform:translateY(0);}
+    
+input:focus {
+    border-color:#FF0000;}
+
+input + label {
+      color:#FF0000;
+      transform:translateY(-20px);}
+
+table {
+        width:100%;
+        border:1px solid black;
+        color:black;
+        text-align: center;
+    }
+
+tr.thead {
+	display:flex;
+	width:100%;
+	background:white;
+	padding:1px 0;
+    text-align: center;
+    border-bottom:1px solid black;
+}
+
+td.thead {
+    display:flex;
+	width:100%;
+	padding:1px 0;
+    text-align: center;
 }
