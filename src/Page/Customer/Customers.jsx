@@ -29,10 +29,6 @@ const Customers = () => {
     });
   };
 
-  const handleReset = () => {
-    setSearchQuery("");
-    getCustomers();
-  };
 
   const handleEdit = (customer) => {
     setSelectedCustomer(customer);
@@ -96,14 +92,14 @@ const Customers = () => {
   };
   return (
     <div>
-      <div>
-        <h1>Customers 목록</h1>
-      </div>
+
       <div>
         <AddCustomer />
       </div>
+
+      <div></div>
+      <h3>고객 조회</h3>
       <div>
-        <h3>고객검색</h3>
         <form onSubmit={handleSearch}>
         <div class="input-wrapper">
           <input type="text" name="searchQuery" 
@@ -112,13 +108,8 @@ const Customers = () => {
           <label for="comment">이름 & 전화번호</label>
           </div>
           <button type="submit">Search</button>
-          <button type="button" onClick={handleReset}>
-            Reset
-          </button>
         </form>
-      </div>
-      <div></div>
-      <h2>조회</h2>
+      </div> <br />
       {showEditForm && selectedCustomer && (
         <div>
           <EditForm customer={selectedCustomer} onSave={handleSave} onCancel={handleCancel} /> <hr />
@@ -170,6 +161,7 @@ const Customers = () => {
               );
             })}
       </div>
+
     </div>
   );
 };
