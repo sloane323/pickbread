@@ -1,10 +1,12 @@
 import styles from "../Sales/Sales.module.css";
 import axios from "axios";
 import { useState, useEffect } from "react";
+
 import SelectList from "../../components/sales/SelectList";
 import CustomerList from "./CustomerList";
 import PaymentMode from "./PaymentMode";
 import TotalCost from "../../components/sales/TotalCost";
+
 const Sales = () => {
     const [product, setProduct] = useState("");
     const [customer, setCustomer] = useState("");
@@ -61,6 +63,7 @@ const Sales = () => {
         console.log('customer', customer);
         console.log('p_stock', p_stock);
         console.log('selectedProduct', [...selectedProduct]);
+
         }
     
     
@@ -106,6 +109,8 @@ const Sales = () => {
             selectedProduct[index][2] += 1;
             setSelectedProduct(updateSelectedProduct)
         }
+
+
     }
     
     // 총 합 가격 함수
@@ -148,7 +153,6 @@ const Sales = () => {
 
             <button className={styles.product_btn3} onClick={openModal} >고객추가</button>
             <CustomerList open={modalOpen} close={closeModal} />
-
             <button className={styles.product_btn3} onClick={openModal1}>결제하기</button>
             <PaymentMode open={modalOpen1} close={closeModal1} />
 

@@ -1,0 +1,12 @@
+ul {
+    text-align: center;
+}
+
+#buttontab {
+    width: 45%;
+    height: 5em;
+}
+
+#buttontab::after {
+   background-color: #FF0000;
+}

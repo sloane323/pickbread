@@ -3,8 +3,7 @@ import axios from "axios";
 import { useState } from "react";
 
 const AddCustomer = () => {
-  const customerId = Math.random().toString(36).substring(2, 11);
-  const createtime = new Date(); 
+  const customerId =Math.random().toString(32).slice(2);
   const navigator = useNavigate();
   // 입력받을 state
   const [phone, setPhone] = useState("");
@@ -16,11 +15,12 @@ const AddCustomer = () => {
   const post = () => {
     const url = "/api/customer";
     const formData = new FormData();
-    formData.append("id", customerId);
+    formData.append("customerId", customerId);
     formData.append("name", name);
     formData.append("phone", phone);
     formData.append("comment", comment);
-    formData.append("createtime", createtime);
+    formData.append("time", new Date().toISOString().slice(0, 19).replace("T", " "));
+
     const config = {
       headers: { "Content-Type": "application/json" },
     };
@@ -44,63 +44,57 @@ const AddCustomer = () => {
       setName("");
       setPhone("");
       setComment("");
+      window.location.reload();
       alert("고객등록 완료");
-      navigator(-1);
+      
     } catch (e) {
       alert("고객등록 실패");
     }
   };
-
   return (
     <div>
       <div>
-        <h1>Customers </h1>
+        <h3> 고객등록 </h3>
       </div>
-      <button>
-        <Link to="/customers"> 뒤로 </Link>
-      </button>
+
       <div>
-        <form onSubmit={onSubmit}>
-          <div>
-            <label>
-              이름
+
+        <div class="input-wrapper">
               <input
                 type="text"
                 onChange={(e) => {
                   setName(e.target.value);
                 }}
+                required
               />
-            </label>
-          </div>
+                <label for="name">이름</label>
+        </div>
 
-          <div>
-            <label>
-              전화번호
+        <div class="input-wrapper">
               <input
                 type="text"
                 onChange={(e) => {
                   setPhone(e.target.value);
                 }}
-              />
-            </label>
-          </div>
+                required/>
+              <label for="phone">전화번호</label>
+        </div>
 
-          <div>
-            <label>
-              코멘트
+        <div class="input-wrapper">
               <input
                 type="text"
                 onChange={(e) => {
                   setComment(e.target.value);
                 }}
+                required
               />
-            </label>
-          </div>
+              <label for="comment">코멘트</label>
+        </div>
+         
+          <button onClick={onSubmit}> 등록 </button>
 
-          <button> 등록 </button>
-        </form>
       </div>
-    </div>
+      </div>
   );
 };
 
