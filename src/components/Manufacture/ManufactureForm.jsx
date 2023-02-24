@@ -159,7 +159,7 @@ const ManufactureForm = () => {
     });
     setMaterialDisposeWrap((prev) => {
       return [...prev, materialDispose];
-    })
+    });
   };
   const productDisposeHandler = () => {
     if (productDispose === false) {
@@ -169,16 +169,16 @@ const ManufactureForm = () => {
     }
   };
   const materialDisposeHandler = () => {
-    if(materialDispose === false) {
+    if (materialDispose === false) {
       setMaterialDispose(true);
     } else {
       setMaterialDispose(false);
     }
-  }
+  };
   return (
     <form onSubmit={onSubmit}>
       <div>
-        <span>제품 종류</span>
+        <p>제품 종류</p>
         <select onChange={selectedProductionHandler}>
           {productions &&
             productions?.map((production) => {
@@ -192,28 +192,27 @@ const ManufactureForm = () => {
         </select>
       </div>
       <div>
-        <label>
-          생산 개수
-          <input
-            type="number"
-            value={enteredAmount}
-            onChange={enteredAmountHandler}
-            min={1}
-          />
-        </label>
+        <p>생산 개수</p>
+        <input
+          type="number"
+          value={enteredAmount}
+          onChange={enteredAmountHandler}
+          min={1}
+        />
       </div>
       <div>
-        <label>
-          생산일
-          <input
-            type="date"
-            value={manufactureDate}
-            onChange={manufactureDateHandler}
-          />
-        </label>
+        <p>생산일</p>
+        <input
+          type="date"
+          value={manufactureDate}
+          onChange={manufactureDateHandler}
+        />
       </div>
       <div>
-        <b>원자재 재고 및 사용량</b>
+        <h1>제품 제작 시 원자재 사용</h1>
+      </div>
+      <div>
+        <p>사용 원자재</p>
         <select onChange={selectMaterialStockHandler}>
           {materialStocks &&
             materialStocks?.map((materialStock) => {
@@ -226,18 +225,19 @@ const ManufactureForm = () => {
             })}
         </select>
       </div>
-      <label>
-        원자재 사용량
+      <div>
+        <p>원자재 사용량</p>
         <input
           type="number"
           value={materialUsage}
           onChange={materialUsageHandler}
           min={1}
         ></input>
-      </label>
+      </div>
       <div>
+        <h3>원자재 및 사용량, 유통 및 폐기 상태 추가</h3>
         <button type="button" onClick={addMaterialUsage}>
-          원자재 및 사용량, 유통 및 폐기 상태 추가
+          추가
         </button>
         {selectedMaterialStockWrap &&
           selectedMaterialStockWrap.length > 0 &&
@@ -255,23 +255,33 @@ const ManufactureForm = () => {
             </div>
           ))}
         {materialDisposeWrap &&
-          materialDisposeWrap.length > 0 && materialDisposeWrap.map((materialDispose, index) => (
+          materialDisposeWrap.length > 0 &&
+          materialDisposeWrap.map((materialDispose, index) => (
             <div key={index}>
               <p>{materialDispose ? "원자재 폐기 진행" : "원자재 유통 중"}</p>
             </div>
           ))}
         <div>
+          <h3>제품 및 원자재 폐기 여부 체크</h3>
           <button type="button" onClick={productDisposeHandler}>
             제품 폐기 여부 체크
           </button>
-          {productDispose ? <p>제품 폐기</p> : <p>제품 유통</p>}
+          <br />
+          <br />
+          {productDispose ? <span style={{border: "2px solid black"}}>제품 폐기</span> : <span style={{border: "2px solid black"}}>제품 유통</span>}
+          <br />
+          <br />
           <button type="button" onClick={materialDisposeHandler}>
             원자재 폐기 여부 체크
           </button>
-          {materialDispose ? <p>원자재 폐기</p> : <p>원자재 유통</p>}
+          <br />
+          <br />
+          {materialDispose ? <span style={{border: "2px solid black"}}>원자재 폐기</span> : <span style={{border: "2px solid black"}}>원자재 유통</span>}
+          <br />
+          <br />
         </div>
       </div>
-      <input type="submit" value="제출 " />
+      <button type="submit">제출</button>
     </form>
   );
 };
