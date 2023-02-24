@@ -56,8 +56,54 @@ const AddVendor = () => {
 
   return (
     <div>
+      
       <div>
-        <h2>조회</h2>
+        <h2>거래처 등록 하기 </h2>
+        <form onSubmit={onSubmit}>
+          {/* vendor ID 제외 */}
+         
+          <div class="input-wrapper">
+          <input
+            type="text"
+            onChange={(e) => {
+              setName(e.target.value);
+            }} required
+          />
+          <label for="name">이름</label> </div>
+
+          <div class="input-wrapper">
+          <input
+            type="text"
+            onChange={(e) => {
+              setPhone(e.target.value);
+            }} required
+          />
+          <label for="phone">전화번호</label> </div>
+          
+
+          <div class="input-wrapper">
+          <input
+            type="text"
+            onChange={(e) => {
+              setOfficer(e.target.value);
+            }} required
+          /><label for="manager">담당자</label>
+          </div>
+
+          <div class="input-wrapper">
+          <input
+            type="text"
+            onChange={(e) => {
+              setComment(e.target.value);
+            }} required
+          /><label for="comment">코멘트/할인율</label>
+          </div>
+          <button onClick={onSubmit}> 추가 </button>
+        </form>
+      </div>
+
+      <div>
+        <h2>거래처</h2>
         <table>
           <thead>
             <tr>
@@ -86,44 +132,8 @@ const AddVendor = () => {
           </tbody>
         </table>
       </div>
-      <div>
-        <h2>거래처 등록 페이지</h2>
-        <form onSubmit={onSubmit}>
-          {/* vendor ID 제외 */}
-          이름{" "}
-          <input
-            type="text"
-            onChange={(e) => {
-              setName(e.target.value);
-            }}
-          />
-          <br />
-          전화번호{" "}
-          <input
-            type="text"
-            onChange={(e) => {
-              setPhone(e.target.value);
-            }}
-          />
-          <br />
-          담당자{" "}
-          <input
-            type="text"
-            onChange={(e) => {
-              setOfficer(e.target.value);
-            }}
-          />
-          <br />
-          코멘트/할인율{" "}
-          <input
-            type="text"
-            onChange={(e) => {
-              setComment(e.target.value);
-            }}
-          />
-          <button>제출</button>
-        </form>
-      </div>
+
+
     </div>
   );
 };
