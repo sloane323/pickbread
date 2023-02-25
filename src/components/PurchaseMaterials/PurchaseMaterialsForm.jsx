@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import axios from "axios";
 import VendorOption from "./VendorOption";
 import MaterialOption from "./MaterialOption";
 import PurchasingMaterials from "./PurchasingMaterials";
-import { useNavigate } from "react-router";
 
-const PurchaseForm = () => {
+const PurchaseMaterialsForm = () => {
   const purchasingID = Math.random().toString(32).slice(2);
   const navigate = useNavigate();
   const [vendors, setVendors] = useState("");
@@ -144,6 +144,7 @@ const PurchaseForm = () => {
   return (
     <form onSubmit={submitHandler}>
       <div>
+        <h1>원자재 구매</h1>
         <p>구매일</p>
         <input
           type="date"
@@ -216,4 +217,4 @@ const PurchaseForm = () => {
   );
 };
 
-export default PurchaseForm;
+export default PurchaseMaterialsForm;
