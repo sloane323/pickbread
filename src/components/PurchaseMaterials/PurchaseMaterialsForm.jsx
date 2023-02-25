@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import axios from "axios";
 import VendorOption from "./VendorOption";
 import MaterialOption from "./MaterialOption";
 import PurchasingMaterials from "./PurchasingMaterials";
-import { useNavigate } from "react-router";
 
-const PurchaseForm = () => {
+const PurchaseMaterialsForm = () => {
   const purchasingID = Math.random().toString(32).slice(2);
   const navigate = useNavigate();
   const [vendors, setVendors] = useState("");
@@ -69,12 +69,15 @@ const PurchaseForm = () => {
   const changeReceiptHandler = (e) => {
     setReceipt(e.target.files[0]);
   };
+  const changeDiscountHandler = (e) => {
+    setDiscount(e.target.value);
+  };
   const addPurchasingMaterialHandler = () => {
     const addedMaterial = {
       materialID: selectedMaterial.원자재ID,
       name: selectedMaterial.이름,
       size: selectedMaterial.사이즈,
-      cost: selectedMaterial.가격,
+      cost: selectedMaterial.현재가격,
       unit: selectedMaterial.단위,
       amount: enteredAmount,
       expDate: expDate,
@@ -141,6 +144,7 @@ const PurchaseForm = () => {
   return (
     <form onSubmit={submitHandler}>
       <div>
+        <h1>원자재 구매</h1>
         <p>구매일</p>
         <input
           type="date"
@@ -213,4 +217,4 @@ const PurchaseForm = () => {
   );
 };
 
-export default PurchaseForm;
+export default PurchaseMaterialsForm;

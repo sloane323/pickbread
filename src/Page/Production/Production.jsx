@@ -21,8 +21,8 @@ const Production = () => {
   const productionstock = () => {
     navigate("/production/stock");
   };
-  const goToMaterialPage = () => {
-    navigate("/production/material-page");
+  const goToMaterialIndexPage = () => {
+    navigate("/production/material");
   }
   const goToProductPage = () => {
     navigate("/production/product-page");
@@ -45,7 +45,7 @@ const Production = () => {
       <br />
       <br />
       <button onClick={productionstock}>재고확인</button>
-      <button onClick={goToMaterialPage}>원자재 페이지</button>
+      <button onClick={goToMaterialIndexPage}>원자재 인덱스 페이지</button>
       <br></br>
       <br></br>
       <button onClick={goToProductPage}>제품 페이지</button>
