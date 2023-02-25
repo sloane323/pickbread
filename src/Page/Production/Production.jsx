@@ -21,6 +21,15 @@ const Production = () => {
   const productionstock = () => {
     navigate("/production/stock");
   };
+  const goToMaterialPage = () => {
+    navigate("/production/material-page");
+  }
+  const goToProductPage = () => {
+    navigate("/production/product-page");
+  }
+  const goToTotalStocksPage = () => {
+    navigate("/production/total-stocks-page");
+  }
 
   return (
     <div>
@@ -36,6 +45,11 @@ const Production = () => {
       <br />
       <br />
       <button onClick={productionstock}>재고확인</button>
+      <button onClick={goToMaterialPage}>원자재 페이지</button>
+      <br></br>
+      <br></br>
+      <button onClick={goToProductPage}>제품 페이지</button>
+      <button onClick={goToTotalStocksPage}>총 재고 페이지</button>
     </div>
   );
 };

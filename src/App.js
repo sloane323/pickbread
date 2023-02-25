@@ -19,6 +19,9 @@ import AddCustomer from './Page/Customer/AddCustomer';
 import AddPurchase from "./Page/Production/AddPurchase";
 import Product from "./Page/Production/Product";
 import EditProduct from "./components/Product/EditProduct";
+import MaterialPage from "./Page/Production/MaterialPage";
+import ProductPage from "./Page/Production/ProductPage";
+import TotalStocks from "./Page/Production/TotalStocks";
 import VenderNCustomer from "./Page/Customer/VenderNCustomer";
 
 function App() {
@@ -27,10 +30,12 @@ function App() {
       <SideBar />
       {/* 사이드바를 통해 해당 페이지로 이동 가능 */}
       <Routes>
-     
         <Route path="/" element={<Main />}></Route>
         <Route path="/dashboard" element={<Dashboard />}></Route>
         <Route path="/production" element={<Production />} />
+        <Route path="/production/material-page" element={<MaterialPage />} />
+        <Route path="/production/product-page" element={<ProductPage />} />
+        <Route path="/production/total-stocks-page" element={<TotalStocks />} />
         <Route path="/production/add-material" element={<AddMaterial />} />
         <Route path="/production/purchase" element={<Purchase />} />
         <Route path="/production/add-purchase" element={<AddPurchase />} />

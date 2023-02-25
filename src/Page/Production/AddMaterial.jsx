@@ -109,6 +109,7 @@ const AddMaterial = () => {
   return (
     <div>
       <form onSubmit={onSubmit}>
+        <h1>원자재 등록</h1>
         {/* 원자재 이름 */}
         <input
           type="text"
