@@ -48,7 +48,7 @@ const GetCurrentMaterialStocks = () => {
                   <td>SOLD OUT</td>
                 )}
                 <td>
-                  <Link to={`/production/stock/${materialStock.원자재ID}`}>
+                  <Link to={`/production/material/${materialStock.원자재ID}`}>
                     ▶재고확인(detail)
                   </Link>
                 </td>
