@@ -1,4 +1,4 @@
-const PurchasingMaterial = (props) => {
+const PurchasingMaterialElement = (props) => {
   return (
     <div>
       <span>{props.material.name} {props.material.size}{props.material.unit} {props.material.amount}개</span>
@@ -6,4 +6,4 @@ const PurchasingMaterial = (props) => {
   );
 };
 
-export default PurchasingMaterial;
+export default PurchasingMaterialElement;

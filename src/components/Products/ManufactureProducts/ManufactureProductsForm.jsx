@@ -1,10 +1,10 @@
+import React, { useState, useEffect } from 'react'
 import axios from "axios";
-import { useState, useEffect } from "react";
-import { getNowDate, getTwoWeeksDate } from "../../common";
+import { getNowDate, getTwoWeeksDate } from '../../../common';
 import MaterialStockOption from "./MaterialStockOption";
 import ProductionOption from "./ProductionOption";
 
-const ManufactureForm = () => {
+const ManufactureProductsForm = () => {
   const [productions, setProductions] = useState();
   const [selectedProduction, setSelectedProduction] = useState();
   const [materialStocks, setMaterialStocks] = useState();
@@ -48,13 +48,13 @@ const ManufactureForm = () => {
   }, [productions, materialStocks]);
   const onSubmit = async (event) => {
     event.preventDefault();
-    const reqManufacture = await manufacturePost();
-    const reqProductStock = await productStockPost();
+    await manufacturePost();
+    await productStockPost();
     for (let i = 0; i < selectedMaterialStockWrap.length; i++) {
-      const req = await materialUsagePost(i);
+      await materialUsagePost(i);
     }
     for (let i = 0; i < materialUsageWrap.length; i++) {
-      const req = await materialCalcPost(i);
+      await materialCalcPost(i);
     }
     setEnteredAmount(1);
     setMaterialUsage(1);
@@ -178,7 +178,8 @@ const ManufactureForm = () => {
   return (
     <form onSubmit={onSubmit}>
       <div>
-        <p>제품 종류</p>
+        <h1>실제 제품 생산</h1>
+        <p>제품 종류 조회</p>
         <select onChange={selectedProductionHandler}>
           {productions &&
             productions?.map((production) => {
@@ -209,7 +210,7 @@ const ManufactureForm = () => {
         />
       </div>
       <div>
-        <h1>제품 제작 시 원자재 사용</h1>
+        <h3>제품 제작 시 원자재 사용</h3>
       </div>
       <div>
         <p>사용 원자재</p>
@@ -286,4 +287,4 @@ const ManufactureForm = () => {
   );
 };
 
-export default ManufactureForm;
+export default ManufactureProductsForm
