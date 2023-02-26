@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import MaterialOption from "../../PurchaseMaterials/MaterialOption";
+import MaterialOption from "../../Materials/PurchaseMaterials/MaterialOption";
 
-const ProductTypeForm = () => {
+const ModifyProductsForm = () => {
   const [materials, setMaterials] = useState("");
   const [name, setName] = useState("");
   const [size, setSize] = useState("");
@@ -92,12 +92,13 @@ const ProductTypeForm = () => {
       return [...prev, selectedMaterial];
     });
   };
+
   return (
     <div>
-      <h1>제품 제작 등록</h1>
+      <h1>제품 제작 수정(미구현)</h1>
       <div>
         {/* 제품 등록하면서 레시피가 함께 등록되는 구조 */}
-        <h3>제품 등록</h3>
+        <h3>제품 수정</h3>
         <form onSubmit={onSubmit}>
           {/* 제품ID 제외 -랜덤생성 */}
           이름
@@ -114,7 +115,7 @@ const ProductTypeForm = () => {
           <br />
           {/* 레시피선택 */}
           <div>
-            <p>원자재 종류</p>
+            <b>원자재 종류</b>
             <select
               onChange={selectMaterialHandler}
               value={selectedMaterial.name}
@@ -144,8 +145,9 @@ const ProductTypeForm = () => {
           <button>제출</button>
         </form>
       </div>
+      <div></div>
     </div>
   );
 };
 
-export default ProductTypeForm;
+export default ModifyProductsForm;

@@ -1,11 +1,11 @@
-import PurchasingMaterial from "./PurchasingMaterial";
+import PurchasingMaterialElement from "./PurchasingMaterialElement";
 
 const PurchasingMaterials = (props) => {
   return (
     <div>
       {props?.materials &&
         props.materials.map((material) => {
-          return <PurchasingMaterial key={material.materialID} material={material} />;
+          return <PurchasingMaterialElement key={material.materialID} material={material} />;
         })}
     </div>
   );
