@@ -1,5 +1,5 @@
 import React from 'react'
-import MaterialTypeForm from '../../../components/MaterialTypes/MaterialTypeForm'
+import MaterialTypeForm from "../../../components/Materials/MaterialTypes/MaterialTypeForm"
 
 const AddMaterialsType = () => {
   return (

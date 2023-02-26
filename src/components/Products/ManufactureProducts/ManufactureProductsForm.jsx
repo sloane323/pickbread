@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from "axios";
-import { getNowDate, getTwoWeeksDate } from '../../common';
+import { getNowDate, getTwoWeeksDate } from '../../../common';
 import MaterialStockOption from "./MaterialStockOption";
 import ProductionOption from "./ProductionOption";
 
