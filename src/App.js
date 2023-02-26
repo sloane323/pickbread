@@ -15,11 +15,14 @@ import ProductDetail from "./Page/Production/ProductDetail";
 import Purchase from "./Page/Production/Purchase";
 import AddVendor from "./Page/Production/AddVendor";
 import Manufacture from "./Page/Production/Manufacture";
-import AddCustomer from './Page/Customer/AddCustomer';
+import AddCustomer from "./Page/Customer/AddCustomer";
 import AddPurchase from "./Page/Production/AddPurchase";
 import Product from "./Page/Production/Product";
 import EditProduct from "./components/Product/EditProduct";
 import MaterialIndexPage from "./Page/Production/IndexRoutes/MaterialIndexPage";
+import ProductIndexPage from "./Page/Production/IndexRoutes/ProductIndexPage";
+import TotalStocksIndexPage from "./Page/Production/IndexRoutes/TotalStocksIndexPage";
+import ModifyProducts from "./Page/Production/ProductPages/ModifyProducts";
 import ProductPage from "./Page/Production/ProductPage";
 import TotalStocks from "./Page/Production/TotalStocks";
 import VenderNCustomer from "./Page/Customer/VenderNCustomer";
@@ -32,20 +35,23 @@ function App() {
       <Routes>
         <Route path="/" element={<Main />}></Route>
         <Route path="/dashboard" element={<Dashboard />}></Route>
-        <Route path="/production" element={<Production />} />
-        <Route path="/production/material" element={<MaterialIndexPage />} />
-        <Route path="/production/product-page" element={<ProductPage />} />
-        <Route path="/production/total-stocks-page" element={<TotalStocks />} />
-        <Route path="/production/add-material" element={<AddMaterial />} />
-        <Route path="/production/purchase" element={<Purchase />} />
-        <Route path="/production/add-purchase" element={<AddPurchase />} />
-        <Route path="/production/add-product" element={<AddProduct />} />
-        <Route path="/production/edit-product/:id" element={<EditProduct />} />
-        <Route path="/production/manufacture" element={<Manufacture/>}/>
-        <Route path="/production/add-vendor" element={<AddVendor />} />
-        <Route path="/production/stock" element={<Stock />} />
-        <Route path="/production/stock/:id" element={<StockDetail />} />
-        <Route path="/production/product/:id" element={<ProductDetail />} />
+        <Route path="/production" element={<Production />}></Route>
+        <Route
+          path="/production/material"
+          element={<MaterialIndexPage></MaterialIndexPage>}
+        ></Route>
+        <Route
+          path="/production/product"
+          element={<ProductIndexPage></ProductIndexPage>}
+        ></Route>
+        <Route
+          path="/production/modify/:id"
+          element={<ModifyProducts></ModifyProducts>}
+        ></Route>
+        <Route
+          path="/production/total-stocks"
+          element={<TotalStocksIndexPage></TotalStocksIndexPage>}
+        ></Route>
         <Route path="/sales" element={<Sales />}></Route>
         <Route path="/venderncustomer" element={<VenderNCustomer />}></Route>
         <Route path="/customers" element={<Customers />}></Route>
