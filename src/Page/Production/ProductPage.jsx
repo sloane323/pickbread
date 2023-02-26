@@ -1,12 +1,16 @@
 import React from 'react'
-import AddProduct from './AddProduct'
-import Manufacture from './Manufacture'
+import AddProductsType from './ProductPages/AddProductsType'
+import CurrentProductTypes from './ProductPages/CurrentProductTypes'
+import ManufactureProducts from './ProductPages/ManufactureProducts'
+import CurrentProductStocks from './ProductPages/CurrentProductStocks'
 
 const ProductPage = () => {
   return (
     <div>
-      <AddProduct></AddProduct>
-      <Manufacture></Manufacture>
+      <AddProductsType></AddProductsType>
+      <CurrentProductTypes></CurrentProductTypes>
+      <ManufactureProducts></ManufactureProducts>
+      <CurrentProductStocks></CurrentProductStocks>
     </div>
   )
 }
