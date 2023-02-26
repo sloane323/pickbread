@@ -1,6 +1,6 @@
 import React from 'react'
 
-const ProductPage = () => {
+const TotalStocksIndexPage = () => {
   return (
     <div>
       
@@ -8,4 +8,4 @@ const ProductPage = () => {
   )
 }
 
-export default ProductPage
+export default TotalStocksIndexPage
