@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import MaterialOption from "../../PurchaseMaterials/MaterialOption";
+import MaterialOption from "../../Materials/PurchaseMaterials/MaterialOption";
 
 const ProductTypeForm = () => {
   const [materials, setMaterials] = useState("");

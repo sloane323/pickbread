@@ -1,4 +1,4 @@
-import ManufactureForm from "../../components/Manufacture/ManufactureForm";
+import ManufactureForm from "../../components/Products/Manufacture/ManufactureForm";
 
 const Manufacture = () => {
   return (
