@@ -11,7 +11,6 @@ import AddMaterial from "./Page/Production/AddMaterial";
 import AddProduct from "./Page/Production/AddProduct";
 import Stock from "./Page/Production/Stock";
 import StockDetail from "./Page/Production/StockDetail";
-import ProductDetail from "./Page/Production/ProductDetail";
 import Purchase from "./Page/Production/Purchase";
 import AddVendor from "./Page/Production/AddVendor";
 import Manufacture from "./Page/Production/Manufacture";
@@ -20,7 +19,9 @@ import AddPurchase from "./Page/Production/AddPurchase";
 import Product from "./Page/Production/Product";
 import EditProduct from "./components/Product/EditProduct";
 import MaterialIndexPage from "./Page/Production/IndexRoutes/MaterialIndexPage";
+import MaterialDetails from "./Page/Production/MaterialPages/MaterialDetails";
 import ProductIndexPage from "./Page/Production/IndexRoutes/ProductIndexPage";
+import ProductDetails from "./Page/Production/ProductPages/ProductDetail";
 import TotalStocksIndexPage from "./Page/Production/IndexRoutes/TotalStocksIndexPage";
 import ModifyProducts from "./Page/Production/ProductPages/ModifyProducts";
 import ProductPage from "./Page/Production/ProductPage";
@@ -41,11 +42,19 @@ function App() {
           element={<MaterialIndexPage></MaterialIndexPage>}
         ></Route>
         <Route
+          path="/production/material/:id"
+          element={<MaterialDetails></MaterialDetails>}
+        ></Route>
+        <Route
           path="/production/product"
           element={<ProductIndexPage></ProductIndexPage>}
         ></Route>
         <Route
-          path="/production/modify/:id"
+          path="/production/product/:id"
+          element={<ProductDetails></ProductDetails>}
+        ></Route>
+        <Route
+          path="/production/product/modify/:id"
           element={<ModifyProducts></ModifyProducts>}
         ></Route>
         <Route
