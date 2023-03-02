@@ -624,26 +624,27 @@ app.put("/api/customer/:id", (req, res) => {
 });
 
 // 판매 등록
-// app.post("/api/sales", (req,res) => {
-//   pool.getConnection((err, conn) => {
-//     if(err) {
-//       throw err;
-//     } else {
-//       const sql = "INSERT INTO 판매내용 VALUES(?,?,?,?,?,?,?)";
-//       const productID = req.body.
-//       const saleslogID= Math.random().toString(36).substring(2,11);
-//       const
-
-//       const params = [id, amount]
-//       conn.query(sql, params, (err, rows, fields) => {
-//         res.send(rows)
-//         console.log("등록성공");
-//         console.log(err);
-//       });
-//     }
-//     conn.release();
-//   })
-// });
+app.post("/api/sales", (req,res) => {
+  pool.getConnection((err, conn) => {
+    if(err) {
+      throw err;
+    } else {
+      const sql = "INSERT INTO 판매내용 VALUES(?,?,?,?,?)";
+      const salesID= req.body.salesID;
+      const customerId = null;
+      const salesDate = req.body.salesDate;
+      const totalPrice = req.body.totalPrice;
+      const totalCost = null;
+      const params = [salesID,customerId,salesDate,totalPrice,null]
+      conn.query(sql, params, (err, rows, fields) => {
+        res.send(rows)
+        console.log("등록성공");
+        console.log(err);
+      });
+    }
+    conn.release();
+  })
+});
 
 /* 판매 내역 조회 */
 app.get("/api/saleslog", (req, res) => {
