@@ -325,13 +325,13 @@ app.get("/api/p_stock/:id", (req, res) => {
     conn.release();
   });
 });
-/* 재고수정 */
-app.put("/api/p_stock/dispose/:id", (req, res) => {
+/* 결제시 재고 수정 */
+app.put("/api/p_stock", (req, res) => {
   pool.getConnection((err, conn) => {
     if (err) throw err;
-    const { id } = req.params;
-    const { dispose } = req.body;
-    const sql = `UPDATE 제품재고 SET 폐기여부=${!dispose} WHERE 재고ID = "${id}"`;
+    const { id } = req.body.id;
+    const { ammount } = req.body.ammount;
+    const sql = `UPDATE 제품재고 SET 진량=잔량-${amount} WHERE 제품ID = "${id}"`;
     conn.query(sql, (err, rows, fields) => {
       res.send(rows);
     });
@@ -446,6 +446,19 @@ app.get("/api/p_stock", (req, res) => {
       });
       conn.release();
     }
+  });
+});
+/* 결제시 재고 감소 */
+app.put("/api/p_stock/dispose/:id", (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) throw err;
+    const { id } = req.params;
+    const { dispose } = req.body;
+    const sql = `UPDATE 제품재고 SET 폐기여부=${!dispose} WHERE 재고ID = "${id}"`;
+    conn.query(sql, (err, rows, fields) => {
+      res.send(rows);
+    });
+    conn.release();
   });
 });
 /* 거래처 추가 */
@@ -635,7 +648,7 @@ app.post("/api/sales", (req,res) => {
       const salesDate = req.body.salesDate;
       const totalPrice = req.body.totalPrice;
       const totalCost = null;
-      const params = [salesID,customerId,salesDate,totalPrice,null]
+      const params = [salesID,customerId,salesDate,totalPrice,totalCost]
       conn.query(sql, params, (err, rows, fields) => {
         res.send(rows)
         console.log("등록성공");

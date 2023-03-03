@@ -17,21 +17,25 @@ const PaymentMain = (props) => {
 
 
     console.log('selectedProduct',selectedProduct);
-
+    console.log('p_stock',p_stock);
 
     const payment = ()=>{
       // 재고의 갯수에서 구매하는 제품의 갯수만큼 빼는 함수  
+      let id = '';
+      let amount = 0 ;
       const p_stockRows = p_stock.length
       const selectedProductRows = selectedProduct.length
-      const rows = Math.min(p_stockRows , selectedProductRows)
-      for(let i = 0 ; i<rows.length ; i++){
+      const rows = Math.min(p_stockRows , selectedProductRows);
+      for(let i = 0 ; i < rows ; i++){
         if(p_stock[i][5] === selectedProduct[i][0]){
-          p_stock[i][3] -= selectedProduct[i][2]
+          id = selectedProduct[i][0];
+          amount = selectedProduct[i][2];
+          console.log('id',id);
+          console.log('amount',amount);
         }
       }
-      salesLog()
     }
-
+  
   return ( 
     <div>
       <button> 포인트 </button>
