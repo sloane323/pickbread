@@ -587,8 +587,9 @@ app.delete("/api/customer", (req, res) => {
 });
 
 /* 포인트 */
-app.post("/api/point", (req, res) => {
+app.post("/api/point/", (req, res) => {
   pool.getConnection((err, conn) => {
+    console.log("포인트 실행")
     if (err) {
       throw err;
     } else {
@@ -620,16 +621,12 @@ app.get("/api/customer", (req, res) => {
       let sql = `SELECT DISTINCT 고객.*, (SELECT SUM(포인트) FROM 포인트 WHERE 고객.고객ID = 포인트.고객ID) AS 포인트,
       (SELECT CEIL(COUNT(*) / ${resultsPerPage}) FROM 고객) AS 페이지수
       FROM 고객
-      LEFT JOIN 포인트
-      ON 고객.고객ID = 포인트.고객ID
       ORDER BY 이름
       LIMIT ${resultsPerPage} OFFSET ${offset}`;
       if (req.query.search) {
         sql = `SELECT DISTINCT 고객.*, (SELECT SUM(포인트) FROM 포인트 WHERE 고객.고객ID = 포인트.고객ID) AS 포인트,
         (SELECT CEIL(COUNT(*) / ${resultsPerPage}) FROM 고객 WHERE 이름 = '${req.query.search}') AS 페이지수
         FROM 고객
-        LEFT JOIN 포인트
-        ON 고객.고객ID = 포인트.고객ID  
         WHERE 이름 = '${req.query.search}'
         ORDER BY 이름 LIMIT ${resultsPerPage} OFFSET ${offset}`;
       }

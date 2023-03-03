@@ -10,15 +10,14 @@ const Customers = () => {
   const [selectedCustomer, setSelectedCustomer] = useState(null);
 
   const handlePaginationClick = (e) => {
-    setCurrentPage(e.target.textContent)
+    setCurrentPage(e.target.textContent);
   };
-  
+
   const getCustomers = async () => {
     const response = await axios.get(`/api/customer?page=${currentPage}`);
     setCustomers(response.data);
   };
-  
-  
+
   useEffect(() => {
     getCustomers();
   }, [currentPage]);
@@ -136,7 +135,7 @@ const Customers = () => {
                 <td>
                   <input type="checkbox"></input>
                 </td>
-                <td>{idx + 1}</td>
+                <td>{(currentPage - 1) * 10 + idx + 1}</td>
                 <td>{customer.이름}</td>
                 <td>{customer.전화번호}</td>
                 <td>{customer.코멘트}</td>
@@ -151,15 +150,16 @@ const Customers = () => {
         </tbody>
       </table>
       <div>
-        {customers && Array(+customers[0].페이지수)
-          .fill()
-          .map((el, idx) => {
-            return (
-              <button key={idx + 1} onClick={handlePaginationClick}>
-                {idx + 1}
-              </button>
-            );
-          })}
+        {customers &&
+          Array(+customers[0].페이지수)
+            .fill()
+            .map((el, idx) => {
+              return (
+                <button key={idx + 1} onClick={handlePaginationClick}>
+                  {idx + 1}
+                </button>
+              );
+            })}
       </div>
 
     </div>
