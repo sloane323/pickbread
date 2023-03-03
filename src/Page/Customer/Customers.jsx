@@ -69,19 +69,19 @@ const Customers = () => {
     return (
       <form onSubmit={handleSubmit}>
 
-        <div class="input-wrapper">
+        <div className="input-wrapper">
         <input type="text" value={name || ""} onChange={(e) => setName(e.target.value) } />
-        <label for="name">이름</label>
+        <label>이름</label>
          </div> 
 
-        <div class="input-wrapper">
+        <div className="input-wrapper">
         <input type="text" value={phone || ""} onChange={(e) => setPhone(e.target.value)}  />
-        <label for="phone">전화번호</label>
+        <label>전화번호</label>
         </div> 
 
-        <div class="input-wrapper">
+        <div className="input-wrapper">
           <input type="text" value={comment || ""} onChange={(e) => setComment(e.target.value)}  />
-          <label for="comment">코멘트</label>
+          <label>코멘트</label>
          </div> 
        
         <button type="submit">저장</button>
@@ -102,11 +102,11 @@ const Customers = () => {
       <h3>고객 조회</h3>
       <div>
         <form onSubmit={handleSearch}>
-        <div class="input-wrapper">
+        <div className="input-wrapper">
           <input type="text" name="searchQuery" 
           value={searchQuery} 
           onChange={(event) => setSearchQuery(event.target.value)} required/>
-          <label for="comment">이름 & 전화번호</label>
+          <label>이름 & 전화번호</label>
           </div>
           <button type="submit">Search</button>
         </form>
