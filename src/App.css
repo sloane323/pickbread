@@ -20,6 +20,11 @@ button:hover {
     border: 1px solid white;
     color:white;
 }
+button:active {
+    background-color: #FF0000;
+    border: 1px solid white;
+    color:white;
+  }
 
 .input-wrapper {
   position:relative;
@@ -85,3 +90,5 @@ td.thead {
 	padding:1px 0;
     text-align: center;
 }
+
+
