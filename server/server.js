@@ -509,6 +509,29 @@ app.get("/api/vendor", (req, res) => {
   });
 });
 
+/* 거래처 검색 */
+app.get("/api/vendor", (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) {
+      throw err;
+    } else {
+      let sql = "SELECT * FROM 벤더 order by 이름";
+      if (req.query.search) {
+        sql = `select * from 벤더 where 이름 = '${req.query.search}'`;
+      }
+      conn.query(sql, (err, rows, fields) => {
+        if (err) {
+          throw err;
+        } else {
+          res.send(rows);
+        }
+      });
+      conn.release();
+    }
+  });
+});
+
+
 /* 거래처 삭제 */
 app.delete("/api/vendor", (req, res) => {
   pool.getConnection((err, conn) => {
@@ -548,6 +571,9 @@ app.post("/api/customer", (req, res) => {
   });
 });
 
+
+
+
 /** 고객삭제 */
 app.delete("/api/customer", (req, res) => {
   pool.getConnection((err, conn) => {
@@ -582,7 +608,7 @@ app.post("/api/point", (req, res) => {
   });
 });
 
-// 고객 검색 & 검색
+// 고객 검색 
 app.get("/api/customer", (req, res) => {
   const resultsPerPage = 11;
   const currentPage = req.query.page || 1;

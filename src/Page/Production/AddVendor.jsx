@@ -9,6 +9,11 @@ const AddVendor = () => {
   const [officer, setOfficer] = useState("");
   const [comment, setComment] = useState("");
 
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedVendor, setSelectedVendor] = useState(null);
+  const [showEditForm, setShowEditForm] = useState(false);
+
+
   // 조회할 state
   const [inputData, setInputData] = useState();
 
@@ -54,6 +59,21 @@ const AddVendor = () => {
     getVendor();
   }, []);
 
+  // 밴더 검색 조회 
+  const handleSearch = (event) => {
+    event.preventDefault();
+    axios.get(`/api/vendor?search=${searchQuery}`).then((response) => {
+      setInputData(response.data);
+    });
+  };
+
+  const handleEdit = (vendor) => {
+    setSelectedVendor(d);
+    setShowEditForm(true);
+  };
+
+  
+
   return (
     <div>
       
@@ -79,8 +99,6 @@ const AddVendor = () => {
             }} required
           />
           <label for="phone">전화번호</label> </div>
-          
-
           <div class="input-wrapper">
           <input
             type="text"
@@ -104,6 +122,22 @@ const AddVendor = () => {
 
       <div>
         <h2>거래처</h2>
+        <div>
+        <form onSubmit={handleSearch}>
+        <div className="input-wrapper">
+          <input type="text" name="searchQuery" 
+          value={searchQuery} 
+          onChange={(event) => setSearchQuery(event.target.value)} required/>
+          <label>이름 & 전화번호</label>
+          </div>
+          <button type="submit">Search</button>
+        </form>
+        {showEditForm && selectedVendor && (
+        <div>
+          <EditForm d={selectedVendor} onSave={handleSave} onCancel={handleCancel} /> <hr />
+        </div>
+      )}
+      </div> 
         <table>
           <thead>
             <tr>
@@ -117,15 +151,17 @@ const AddVendor = () => {
           </thead>
           <tbody>
             {inputData &&
-              inputData.map((d, idx) => (
+              inputData.map((vendor, idx) => (
                 <tr key={idx}>
                   <td>{idx + 1}</td>
-                  <td>{d.이름}</td>
-                  <td>{d.전화번호}</td>
-                  <td>{d.담당자}</td>
-                  <td>{d.코멘트}</td>
+                  <td>{vendor.이름}</td>
+                  <td>{vendor.전화번호}</td>
+                  <td>{vendor.담당자}</td>
+                  <td>{vendor.코멘트}</td>
                   <td>
-                    <button onClick={() => deleteVendor(d.벤더ID)}>X</button>
+                    <button onClick={() => deleteVendor(vendor.벤더ID)}>X</button>
+                    <button onClick={() => handleEdit(vendor)}>수정</button>
+
                   </td>
                 </tr>
               ))}

@@ -13,7 +13,7 @@ const VenderNCustomer = () => {
     const tabContArr=[
         {
             tabTitle:(
-                <button className={activeIndex===0 ? "active" : ""} 
+                <button className={activeIndex===0 ? "active22" : ""} 
                 onClick={()=>tabClickHandler(0)}> 고객 </button>
             ),
             tabCont:(
@@ -22,11 +22,11 @@ const VenderNCustomer = () => {
         },
         {
             tabTitle:(
-                <button className={activeIndex===1 ? "active " : ""} 
+                <button className={activeIndex===1 ? "active22" : ""} 
                 onClick={()=>tabClickHandler(1)}> 거래처 </button>
             ),
             tabCont:(
-                <div> <AddVender /></div>
+                <div> <AddVender /> </div>
             )
         }
     ];
