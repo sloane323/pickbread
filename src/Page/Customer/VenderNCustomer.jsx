@@ -6,14 +6,14 @@ import styles from "./VenderNCustomer.module.css";
 
 const VenderNCustomer = () => {
     const [activeIndex, setActiveIndex] = useState(0);
-    const tabClickHandler=(index)=>{
+    const tabClickHandler=(index)=> {
         setActiveIndex(index);
     };
 
     const tabContArr=[
         {
             tabTitle:(
-                <button id={styles.buttontab} className={activeIndex===0 ? "is-active" : ""} onClick={()=>tabClickHandler(0)}> 고객 </button>
+                <button id={styles.buttontab} style={activeIndex===0 ? {backgroundColor:"#ff0000", color : "#fff"} : {}} onClick={()=>tabClickHandler(0)}> 고객 </button>
             ),
             tabCont:(
                 <div> <br /><Customers /> </div>
@@ -21,7 +21,7 @@ const VenderNCustomer = () => {
         },
         {
             tabTitle:(
-                <button id={styles.buttontab} className={activeIndex===1 ? "is-active" : ""} onClick={()=>tabClickHandler(1)}> 거래처 </button>
+                <button id={styles.buttontab} style={activeIndex===1 ? {backgroundColor:"#ff0000", color : "#fff"} : {}} onClick={()=>tabClickHandler(1)}> 거래처 </button>
             ),
             tabCont:(
                 <div> <AddVendor /> </div>
