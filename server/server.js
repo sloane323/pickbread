@@ -329,13 +329,12 @@ app.get("/api/p_stock/:id", (req, res) => {
 app.put("/api/p_stock", (req, res) => {
   pool.getConnection((err, conn) => {
     if (err) throw err;
-    const { id } = req.body.id;
-    const { ammount } = req.body.ammount;
-    const sql = `UPDATE 제품재고 SET 진량=잔량-${amount} WHERE 제품ID = "${id}"`;
+    const { id , amount} = req.body;
+    const sql = `UPDATE 제품재고 SET 잔량=잔량-${amount} WHERE 제품ID = "${id}"`;
     conn.query(sql, (err, rows, fields) => {
+      conn.release();
       res.send(rows);
     });
-    conn.release();
   });
 });
 // 레시피 조회

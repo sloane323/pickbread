@@ -4,7 +4,8 @@ import { useEffect , useState } from "react";
 const PaymentMain = (props) => {
     const {selectedProduct , salesLog} = props;
     const [p_stock, setP_stock] = useState("");
-
+    const [idArray,setIdArray] = useState([]);
+    const [amountArray ,setAmountArray] = useState([])
 
     const getP_stock = async () => {
       const url = "/api/p_stock";
@@ -13,29 +14,36 @@ const PaymentMain = (props) => {
   };
   useEffect(()=>{
     getP_stock()
-  },[])
-
-
-    console.log('selectedProduct',selectedProduct);
-    console.log('p_stock',p_stock);
-
-    const payment = ()=>{
-      // 재고의 갯수에서 구매하는 제품의 갯수만큼 빼는 함수  
-      let id = '';
-      let amount = 0 ;
-      const p_stockRows = p_stock.length
-      const selectedProductRows = selectedProduct.length
-      const rows = Math.min(p_stockRows , selectedProductRows);
-      for(let i = 0 ; i < rows ; i++){
-        if(p_stock[i][5] === selectedProduct[i][0]){
-          id = selectedProduct[i][0];
-          amount = selectedProduct[i][2];
-          console.log('id',id);
-          console.log('amount',amount);
+  },[]);
+    
+    const payment = async()=>{
+      // 재고의 갯수에서 구매하는 제품의 갯수만큼 빼는 함수 
+      try {
+      const p_stockRows = p_stock.length;
+      const selectedProductRows = selectedProduct.length;
+      for (let i = 0; i < selectedProductRows; i++) {
+        const selectedProductId = selectedProduct[i][0];
+        for (let j = 0; j < p_stockRows; j++) {
+          if (p_stock[j].제품ID === selectedProductId) {
+            idArray.push(selectedProductId);
+            amountArray.push(selectedProduct[i][2]);
+            break;
+          }
         }
       }
+      for (let i = 0 ; i<idArray.length; i++){
+        const response = await axios.put("/api/p_stock",{
+          id : idArray[i],
+          amount : amountArray[i]
+        })
+        console.log('response.data',response.data);
+      }
+    } catch (err) {
+      console.error('err',err);
     }
-  
+
+    }
+    
   return ( 
     <div>
       <button> 포인트 </button>
