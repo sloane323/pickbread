@@ -8,7 +8,6 @@ const Customers = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [showEditForm, setShowEditForm] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
-
   const handlePaginationClick = (e) => {
     setCurrentPage(e.target.textContent);
   };
@@ -29,7 +28,6 @@ const Customers = () => {
     });
   };
 
-
   const handleEdit = (customer) => {
     setSelectedCustomer(customer);
     setShowEditForm(true);
@@ -37,11 +35,13 @@ const Customers = () => {
 
   const handleSave = (updatedCustomer) => {
     axios.put(`/api/customer/${updatedCustomer.고객ID}`, updatedCustomer).then((response) => {
-      const updatedCustomers = customers.map((c) => (c.id === updatedCustomer.고객ID ? updatedCustomer : c));
-      setCustomers(updatedCustomers);
-      setShowEditForm(false);
-      setSelectedCustomer(null);
+      axios.post(`/api/point/${updatedCustomer.고객ID}`, updatedCustomer, {headers : {"Content-Type" : "application/json"}}).then(res=>{
+        getCustomers();
+        setShowEditForm(false);
+        setSelectedCustomer(null);
+      })
     });
+
   };
 
   const handleCancel = () => {
@@ -55,34 +55,39 @@ const Customers = () => {
       setCustomers(updatedCustomers);
     });
   };
+
   const EditForm = ({ customer, onSave, onCancel }) => {
     const [name, setName] = useState(customer.이름);
     const [phone, setPhone] = useState(customer.전화번호);
     const [comment, setComment] = useState(customer.코멘트);
+    const [point, setPoint] = useState(customer.포인트 || 0)
 
     const handleSubmit = (event) => {
-      window.location.reload();
-      onSave({ ...customer, name, phone, comment });
+      event.preventDefault();
+      onSave({ ...customer, name, phone, comment, point });
     };
 
     return (
       <form onSubmit={handleSubmit}>
+        <div class="input-wrapper">
+          <input type="text" value={name || ""} onChange={(e) => setName(e.target.value)} />
+          <label for="name">이름</label>
+        </div>
 
         <div class="input-wrapper">
-        <input type="text" value={name || ""} onChange={(e) => setName(e.target.value) } />
-        <label for="name">이름</label>
-         </div> 
+          <input type="text" value={phone || ""} onChange={(e) => setPhone(e.target.value)} />
+          <label for="phone">전화번호</label>
+        </div>
 
         <div class="input-wrapper">
-        <input type="text" value={phone || ""} onChange={(e) => setPhone(e.target.value)}  />
-        <label for="phone">전화번호</label>
-        </div> 
-
-        <div class="input-wrapper">
-          <input type="text" value={comment || ""} onChange={(e) => setComment(e.target.value)}  />
+          <input type="text" value={comment || ""} onChange={(e) => setComment(e.target.value)} />
           <label for="comment">코멘트</label>
-         </div> 
-       
+        </div>
+        <div class="input-wrapper">
+          <input type="number" value={point || 0} onChange={(e) => setPoint(e.target.value)} min={0} step={100}/>
+          <label for="point">포인트</label>
+        </div>
+
         <button type="submit">저장</button>
         <button type="button" onClick={onCancel}>
           Cancel
@@ -92,24 +97,21 @@ const Customers = () => {
   };
   return (
     <div>
-
       <div>
         <AddCustomer />
       </div>
-
       <div></div>
       <h3>고객 조회</h3>
       <div>
         <form onSubmit={handleSearch}>
-        <div class="input-wrapper">
-          <input type="text" name="searchQuery" 
-          value={searchQuery} 
-          onChange={(event) => setSearchQuery(event.target.value)} required/>
-          <label for="comment">이름 & 전화번호</label>
+          <div class="input-wrapper">
+            <input type="text" name="searchQuery" value={searchQuery} onChange={(event) => setSearchQuery(event.target.value)} required />
+            <label for="comment">이름 & 전화번호</label>
           </div>
           <button type="submit">Search</button>
         </form>
-      </div> <br />
+      </div>{" "}
+      <br />
       {showEditForm && selectedCustomer && (
         <div>
           <EditForm customer={selectedCustomer} onSave={handleSave} onCancel={handleCancel} /> <hr />
@@ -161,7 +163,6 @@ const Customers = () => {
               );
             })}
       </div>
-
     </div>
   );
 };
