@@ -25,15 +25,28 @@ const EditVendor = (props) => {
     <div>
       <h2>거래처 수정</h2>
       <form onSubmit={editVendorHandler}>
-        <label htmlFor="name">이름</label>
+
+      <div class="input-wrapper">
         <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} />
-        <label htmlFor="phone">전화번호</label>
+        <label htmlFor="name">이름</label>
+        </div>
+
+        <div class="input-wrapper">
         <input type="text" id="phone" value={phone} onChange={(e) => setPhone(e.target.value)} />
-        <label htmlFor="manager">담당자</label>
+        <label htmlFor="phone">전화번호</label>
+        </div>
+
+        <div class="input-wrapper">
         <input type="text" id="manager" value={manager} onChange={(e) => setManager(e.target.value)} />
-        <label htmlFor="comment">코멘트</label>
+        <label htmlFor="manager">담당자</label>
+        </div>
+
+        <div class="input-wrapper">
         <input type="text" id="comment" value={comment} onChange={(e) => setComment(e.target.value)} />
-        <button>저장</button>
+        <label for="comment">코멘트</label>
+        </div>
+
+        <button onClick={editVendorHandler}>저장</button>
         <button type="button" onClick={props.closeEditor}>
           Cancle
         </button>
