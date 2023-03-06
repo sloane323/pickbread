@@ -483,9 +483,9 @@ app.post("/api/vendor", (req, res) => {
       const id = Math.random().toString(32).slice(2);
       const name = req.body.name;
       const phone = req.body.phone;
-      const officer = req.body.officer;
+      const manager = req.body.manager;
       const comment = req.body.comment;
-      const params = [id, name, phone, officer, comment];
+      const params = [id, name, phone, manager, comment];
       conn.query(sql, params, (err, rows, fields) => {
         res.send(rows);
         console.log(err);
@@ -497,41 +497,36 @@ app.post("/api/vendor", (req, res) => {
 /* 거래처 조회 */
 app.get("/api/vendor", (req, res) => {
   pool.getConnection((err, conn) => {
-    if (err) {
-      throw err;
-    } else {
-      const sql = "SELECT * FROM 벤더 order by 이름";
-      conn.query(sql, (err, rows, fields) => {
-        res.send(rows);
-      });
-      conn.release();
-    }
-  });
-});
-
-/* 거래처 검색 */
-app.get("/api/vendor", (req, res) => {
-  pool.getConnection((err, conn) => {
-    if (err) {
-      throw err;
-    } else {
-      let sql = "SELECT * FROM 벤더 order by 이름";
-      if (req.query.search) {
-        sql = `select * from 벤더 where 이름 = '${req.query.search}'`;
+    if (err) throw err;
+    const { page, result, search } = req.query;
+    let sql = "SELECT * FROM 벤더 order by 이름";
+    if (page && result) {
+      const offset = (page - 1) * result;
+      sql = `SELECT *, (SELECT COUNT(*) FROM 벤더) AS 카운터 FROM 벤더 ORDER BY 이름 LIMIT ${result} OFFSET ${offset}`;
+      if (search) {
+        sql = `SELECT *, (SELECT COUNT(*) FROM 벤더 WHERE 이름 LIKE "%${search}%" OR 전화번호 LIKE "%${search}%") AS 카운터 FROM 벤더
+        WHERE 이름 LIKE "%${search}%" OR 전화번호 LIKE "%${search}%" ORDER BY 이름 LIMIT ${result} OFFSET ${offset};`;
       }
-      conn.query(sql, (err, rows, fields) => {
-        if (err) {
-          throw err;
-        } else {
-          res.send(rows);
-        }
-      });
-      conn.release();
     }
+    conn.query(sql, (err, rows, fields) => {
+      res.send(rows);
+    });
+    conn.release();
   });
 });
-
-
+/* 거래처 수정 */
+app.put("/api/vendor/:id", (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) throw err;
+    const sql = `UPDATE 벤더 SET 이름 = ?, 전화번호 = ?, 담당자 = ?, 코멘트 = ? WHERE 벤더ID = ?`;
+    const { 벤더ID, 이름, 전화번호, 담당자, 코멘트 } = req.body;
+    const parmas = [이름, 전화번호, 담당자, 코멘트, 벤더ID];
+    conn.query(sql, parmas, (err, rows, fields) => {
+      res.send(rows);
+    });
+    conn.release();
+  });
+});
 /* 거래처 삭제 */
 app.delete("/api/vendor", (req, res) => {
   pool.getConnection((err, conn) => {
@@ -667,6 +662,22 @@ app.put("/api/customer/:id", (req, res) => {
         }
       });
     }
+    conn.release();
+  });
+});
+// 포인트 수동 등록
+app.post("/api/point/:id", (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) throw err;
+    const sql = "INSERT INTO 포인트 VALUES (?, ?, ?, ?, ?)";
+    const pointId = Math.random().toString(32).slice(2);
+    const customerId = req.params.id;
+    const content = "수동 등록";
+    const point = Number(req.body.point) - Number(req.body.포인트);
+    const params = [pointId, customerId, null, content, point];
+    conn.query(sql, params, (err, rows, fields) => {
+      res.send(rows);
+    });
     conn.release();
   });
 });
