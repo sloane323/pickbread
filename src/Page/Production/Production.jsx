@@ -1,21 +1,30 @@
-import { Link } from "react-router-dom";
-
+import { useNavigate } from 'react-router-dom';
 // 생산 페이지
 const Production = () => {
+  const navigate = useNavigate();
+
+  const goToMaterialIndexPage = () => {
+    navigate("/production/material");
+  }
+  const goToProductPage = () => {
+    navigate("/production/product");
+  }
+  const goToTotalStocksPage = () => {
+    navigate("/production/total-stocks");
+  }
+
   return (
     <div>
-      <h1>Production Page</h1>
-      <Link to="/production/add-vendor">▶거래처 등록</Link>
-      <Link to="/production/add-material">▶원자재 등록</Link> <br />
-      <br />
-      <Link to="/production/purchase">▶원자재 구매</Link>
-      <Link to="/production/product">▶제품 등록</Link>
-      <br />
-      <br />
-      <Link to="/production/manufacture">▶제품 생산</Link>
-      <br />
-      <br />
-      <Link to="/production/stock">▶재고확인</Link>
+      <h1>원자재, 제품, 재고</h1>
+      <div>
+        <button onClick={goToMaterialIndexPage}>원자재 페이지</button>
+      </div>
+      <div>
+        <button onClick={goToProductPage}>제품 페이지</button>
+      </div>
+      <div>
+        <button onClick={goToTotalStocksPage}>원자재 및 제품 통합 재고</button>
+      </div>
     </div>
   );
 };

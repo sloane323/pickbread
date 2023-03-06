@@ -1,11 +1,7 @@
-/* 원자재 등록 페이지 */
-import React from "react";
-import { useState } from "react";
-/* src 안에서만 import 할 수 있다. */
-/* import { posting } from '../../server/server' */
+import React, { useState } from "react";
 import axios from "axios";
 
-const AddMaterial = () => {
+const MaterialTypeForm = () => {
   const [name, setName] = useState("");
   const [size, setSize] = useState(0);
   const [unit, setUnit] = useState("");
@@ -66,8 +62,8 @@ const AddMaterial = () => {
     setBoxBarcode(event.target.value);
   };
   const changeOriginHandler = (event) => {
-    setOrigin(event.target.value)
-  }
+    setOrigin(event.target.value);
+  };
 
   const post = () => {
     const url = "/api/material";
@@ -189,4 +185,4 @@ const AddMaterial = () => {
   );
 };
 
-export default AddMaterial;
+export default MaterialTypeForm;

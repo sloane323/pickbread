@@ -1,18 +1,20 @@
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
 import axios from "axios";
-const GetPurchase = () => {
+
+const GetPurchaseMaterialsHistory = () => {
   const [purchases, setPurchases] = useState();
   const getPurchase = async () => {
-    const url = "/api/purchasing"
-    const response = await axios.get(url)
-    setPurchases(response.data)
-  }
-  useEffect(()=>{
+    const url = "/api/purchasing";
+    const response = await axios.get(url);
+    setPurchases(response.data);
+  };
+  useEffect(() => {
     getPurchase();
-  },[])
+  }, []);
   return (
     <div>
+      <h1>원자재 구매내역 조회</h1>
       <div>
         <input type="text" />
         <button> 검색 </button>
@@ -42,9 +44,8 @@ const GetPurchase = () => {
             ))}
         </tbody>
       </table>
- 
     </div>
   );
 };
 
-export default GetPurchase;
+export default GetPurchaseMaterialsHistory;

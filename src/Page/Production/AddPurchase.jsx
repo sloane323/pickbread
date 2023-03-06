@@ -6,7 +6,7 @@ const AddPurchase = () => {
   return (
     <div>
       <h1>원자재 구매 등록</h1>
-      <PurchaseForm/>
+      <PurchaseForm />
     </div>
   );
 }

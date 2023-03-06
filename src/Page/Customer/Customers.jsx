@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import AddCustomer from "./AddCustomer";
 
 const Customers = () => {
@@ -30,10 +29,6 @@ const Customers = () => {
     });
   };
 
-  const handleReset = () => {
-    setSearchQuery("");
-    getCustomers();
-  };
 
   const handleEdit = (customer) => {
     setSelectedCustomer(customer);
@@ -72,9 +67,22 @@ const Customers = () => {
 
     return (
       <form onSubmit={handleSubmit}>
-        <input type="text" value={name || ""} onChange={(e) => setName(e.target.value)} placeholder="이름" />
-        <input type="text" value={phone || ""} onChange={(e) => setPhone(e.target.value)} placeholder="전화번호" />
-        <input type="text" value={comment || ""} onChange={(e) => setComment(e.target.value)} placeholder="코멘트" />
+
+        <div class="input-wrapper">
+        <input type="text" value={name || ""} onChange={(e) => setName(e.target.value) } />
+        <label for="name">이름</label>
+         </div> 
+
+        <div class="input-wrapper">
+        <input type="text" value={phone || ""} onChange={(e) => setPhone(e.target.value)}  />
+        <label for="phone">전화번호</label>
+        </div> 
+
+        <div class="input-wrapper">
+          <input type="text" value={comment || ""} onChange={(e) => setComment(e.target.value)}  />
+          <label for="comment">코멘트</label>
+         </div> 
+       
         <button type="submit">저장</button>
         <button type="button" onClick={onCancel}>
           Cancel
@@ -84,24 +92,24 @@ const Customers = () => {
   };
   return (
     <div>
-      <div>
-        <h1>Customers 목록</h1>
-      </div>
+
       <div>
         <AddCustomer />
       </div>
-      <div>
-        <h3>고객검색</h3>
-        <form onSubmit={handleSearch}>
-          <input type="text" name="searchQuery" value={searchQuery} placeholder="이름 & 전화번호" onChange={(event) => setSearchQuery(event.target.value)} />
-          <button type="submit">Search</button>
-          <button type="button" onClick={handleReset}>
-            Reset
-          </button>
-        </form>
-      </div>
+
       <div></div>
-      <h2>조회</h2>
+      <h3>고객 조회</h3>
+      <div>
+        <form onSubmit={handleSearch}>
+        <div class="input-wrapper">
+          <input type="text" name="searchQuery" 
+          value={searchQuery} 
+          onChange={(event) => setSearchQuery(event.target.value)} required/>
+          <label for="comment">이름 & 전화번호</label>
+          </div>
+          <button type="submit">Search</button>
+        </form>
+      </div> <br />
       {showEditForm && selectedCustomer && (
         <div>
           <EditForm customer={selectedCustomer} onSave={handleSave} onCancel={handleCancel} /> <hr />
@@ -153,6 +161,7 @@ const Customers = () => {
               );
             })}
       </div>
+
     </div>
   );
 };

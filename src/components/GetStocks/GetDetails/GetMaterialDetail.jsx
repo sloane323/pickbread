@@ -1,11 +1,10 @@
-import axios from "axios";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
+import axios from "axios";
 
-const StockDetail = () => {
+const GetMaterialDetail = () => {
   const { id } = useParams();
   const [stock, setStock] = useState(null);
-
   const getStock = async () => {
     try {
       /* 주소에 id 값을 줘서 파라미터로 넘긴다. */
@@ -16,17 +15,14 @@ const StockDetail = () => {
       console.log(error);
     }
   };
-
   const disposeStockHandler = async (id, dispose) => {
     const url = `/api/m_stock/dispose/${id}`;
     await axios.put(url, { dispose });
     getStock();
   };
-
   useEffect(() => {
     getStock();
   }, [id]);
-
   return (
     <div>
       <h1>원자재 재고확인 상세 페이지</h1>
@@ -69,7 +65,13 @@ const StockDetail = () => {
               <td>{stock.사용기한}</td>
               <td>{stock.폐기여부 ? "O" : "X"}</td>
               <td>
-                <button onClick={() => disposeStockHandler(stock.재고ID, stock.폐기여부)}>{stock.폐기여부 ? "폐기취소" : "폐기"}</button>
+                <button
+                  onClick={() =>
+                    disposeStockHandler(stock.재고ID, stock.폐기여부)
+                  }
+                >
+                  {stock.폐기여부 ? "폐기취소" : "폐기"}
+                </button>
               </td>
               <td>{stock.현재가격}</td>
               <td>{stock.기준가격}</td>
@@ -91,4 +93,4 @@ const StockDetail = () => {
   );
 };
 
-export default StockDetail;
+export default GetMaterialDetail;
