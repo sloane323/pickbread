@@ -1,24 +1,19 @@
 import styles from "../Sales/Sales.module.css";
 import axios from "axios";
 import { useState, useEffect } from "react";
-
 import SelectList from "../../components/sales/SelectList";
 import CustomerList from "./CustomerList";
 import PaymentMode from "./PaymentMode";
 import TotalCost from "../../components/sales/TotalCost";
-
 const Sales = () => {
     const [product, setProduct] = useState("");
     const [customer, setCustomer] = useState("");
     const [p_stock, setP_stock] = useState("");
     const [selectedProduct, setSelectedProduct] = useState([])
-
-    const [selectedP_stock, setSelectedP_stock] = useState("")
-    
     const [selectProduct, setSelectProduct] = useState();
     const [saleDate, setSaleDate] = useState(new Date().toISOString().slice(0, 10));
-    const [totalCost , setTotalCost ]= useState();
-
+    const [totalPrice, setTotalPrice] = useState();
+    const [manufacture, setMnaufacture] = useState();
     const [modalOpen, setModalOpen] = useState(false);
     const [modalOpen1, setModalOpen1] = useState(false);
 
@@ -52,10 +47,17 @@ const Sales = () => {
         setP_stock(response.data);
     };
 
+    const getManufacture = async ()=>{
+        const url = "/api/manufacture";
+        const response = await axios.get(url);
+        setMnaufacture(response.data)
+    }
+
     useEffect(() => {
         getProduct()
         getCustomer()
         getP_stock()
+        getManufacture()
     }, [])
 
     const log = () => {
@@ -63,11 +65,11 @@ const Sales = () => {
         console.log('customer', customer);
         console.log('p_stock', p_stock);
         console.log('selectedProduct', [...selectedProduct]);
+        console.log('manufacture',manufacture);
+    }
 
-        }
-    
-    
-         // 버튼눌렀을때 id, name , amount , price를 구해오는 함수
+
+    // 버튼눌렀을때 id, name , amount , price를 구해오는 함수
     const btnClick = (e) => {
         const id = e.target.value;
         const name = selectProductName(id);
@@ -101,61 +103,57 @@ const Sales = () => {
 
     // 02/22 foreach문 -> findIndex로 수정 
     const selectProductHandler = (selectProduct) => {
-        const index = selectedProduct.findIndex((element)=>element[0] === selectProduct[0]);
-        if(index === -1){
-            setSelectedProduct(prev => [...prev , selectProduct])
+        const index = selectedProduct.findIndex((element) => element[0] === selectProduct[0]);
+        if (index === -1) {
+            setSelectedProduct(prev => [...prev, selectProduct])
         } else {
-        const updateSelectedProduct = [...selectedProduct]; 
+            const updateSelectedProduct = [...selectedProduct];
             selectedProduct[index][2] += 1;
             setSelectedProduct(updateSelectedProduct)
         }
-
-
     }
-    
+
     // 총 합 가격 함수
-    const totalCostHandler =  ()=>{
-        let eachTCost = 0 ;
-        let totalCost = 0 ;
-        selectedProduct.map((element)=>{
-            eachTCost = element[2] * element[3];
-            totalCost += eachTCost;
-            return totalCost
+    const totalPriceHandler = () => {
+        let eachTPrice = 0;
+        let totalPrice = 0;
+        selectedProduct.map((element) => {
+            eachTPrice = element[2] * element[3];
+            totalPrice += eachTPrice;
+            return totalPrice
         })
-        setTotalCost(totalCost);
+        setTotalPrice(totalPrice);
     }
-   
 
-    
     // 구매눌렀을대 올라갈 데이터(임시)
-    const saleslog = () => {
+    const salesLog = () => {
         const url = "/api/sales";
         const salesID = Math.random().toString(32).slice(2);
+        const salesDate = new Date().toISOString().slice(0, 10);
         const formData = new FormData();
-        formData.append("productID", product);
-        formData.append("customerID", customer);
         formData.append("salesID", salesID);
-        formData.append("purchaseDate", saleDate);
+        formData.append("customerID", customer);
+        formData.append("salesDate", salesDate);
+        formData.append("totalPrice",totalPrice)
         const config = {
             headers: { "Content-Type": "application/json" },
         };
         return axios.post(url, formData, config);
     };
 
-    useEffect(()=>{
-        totalCostHandler()
-    },[selectedProduct])
+    useEffect(() => {
+        totalPriceHandler()
+    }, [selectedProduct])
+
     return (
         <div>
             <div className={styles.salestitle}>
                 <h1> Sales </h1> </div>
             <button onClick={() => log()}>test</button>
-
             <button className={styles.product_btn3} onClick={openModal} >고객추가</button>
             <CustomerList open={modalOpen} close={closeModal} />
             <button className={styles.product_btn3} onClick={openModal1}>결제하기</button>
-            <PaymentMode open={modalOpen1} close={closeModal1} />
-
+            <PaymentMode open={modalOpen1} close={closeModal1} salesLog={salesLog} selectedProduct={selectedProduct}/>
             <div className={styles.salesmain}>
                 <div className={styles.salesmenu}>
                     {/* <tr>
@@ -189,9 +187,8 @@ const Sales = () => {
                             <tr>
                                 <td>총 가격 </td>
                             </tr>
-                            <TotalCost totalCost={totalCost}/>
+                            <TotalCost totalPrice={totalPrice} />
                         </table>
-
                     </div>
                 </div>
             </div>

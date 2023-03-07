@@ -1,13 +1,13 @@
 import PaymentMain from "./Payment/PaymentMain";
 
 const PaymentMode = (props) => {
-    const { open, close } = props;
+    const { open, close ,selectedProduct} = props;
 
     return ( <div> 
         <div className={open ? 'openModal modal' : 'modal'}>
       {open ? (
         <section>
-          <header> <PaymentMain />  </header>
+          <header> <PaymentMain  selectedProduct={selectedProduct}/>  </header>
            <button className="close" onClick={close}>
               X 
             </button>
