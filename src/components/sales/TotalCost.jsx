@@ -1,7 +1,7 @@
 const TotalCost = (props) => {
     return ( 
         <>  
-            <div>{props.totalCost}</div>
+            <div>{props.totalPrice}</div>
         </>
      );
 }

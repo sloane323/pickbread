@@ -13,7 +13,7 @@ const Sales = () => {
     const [selectProduct, setSelectProduct] = useState();
     const [saleDate, setSaleDate] = useState(new Date().toISOString().slice(0, 10));
     const [totalPrice, setTotalPrice] = useState();
-
+    const [manufacture, setMnaufacture] = useState();
     const [modalOpen, setModalOpen] = useState(false);
     const [modalOpen1, setModalOpen1] = useState(false);
 
@@ -47,10 +47,17 @@ const Sales = () => {
         setP_stock(response.data);
     };
 
+    const getManufacture = async ()=>{
+        const url = "/api/manufacture";
+        const response = await axios.get(url);
+        setMnaufacture(response.data)
+    }
+
     useEffect(() => {
         getProduct()
         getCustomer()
         getP_stock()
+        getManufacture()
     }, [])
 
     const log = () => {
@@ -58,6 +65,7 @@ const Sales = () => {
         console.log('customer', customer);
         console.log('p_stock', p_stock);
         console.log('selectedProduct', [...selectedProduct]);
+        console.log('manufacture',manufacture);
     }
 
 
@@ -136,18 +144,16 @@ const Sales = () => {
     useEffect(() => {
         totalPriceHandler()
     }, [selectedProduct])
+
     return (
         <div>
             <div className={styles.salestitle}>
                 <h1> Sales </h1> </div>
             <button onClick={() => log()}>test</button>
-
             <button className={styles.product_btn3} onClick={openModal} >고객추가</button>
             <CustomerList open={modalOpen} close={closeModal} />
-
             <button className={styles.product_btn3} onClick={openModal1}>결제하기</button>
             <PaymentMode open={modalOpen1} close={closeModal1} salesLog={salesLog} selectedProduct={selectedProduct}/>
-
             <div className={styles.salesmain}>
                 <div className={styles.salesmenu}>
                     {/* <tr>

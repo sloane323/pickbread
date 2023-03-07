@@ -3,9 +3,9 @@ import { useEffect , useState } from "react";
 
 const PaymentMain = (props) => {
     const {selectedProduct , salesLog} = props;
-    const [p_stock, setP_stock] = useState("");
-    const [idArray,setIdArray] = useState([]);
-    const [amountArray ,setAmountArray] = useState([])
+    const [p_stock , setP_stock] = useState("");
+    const [idArray , setIdArray] = useState([]);
+    const [amountArray , setAmountArray] = useState([])
 
     const getP_stock = async () => {
       const url = "/api/p_stock";
@@ -41,9 +41,11 @@ const PaymentMain = (props) => {
     } catch (err) {
       console.error('err',err);
     }
-
     }
-    
+    useEffect(()=>{
+      setIdArray([])
+      setAmountArray([])
+    },[selectedProduct])
   return ( 
     <div>
       <button> 포인트 </button>
