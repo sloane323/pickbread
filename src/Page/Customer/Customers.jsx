@@ -8,17 +8,15 @@ const Customers = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [showEditForm, setShowEditForm] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
-
   const handlePaginationClick = (e) => {
-    setCurrentPage(e.target.textContent)
+    setCurrentPage(e.target.textContent);
   };
-  
+
   const getCustomers = async () => {
     const response = await axios.get(`/api/customer?page=${currentPage}`);
     setCustomers(response.data);
   };
-  
-  
+
   useEffect(() => {
     getCustomers();
   }, [currentPage]);
@@ -30,7 +28,6 @@ const Customers = () => {
     });
   };
 
-
   const handleEdit = (customer) => {
     setSelectedCustomer(customer);
     setShowEditForm(true);
@@ -38,11 +35,13 @@ const Customers = () => {
 
   const handleSave = (updatedCustomer) => {
     axios.put(`/api/customer/${updatedCustomer.고객ID}`, updatedCustomer).then((response) => {
-      const updatedCustomers = customers.map((c) => (c.id === updatedCustomer.고객ID ? updatedCustomer : c));
-      setCustomers(updatedCustomers);
-      setShowEditForm(false);
-      setSelectedCustomer(null);
+      axios.post(`/api/point/${updatedCustomer.고객ID}`, updatedCustomer, {headers : {"Content-Type" : "application/json"}}).then(res=>{
+        getCustomers();
+        setShowEditForm(false);
+        setSelectedCustomer(null);
+      })
     });
+
   };
 
   const handleCancel = () => {
@@ -56,14 +55,16 @@ const Customers = () => {
       setCustomers(updatedCustomers);
     });
   };
+
   const EditForm = ({ customer, onSave, onCancel }) => {
     const [name, setName] = useState(customer.이름);
     const [phone, setPhone] = useState(customer.전화번호);
     const [comment, setComment] = useState(customer.코멘트);
+    const [point, setPoint] = useState(customer.포인트 || 0)
 
     const handleSubmit = (event) => {
-      window.location.reload();
-      onSave({ ...customer, name, phone, comment });
+      event.preventDefault();
+      onSave({ ...customer, name, phone, comment, point });
     };
 
     return (
@@ -93,11 +94,9 @@ const Customers = () => {
   };
   return (
     <div>
-
       <div>
         <AddCustomer />
       </div>
-
       <div></div>
       <h3>고객 조회</h3>
       <div>
@@ -110,7 +109,8 @@ const Customers = () => {
           </div>
           <button type="submit">Search</button>
         </form>
-      </div> <br />
+      </div>{" "}
+      <br />
       {showEditForm && selectedCustomer && (
         <div>
           <EditForm customer={selectedCustomer} onSave={handleSave} onCancel={handleCancel} /> <hr />
@@ -136,7 +136,7 @@ const Customers = () => {
                 <td>
                   <input type="checkbox"></input>
                 </td>
-                <td>{idx + 1}</td>
+                <td>{(currentPage - 1) * 10 + idx + 1}</td>
                 <td>{customer.이름}</td>
                 <td>{customer.전화번호}</td>
                 <td>{customer.코멘트}</td>
@@ -151,17 +151,17 @@ const Customers = () => {
         </tbody>
       </table>
       <div>
-        {customers && Array(+customers[0].페이지수)
-          .fill()
-          .map((el, idx) => {
-            return (
-              <button key={idx + 1} onClick={handlePaginationClick}>
-                {idx + 1}
-              </button>
-            );
-          })}
+        {customers &&
+          Array(+customers[0].페이지수)
+            .fill()
+            .map((el, idx) => {
+              return (
+                <button key={idx + 1} onClick={handlePaginationClick}>
+                  {idx + 1}
+                </button>
+              );
+            })}
       </div>
-
     </div>
   );
 };
