@@ -106,6 +106,21 @@ app.get("/api/currentstock/:id", (req, res) => {
     conn.release();
   });
 });
+
+/* 원자재 조회 */
+app.get("/api/currentstock", (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) {
+      throw err;
+    } else {
+      const sql = "SELECT * FROM 원자재재고";
+      conn.query(sql, (err, rows, fields) => {
+        res.send(rows);
+      });
+      conn.release();
+    }
+  });
+});
 /* 원자재재고 등록 */
 app.post("/api/m_stock", (req, res) => {
   pool.getConnection((err, conn) => {
