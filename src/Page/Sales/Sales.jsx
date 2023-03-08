@@ -52,7 +52,10 @@ const Sales = () => {
         const response = await axios.get(url);
         setMnaufacture(response.data)
     }
-
+    
+    const setSelectedProductHandler =()=>{
+        setSelectedProduct([])
+    }
     useEffect(() => {
         getProduct()
         getCustomer()
@@ -139,7 +142,7 @@ const Sales = () => {
             <button className={styles.product_btn3} onClick={openModal} >고객추가</button>
             <CustomerList open={modalOpen} close={closeModal} />
             <button className={styles.product_btn3} onClick={openModal1}>결제하기</button>
-            <PaymentMode open={modalOpen1} close={closeModal1} selectedProduct={selectedProduct} totalPrice={totalPrice}/>
+            <PaymentMode open={modalOpen1} close={closeModal1} selectedProduct={selectedProduct} totalPrice={totalPrice} setSelectedProductHandler={setSelectedProductHandler}/>
             <div className={styles.salesmain}>
                 <div className={styles.salesmenu}>
                     {/* <tr>
