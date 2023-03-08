@@ -2,7 +2,6 @@ import { useState } from "react";
 import CustomerList from "./CustomerList";
 import PaymentMode from "./PaymentMode";
 import PointModal from "./PointModal";
-import style from "../Sales/SalesButton.module.css";
 import styles from "./Modal.module.css";
 
 
@@ -22,31 +21,28 @@ const SalesButton = () => {
     const closeModal2 = () => { setModalOpen2(false); };
 
     return ( <div>
-    <div className={style.buttondisplay}>
+    <div className={styles.buttondisplay}>
             <button onClick={openModal} >고객</button>
-            <div className={modalOpen ? styles.modal : styles.hidden}>
+            <div className={modalOpen ? styles.modal : ""}>
               <div className={styles.modalContent}>
-                <span className={styles.close} onClick={closeModal}>
+                <span className={styles.close} onClick={closeModal}> X  </span>
                 <CustomerList />
-                </span>
               </div>
             </div>
             <button onClick={openModal2}>포인트사용</button>
             <div className={modalOpen2 ? styles.modal : styles.hidden}>
               <div className={styles.modalContent}>
-                <span className={styles.close} onClick={closeModal2}>
+                <span className={styles.close} onClick={closeModal2}> X </span>
                 <PointModal />
-                </span>
               </div>
             </div>
             <button onClick={openModal1}>결제하기</button>
             <div className={modalOpen1 ? styles.modal : styles.hidden}>
               <div className={styles.modalContent}>
-                <span className={styles.close} onClick={closeModal1}>
+                <span className={styles.close} onClick={closeModal1}> X </span>
                 <PaymentMode />
-              </span>
               </div>
-              
+
             </div>
             </div>
     </div> );
