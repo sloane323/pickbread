@@ -23,14 +23,14 @@ const SalesButton = () => {
     return ( <div>
     <div className={styles.buttondisplay}>
             <button onClick={openModal} >고객</button>
-            <div className={modalOpen ? "" : styles.modal}>
+            <div className={modalOpen ? styles.modal : styles.hidden}>
               <div className={styles.modalContent}>
                 <span className={styles.close} onClick={closeModal}>  X  </span>
                 <CustomerList />
               </div>
             </div>
             <button onClick={openModal2}>포인트사용</button>
-            <div className={modalOpen2 ? "" : styles.modal}>
+            <div className={modalOpen2 ? styles.modal : styles.hidden}>
               <div className={styles.modalContent}>
                 <span className={styles.close} onClick={closeModal2}> X</span>
                 <PointModal />
