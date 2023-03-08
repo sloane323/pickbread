@@ -10,14 +10,12 @@ const AddVendor = () => {
   const [phone, setPhone] = useState("");
   const [manager, setManager] = useState("");
   const [comment, setComment] = useState("");
-
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedVendor, setSelectedVendor] = useState(null);
-  const [showEditForm, setShowEditForm] = useState(false);
-
-
-  // 조회할 state
-  const [inputData, setInputData] = useState();
+  const [editVendorIsShown, setEditVendorIsShown] = useState(false);
+  const [selectedVendor, setSelectedVendor] = useState();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [search, setSearch] = useState();
+  const resultPerPage = 10;
+  const totalPage = vendors ? Math.ceil(vendors[0].카운터 / resultPerPage) : null;
 
   // 거래처 등록 함수
   const post = () => {
@@ -67,21 +65,18 @@ const AddVendor = () => {
     getVendor();
   }, [currentPage]);
 
-  // 밴더 검색 조회 
-  const handleSearch = (event) => {
-    event.preventDefault();
-    axios.get(`/api/vendor?search=${searchQuery}`).then((response) => {
-      setInputData(response.data);
-    });
+  const openEditor = (vendor) => {
+    setEditVendorIsShown(true);
+    setSelectedVendor(vendor);
   };
-
-  const handleEdit = (vendor) => {
-    setSelectedVendor(d);
-    setShowEditForm(true);
+  const closeEditor = () => {
+    setEditVendorIsShown(false);
+    setSelectedVendor();
   };
-
-  
-
+  const searchVendor = (e) => {
+    e.preventDefault();
+    getVendor(search);
+  };
   return (
     <div>
       <div>
@@ -102,13 +97,17 @@ const AddVendor = () => {
           </div>
 
           <div class="input-wrapper">
-          <input
-            type="text"
-            onChange={(e) => {
-              setPhone(e.target.value);
-            }} required
-          />
-          <label for="phone">전화번호</label> </div>
+            <input
+              type="text"
+              onChange={(e) => {
+                setPhone(e.target.value);
+              }}
+              value={phone}
+              required
+            />
+            <label for="phone">전화번호</label>
+          </div>
+
           <div class="input-wrapper">
             <input
               type="text"
@@ -149,22 +148,6 @@ const AddVendor = () => {
 
       <div>
         <h2>거래처</h2>
-        <div>
-        <form onSubmit={handleSearch}>
-        <div className="input-wrapper">
-          <input type="text" name="searchQuery" 
-          value={searchQuery} 
-          onChange={(event) => setSearchQuery(event.target.value)} required/>
-          <label>이름 & 전화번호</label>
-          </div>
-          <button type="submit">Search</button>
-        </form>
-        {showEditForm && selectedVendor && (
-        <div>
-          <EditForm d={selectedVendor} onSave={handleSave} onCancel={handleCancel} /> <hr />
-        </div>
-      )}
-      </div> 
         <table>
           <thead>
             <tr>
@@ -177,18 +160,17 @@ const AddVendor = () => {
             </tr>
           </thead>
           <tbody>
-            {inputData &&
-              inputData.map((vendor, idx) => (
+            {vendors &&
+              vendors.map((d, idx) => (
                 <tr key={idx}>
-                  <td>{idx + 1}</td>
-                  <td>{vendor.이름}</td>
-                  <td>{vendor.전화번호}</td>
-                  <td>{vendor.담당자}</td>
-                  <td>{vendor.코멘트}</td>
+                  <td>{(currentPage - 1) * resultPerPage + idx + 1}</td>
+                  <td>{d.이름}</td>
+                  <td>{d.전화번호}</td>
+                  <td>{d.담당자}</td>
+                  <td>{d.코멘트}</td>
                   <td>
-                    <button onClick={() => deleteVendor(vendor.벤더ID)}>X</button>
-                    <button onClick={() => handleEdit(vendor)}>수정</button>
-
+                    <button onClick={() => deleteVendor(d.벤더ID)}>삭제</button>
+                    <button onClick={() => openEditor(d)}>수정</button>
                   </td>
                 </tr>
               ))}
