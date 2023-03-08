@@ -35,7 +35,7 @@ const EditVendor = (props) => {
         <input type="text" id="comment" value={comment} onChange={(e) => setComment(e.target.value)} />
         <button>저장</button>
         <button type="button" onClick={props.closeEditor}>
-          Cancle
+          Cancel
         </button>
       </form>
     </div>
