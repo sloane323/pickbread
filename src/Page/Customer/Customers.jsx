@@ -35,13 +35,12 @@ const Customers = () => {
 
   const handleSave = (updatedCustomer) => {
     axios.put(`/api/customer/${updatedCustomer.고객ID}`, updatedCustomer).then((response) => {
-      axios.post(`/api/point/${updatedCustomer.고객ID}`, updatedCustomer, {headers : {"Content-Type" : "application/json"}}).then(res=>{
+      axios.post(`/api/point/${updatedCustomer.고객ID}`, updatedCustomer, { headers: { "Content-Type": "application/json" } }).then((res) => {
         getCustomers();
         setShowEditForm(false);
         setSelectedCustomer(null);
-      })
+      });
     });
-
   };
 
   const handleCancel = () => {
@@ -60,7 +59,14 @@ const Customers = () => {
     const [name, setName] = useState(customer.이름);
     const [phone, setPhone] = useState(customer.전화번호);
     const [comment, setComment] = useState(customer.코멘트);
-    const [point, setPoint] = useState(customer.포인트 || 0)
+    const [point, setPoint] = useState(customer.포인트 || 0);
+    const [pointDelta, setPointDelta] = useState(0);
+    useEffect(() => {
+      setPointDelta(Number(point) - Number(customer.포인트));
+    }, [point, customer]);
+    useEffect(() => {
+      setPoint(Number(pointDelta) + Number(customer.포인트));
+    }, [pointDelta, customer]);
 
     const handleSubmit = (event) => {
       event.preventDefault();
@@ -71,21 +77,25 @@ const Customers = () => {
       <form onSubmit={handleSubmit}>
         <div class="input-wrapper">
           <input type="text" value={name || ""} onChange={(e) => setName(e.target.value)} />
-          <label for="name">이름</label>
+          <label htmlFor="name">이름</label>
         </div>
 
         <div class="input-wrapper">
           <input type="text" value={phone || ""} onChange={(e) => setPhone(e.target.value)} />
-          <label for="phone">전화번호</label>
+          <label htmlFor="phone">전화번호</label>
         </div>
 
         <div class="input-wrapper">
           <input type="text" value={comment || ""} onChange={(e) => setComment(e.target.value)} />
-          <label for="comment">코멘트</label>
+          <label htmlFor="comment">코멘트</label>
         </div>
         <div class="input-wrapper">
-          <input type="number" value={point || 0} onChange={(e) => setPoint(e.target.value)} min={0} step={100}/>
-          <label for="point">포인트</label>
+          <input type="number" value={point || 0} onChange={(e) => setPoint(e.target.value)} min={0} step={100} />
+          <label htmlFor="point">포인트</label>
+        </div>
+        <div class="input-wrapper">
+          <input type="number" value={pointDelta || 0} onChange={(e) => setPointDelta(e.target.value)} min={-customer.포인트} step={100} />
+          <label htmlFor="point">포인트 변화</label>
         </div>
 
         <button type="submit">저장</button>
