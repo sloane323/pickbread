@@ -26,3 +26,9 @@
   .hidden {
     display: flexbox;
   }
+
+  span {
+background-color: white;
+margin: 2px;
+padding: 2px;
+  }
