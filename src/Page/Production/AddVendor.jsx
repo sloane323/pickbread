@@ -148,22 +148,6 @@ const AddVendor = () => {
 
       <div>
         <h2>거래처</h2>
-        <div>
-        <form onSubmit={handleSearch}>
-        <div className="input-wrapper">
-          <input type="text" name="searchQuery" 
-          value={searchQuery} 
-          onChange={(event) => setSearchQuery(event.target.value)} required/>
-          <label>이름 & 전화번호</label>
-          </div>
-          <button type="submit">Search</button>
-        </form>
-        {showEditForm && selectedVendor && (
-        <div>
-          <EditForm d={selectedVendor} onSave={handleSave} onCancel={handleCancel} /> <hr />
-        </div>
-      )}
-      </div> 
         <table>
           <thead>
             <tr>

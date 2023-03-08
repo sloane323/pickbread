@@ -2,13 +2,9 @@ import { useState } from "react";
 import CustomerList from "./CustomerList";
 import PaymentMode from "./PaymentMode";
 import PointModal from "./PointModal";
-import style from "../Sales/SalesButton.module.css";
-import styles from "./Modal.module.css";
+import styles from "../Sales/SalesButton.module.css";
 
-
-
-const SalesButton = (props) => {
-    const {selectedProduct , totalPrice , setSelectedProductHandler} = props;
+const SalesButton = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const [modalOpen1, setModalOpen1] = useState(false);
     const [modalOpen2, setModalOpen2] = useState(false);
@@ -22,34 +18,14 @@ const SalesButton = (props) => {
     const openModal2 = () => {setModalOpen2(true); };
     const closeModal2 = () => { setModalOpen2(false); };
 
-
     return ( <div>
-    <div className={style.buttondisplay}>
-            <button onClick={openModal} >고객</button>
-            <div className={modalOpen ? styles.modal : styles.hidden}>
-              <div className={styles.modalContent}>
-                <span className={styles.close} onClick={closeModal}>
-                <CustomerList />
-                </span>
-              </div>
-            </div>
+            <div className={styles.buttondisplay}>
+            <button onClick={openModal} >고객추가</button>
+            <CustomerList open={modalOpen} close={closeModal} />
             <button onClick={openModal2}>포인트사용</button>
-            <div className={modalOpen2 ? styles.modal : styles.hidden}>
-              <div className={styles.modalContent}>
-                <span className={styles.close} onClick={closeModal2}>
-                <PointModal />
-                </span>
-              </div>
-            </div>
+            <PointModal open={modalOpen2} close={closeModal2} />
             <button onClick={openModal1}>결제하기</button>
-            <div className={modalOpen1 ? styles.modal : styles.hidden}>
-              <div className={styles.modalContent}>
-                <span className={styles.close} onClick={closeModal1}>
-                <PaymentMode selectedProduct={selectedProduct} totalPrice={totalPrice} setSelectedProductHandler={setSelectedProductHandler}/>
-              </span>
-              </div>
-              
-            </div>
+            <PaymentMode open={modalOpen1} close={closeModal1} />
             </div>
     </div> );
 }

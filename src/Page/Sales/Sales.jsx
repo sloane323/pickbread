@@ -2,9 +2,9 @@ import styles from "../Sales/Sales.module.css";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import SelectList from "../../components/sales/SelectList";
-import CustomerList from "./CustomerList";
-import PaymentMode from "./PaymentMode";
+
 import TotalCost from "../../components/sales/TotalCost";
+import SalesButton from "./SalesButton";
 const Sales = () => {
     const [product, setProduct] = useState("");
     const [customer, setCustomer] = useState("");
@@ -14,22 +14,8 @@ const Sales = () => {
     const [saleDate, setSaleDate] = useState(new Date().toISOString().slice(0, 10));
     const [totalPrice, setTotalPrice] = useState();
     const [manufacture, setMnaufacture] = useState();
-    const [modalOpen, setModalOpen] = useState(false);
-    const [modalOpen1, setModalOpen1] = useState(false);
 
-    const openModal = () => {
-        setModalOpen(true);
-    };
-    const closeModal = () => {
-        setModalOpen(false);
-    };
 
-    const openModal1 = () => {
-        setModalOpen1(true);
-    };
-    const closeModal1 = () => {
-        setModalOpen1(false);
-    };
 
     const getProduct = async () => {
         const url = "/api/product"
@@ -138,11 +124,10 @@ const Sales = () => {
         <div>
             <div className={styles.salestitle}>
                 <h1> Sales </h1> </div>
+                <div> 
+                    <SalesButton />
+                </div>
             <button onClick={() => log()}>test</button>
-            <button className={styles.product_btn3} onClick={openModal} >고객추가</button>
-            <CustomerList open={modalOpen} close={closeModal} />
-            <button className={styles.product_btn3} onClick={openModal1}>결제하기</button>
-            <PaymentMode open={modalOpen1} close={closeModal1} selectedProduct={selectedProduct} totalPrice={totalPrice} setSelectedProductHandler={setSelectedProductHandler}/>
             <div className={styles.salesmain}>
                 <div className={styles.salesmenu}>
                     {/* <tr>
