@@ -2,11 +2,10 @@ import axios from "axios";
 import { useEffect , useState } from "react";
 
 const PaymentMain = (props) => {
-    const {selectedProduct , salesLog} = props;
+    const {selectedProduct , totalPrice } = props;
     const [p_stock , setP_stock] = useState("");
     const [idArray , setIdArray] = useState([]);
     const [amountArray , setAmountArray] = useState([])
-
     const getP_stock = async () => {
       const url = "/api/p_stock";
       const response = await axios.get(url);
@@ -14,6 +13,7 @@ const PaymentMain = (props) => {
   };
   useEffect(()=>{
     getP_stock()
+    console.log('totalPrice',totalPrice);
   },[]);
     
     const payment = async()=>{
@@ -36,12 +36,34 @@ const PaymentMain = (props) => {
           id : idArray[i],
           amount : amountArray[i]
         })
-        console.log('response.data',response.data);
       }
+      salesLog()
     } catch (err) {
       console.error('err',err);
     }
     }
+     // 구매눌렀을대 올라갈 데이터(임시)
+     const salesLog = async  () => {
+      const url = "/api/sales";
+      const salesID = Math.random().toString(32).slice(2);
+      const salesDate = new Date().toISOString().slice(0, 10);
+      const customerID = 'ltgv95v211o';
+      const totalCost = 0 ;
+      const formData = new FormData();
+      formData.append("salesID", salesID);
+      formData.append("customerID", customerID);
+      formData.append("salesDate", salesDate);
+      formData.append("totalPrice",totalPrice);
+      formData.append("totalCost",totalCost);
+      const config = {
+          headers: { "Content-Type": "application/json" },
+      };
+      console.log('formData',formData);
+      return await axios.post(url, formData, config);
+      
+  };
+
+    
     useEffect(()=>{
       setIdArray([])
       setAmountArray([])

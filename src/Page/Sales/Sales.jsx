@@ -125,21 +125,7 @@ const Sales = () => {
         setTotalPrice(totalPrice);
     }
 
-    // 구매눌렀을대 올라갈 데이터(임시)
-    const salesLog = () => {
-        const url = "/api/sales";
-        const salesID = Math.random().toString(32).slice(2);
-        const salesDate = new Date().toISOString().slice(0, 10);
-        const formData = new FormData();
-        formData.append("salesID", salesID);
-        formData.append("customerID", customer);
-        formData.append("salesDate", salesDate);
-        formData.append("totalPrice",totalPrice)
-        const config = {
-            headers: { "Content-Type": "application/json" },
-        };
-        return axios.post(url, formData, config);
-    };
+   
 
     useEffect(() => {
         totalPriceHandler()
@@ -153,7 +139,7 @@ const Sales = () => {
             <button className={styles.product_btn3} onClick={openModal} >고객추가</button>
             <CustomerList open={modalOpen} close={closeModal} />
             <button className={styles.product_btn3} onClick={openModal1}>결제하기</button>
-            <PaymentMode open={modalOpen1} close={closeModal1} salesLog={salesLog} selectedProduct={selectedProduct}/>
+            <PaymentMode open={modalOpen1} close={closeModal1} selectedProduct={selectedProduct} totalPrice={totalPrice}/>
             <div className={styles.salesmain}>
                 <div className={styles.salesmenu}>
                     {/* <tr>
@@ -179,7 +165,7 @@ const Sales = () => {
                                 <td>  개당가격 </td>
                                 <td>  상품가격 </td>
                             </tr>
-                            <SelectList selectedProduct={selectedProduct} />
+                            <SelectList selectedProduct={selectedProduct} totalPrice={totalPrice} />
                         </table>
                     </div>
                     <div className={styles.bottomRight}>

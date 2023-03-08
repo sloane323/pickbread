@@ -654,20 +654,23 @@ app.post("/api/sales", (req,res) => {
     if(err) {
       throw err;
     } else {
-      const sql = "INSERT INTO 판매내용 VALUES(?,?,?,?,?)";
+      const sql = "INSERT INTO 판매 VALUES (?,?,?,?,?)";
       const salesID= req.body.salesID;
-      const customerId = null;
+      const customerId = req.body.customerID;
       const salesDate = req.body.salesDate;
       const totalPrice = req.body.totalPrice;
-      const totalCost = null;
+      const totalCost = req.body.totalCost;
       const params = [salesID,customerId,salesDate,totalPrice,totalCost]
       conn.query(sql, params, (err, rows, fields) => {
-        res.send(rows)
-        console.log("등록성공");
-        console.log(err);
+        if (err ){
+          console.log(err);
+        }else{
+          res.send(rows)
+          console.log('등록성공');
+        }
       });
+      conn.release();
     }
-    conn.release();
   })
 });
 
