@@ -69,10 +69,7 @@ const PaymentMain = (props) => {
   };
 
 
-  useEffect(() => {
-    setIdArray([])
-    setAmountArray([])
-  }, [selectedProduct])
+
   return (
     <div>
       <button> 포인트 </button>
