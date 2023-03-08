@@ -134,14 +134,18 @@ const AddVendor = () => {
           <button onClick={onSubmit}> 추가 </button>
         </form>
       </div>
-      {editVendorIsShown && selectedVendor && <EditVendor vendor={selectedVendor} closeEditor={closeEditor} getVendor={getVendor} />}
       <div>
         <h2>거래처 조회</h2>
-        <form onSubmit={searchVendor}>
-          <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} />
-          <button>Search</button>
+        <form>
+        <div class="input-wrapper">
+          <input type="text" value={search} onChange={(e) => setSearch(e.target.value)}   required />
+          <label for="name">이름검색</label>
+          </div>
+          <button onClick={searchVendor}>Search</button>
         </form>
       </div>
+      {editVendorIsShown && selectedVendor && <EditVendor vendor={selectedVendor} closeEditor={closeEditor} getVendor={getVendor} />}
+
       <div>
         <h2>거래처</h2>
         <table>
