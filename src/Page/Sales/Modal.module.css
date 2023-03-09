@@ -1,15 +1,15 @@
+/* css 수정  */
 .modal{  
     display:block; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
-    left: 0;
-    top: 0;
+    left: 10%;
+    top: 10% ;
     /* 버튼 눌렀을때 나오는 모달창의 크기 */
-    width: 20%; /* Full width */
-    height: 20%; /* Full height */
+    width: 80%; /* Full width */
+    height: 80%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    background-color: white;
   }
   .hidden{
     display:none;
@@ -17,12 +17,12 @@
     left: 0;
     top: 0;
     overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4);
+    background-color: white;
+    background-color: white;
   }
   .close{
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
+    display: block; /* Hidden by default */
+ /* Stay in place */
     z-index: 1; /* Sit on top */
     left: 0;
     top: 0;
@@ -30,7 +30,7 @@
     height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
     background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    background-color: white; /* Black w/ opacity */
 
   }
   .modal-content {

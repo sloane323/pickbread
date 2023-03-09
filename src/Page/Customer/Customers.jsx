@@ -2,17 +2,20 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import AddCustomer from "./AddCustomer";
 
-const Customers = () => {
+const Customers = (props) => {
+  
   const [customers, setCustomers] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [showEditForm, setShowEditForm] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
 
+  const handleClosePage= ()=> {
+    props.modalHandler()
+  }
   const handlePaginationClick = (e) => {
     setCurrentPage(e.target.textContent);
   };
-
   const getCustomers = async () => {
     const response = await axios.get(`/api/customer?page=${currentPage}`);
     setCustomers(response.data);
@@ -92,11 +95,9 @@ const Customers = () => {
   };
   return (
     <div>
-
-      <div>
+        <h3> 고객등록 </h3>
+        <button onClick={handleClosePage} > x</button>
         <AddCustomer />
-      </div>
-
       <div></div>
       <h3>고객 조회</h3>
       <div>

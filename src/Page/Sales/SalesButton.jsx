@@ -4,14 +4,15 @@ import PaymentMode from "./PaymentMode";
 import PointModal from "./PointModal";
 import style from "../Sales/SalesButton.module.css";
 import styles from "./Modal.module.css";
+import Customers from "../Customer/Customers";
 
 
 
-const SalesButton = () => {
+const SalesButton = (props) => {
     const [modalOpen, setModalOpen] = useState(false);
     const [modalOpen1, setModalOpen1] = useState(false);
     const [modalOpen2, setModalOpen2] = useState(false);
-
+    const { selectedProduct , totalPrice , setSelectedProductHandler }= props
     const modalHandler = () => {
       setModalOpen(!modalOpen)
      };
@@ -22,14 +23,14 @@ const SalesButton = () => {
       setModalOpen2(!modalOpen2)
      };
 
-    
+    console.log(props);
     return ( <div>
     <div className={style.buttondisplay}>
             <button onClick={modalHandler} >고객</button>
             <div className={modalOpen ? styles.modal : styles.hidden}>
               <div className={styles.modalContent}>
-                <span className={styles.close} onClick={modalHandler}>
-                <CustomerList />
+                <span className={styles.close} >
+                <Customers modalHandler={modalHandler}/>
                 </span>
               </div>
             </div>

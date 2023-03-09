@@ -125,7 +125,7 @@ const Sales = () => {
             <div className={styles.salestitle}>
                 <h1> Sales </h1> </div>
                 <div> 
-                    <SalesButton />
+                    <SalesButton selectedProduct={selectedProduct} totalPrice={totalPrice} setSelectedProductHandler={setSelectedProductHandler}/>
                 </div>
             <button onClick={() => log()}>test</button>
             <div className={styles.salesmain}>
