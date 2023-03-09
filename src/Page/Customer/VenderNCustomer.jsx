@@ -6,7 +6,7 @@ import {useState } from "react";
 
 const VenderNCustomer = () => {
     const [activeIndex, setActiveIndex] = useState(0);
-    const tabClickHandler=(index)=>{
+    const tabClickHandler=(index)=> {
         setActiveIndex(index);
     };
 

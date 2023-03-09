@@ -6,6 +6,7 @@ import SelectList from "../../components/sales/SelectList";
 import TotalCost from "../../components/sales/TotalCost";
 import SalesButton from "./SalesButton";
 const Sales = () => {
+
     const [product, setProduct] = useState("");
     const [customer, setCustomer] = useState("");
     const [p_stock, setP_stock] = useState("");
@@ -166,8 +167,33 @@ const Sales = () => {
                     </div>
                 </div>
             </div>
+
         </div>
-    );
-}
+        <div className={styles.bottom}>
+          <div className={styles.bottomLeft}>
+            <table>
+              <tr>
+                <td> no. </td>
+                <td> 상품 </td>
+                <td> 갯수 </td>
+                <td> 개당가격 </td>
+                <td> 상품가격 </td>
+              </tr>
+              <SelectList selectedProduct={selectedProduct} />
+            </table>
+          </div>
+          <div className={styles.bottomRight}>
+            <table>
+              <tr>
+                <td>총 가격 </td>
+              </tr>
+              <TotalCost totalPrice={totalPrice} />
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default Sales;

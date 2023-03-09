@@ -1,16 +1,21 @@
+
 .modal{  
     display:block; /* Hidden by default */
+
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
     left: 0;
     top: 0;
+
     /* 버튼 눌렀을때 나오는 모달창의 크기 */
     width: 20%; /* Full width */
     height: 20%; /* Full height */
+
     overflow: auto; /* Enable scroll if needed */
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
   }
+
   .hidden{
     display:none;
     z-index: 1; /* Sit on top */
@@ -33,6 +38,7 @@
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 
   }
+
   .modal-content {
     background-color: white;
     margin: 15% auto; /* 15% from the top and centered */
@@ -40,4 +46,6 @@
     border: 1px solid #888;
     width: 80%; /* Could be more or less, depending on screen size */
   }
+
   
+
