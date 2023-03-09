@@ -12,37 +12,39 @@ const SalesButton = () => {
     const [modalOpen1, setModalOpen1] = useState(false);
     const [modalOpen2, setModalOpen2] = useState(false);
 
-    const openModal = () => { setModalOpen(true); };
-    const closeModal = () => { setModalOpen(false); };
+    const modalHandler = () => {
+      setModalOpen(!modalOpen)
+     };
+     const modalHandler1 = () => {
+      setModalOpen1(!modalOpen1)
+     };
+     const modalHandler2 = () => {
+      setModalOpen2(!modalOpen2)
+     };
 
-    const openModal1 = () => { setModalOpen1(true);  };
-    const closeModal1 = () => { setModalOpen1(false);};
-
-    const openModal2 = () => {setModalOpen2(true); };
-    const closeModal2 = () => { setModalOpen2(false); };
-
+    
     return ( <div>
     <div className={style.buttondisplay}>
-            <button onClick={openModal} >고객</button>
+            <button onClick={modalHandler} >고객</button>
             <div className={modalOpen ? styles.modal : styles.hidden}>
               <div className={styles.modalContent}>
-                <span className={styles.close} onClick={closeModal}>
+                <span className={styles.close} onClick={modalHandler}>
                 <CustomerList />
                 </span>
               </div>
             </div>
-            <button onClick={openModal2}>포인트사용</button>
+            <button onClick={modalHandler1}>포인트사용</button>
             <div className={modalOpen2 ? styles.modal : styles.hidden}>
               <div className={styles.modalContent}>
-                <span className={styles.close} onClick={closeModal2}>
+                <span className={styles.close} onClick={modalHandler1}>
                 <PointModal />
                 </span>
               </div>
             </div>
-            <button onClick={openModal1}>결제하기</button>
+            <button onClick={modalHandler2}>결제하기</button>
             <div className={modalOpen1 ? styles.modal : styles.hidden}>
               <div className={styles.modalContent}>
-                <span className={styles.close} onClick={closeModal1}>
+                <span className={styles.close} onClick={modalHandler2}>
                 <PaymentMode />
               </span>
               </div>
