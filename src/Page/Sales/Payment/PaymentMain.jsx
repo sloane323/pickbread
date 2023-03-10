@@ -14,7 +14,6 @@ const PaymentMain = (props) => {
   useEffect(() => {
     getP_stock()
   }, []);
-  console.log('selectedCustomer',selectedCustomer);
   const handleClosePage=()=>{
     props.modalHandler2()
   }
