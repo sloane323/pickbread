@@ -503,11 +503,27 @@ app.get("/api/vendor", (req, res) => {
         }
       });
       conn.release();
+
     }
+    conn.query(sql, (err, rows, fields) => {
+      res.send(rows);
+    });
+    conn.release();
   });
 });
-
-
+/* 거래처 수정 */
+app.put("/api/vendor/:id", (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) throw err;
+    const sql = `UPDATE 벤더 SET 이름 = ?, 전화번호 = ?, 담당자 = ?, 코멘트 = ? WHERE 벤더ID = ?`;
+    const { 벤더ID, 이름, 전화번호, 담당자, 코멘트 } = req.body;
+    const parmas = [이름, 전화번호, 담당자, 코멘트, 벤더ID];
+    conn.query(sql, parmas, (err, rows, fields) => {
+      res.send(rows);
+    });
+    conn.release();
+  });
+});
 /* 거래처 삭제 */
 app.delete("/api/vendor", (req, res) => {
   pool.getConnection((err, conn) => {
@@ -565,6 +581,7 @@ app.delete("/api/customer", (req, res) => {
 /* 포인트 */
 app.post("/api/point/", (req, res) => {
   pool.getConnection((err, conn) => {
+
     console.log("포인트 실행");
     if (err) {
       throw err;
@@ -666,20 +683,23 @@ app.post("/api/sales", (req,res) => {
     if(err) {
       throw err;
     } else {
-      const sql = "INSERT INTO 판매내용 VALUES(?,?,?,?,?)";
+      const sql = "INSERT INTO 판매 VALUES (?,?,?,?,?)";
       const salesID= req.body.salesID;
-      const customerId = null;
+      const customerId = req.body.customerID;
       const salesDate = req.body.salesDate;
       const totalPrice = req.body.totalPrice;
-      const totalCost = null;
+      const totalCost = req.body.totalCost;
       const params = [salesID,customerId,salesDate,totalPrice,totalCost]
       conn.query(sql, params, (err, rows, fields) => {
-        res.send(rows)
-        console.log("등록성공");
-        console.log(err);
+        if (err ){
+          console.log(err);
+        }else{
+          res.send(rows)
+          console.log('등록성공');
+        }
       });
+      conn.release();
     }
-    conn.release();
   })
 });
 
