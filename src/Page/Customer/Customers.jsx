@@ -25,6 +25,9 @@ const Customers = (props) => {
     getCustomers();
   }, [currentPage]);
 
+  const selectCustomer= (a)=>{
+    props.setSelectedCustomer(a)
+  }
   const handleSearch = (event) => {
     event.preventDefault();
     axios.get(`/api/customer?search=${searchQuery}`).then((response) => {
@@ -143,10 +146,10 @@ const Customers = (props) => {
         </thead>
         <tbody>
           {customers &&
-            customers.map((customer, idx) => (
+            customers.map((customer, idx ) => (
               <tr key={idx}>
                 <td>
-                  <input type="checkbox"></input>
+                  <input type="checkbox"  onChange={()=>selectCustomer(customer)}></input>
                 </td>
                 <td>{(currentPage - 1) * 10 + idx + 1}</td>
                 <td>{customer.이름}</td>

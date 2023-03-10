@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 const PaymentMain = (props) => {
-  const { selectedProduct, totalPrice } = props;
+  const { selectedProduct, totalPrice ,selectedCustomer} = props;
   const [p_stock, setP_stock] = useState("");
   const [idArray, setIdArray] = useState([]);
   const [amountArray, setAmountArray] = useState([])
@@ -14,7 +14,10 @@ const PaymentMain = (props) => {
   useEffect(() => {
     getP_stock()
   }, []);
-
+  console.log('selectedCustomer',selectedCustomer);
+  const handleClosePage=()=>{
+    props.modalHandler2()
+  }
   const payment = async () => {
     // 재고의 갯수에서 구매하는 제품의 갯수만큼 빼는 함수 
     try {
@@ -53,7 +56,7 @@ const PaymentMain = (props) => {
     const url = "/api/sales";
     const salesID = Math.random().toString(32).slice(2);
     const salesDate = new Date().toISOString().slice(0, 10);
-    const customerID = 'ltgv95v211o';
+    const customerID = `${selectedCustomer.고객ID}`;
     const totalCost = 0;
     const formData = new FormData();
     formData.append("salesID", salesID);
@@ -72,6 +75,7 @@ const PaymentMain = (props) => {
 
   return (
     <div>
+      <button onClick={handleClosePage}> X</button>
       <button> 할인 </button>
       <button onClick={() => { payment() }}> 결제 </button>
     </div>

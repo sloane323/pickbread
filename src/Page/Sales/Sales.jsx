@@ -7,14 +7,14 @@ import TotalCost from "../../components/sales/TotalCost";
 import SalesButton from "./SalesButton";
 const Sales = () => {
     const [product, setProduct] = useState("");
-    const [customer, setCustomer] = useState("");
+    const [customer, setCustomer] = useState([]);
     const [p_stock, setP_stock] = useState("");
     const [selectedProduct, setSelectedProduct] = useState([])
     const [selectProduct, setSelectProduct] = useState();
     const [saleDate, setSaleDate] = useState(new Date().toISOString().slice(0, 10));
     const [totalPrice, setTotalPrice] = useState();
     const [manufacture, setMnaufacture] = useState();
-
+    const [selectedCustomer,setSelectedCustomer]= useState([])
 
 
     const getProduct = async () => {
@@ -119,13 +119,19 @@ const Sales = () => {
     useEffect(() => {
         totalPriceHandler()
     }, [selectedProduct])
-
+    console.log('selectedCustomer',selectedCustomer);
     return (
         <div>
             <div className={styles.salestitle}>
                 <h1> Sales </h1> </div>
                 <div> 
-                    <SalesButton selectedProduct={selectedProduct} totalPrice={totalPrice} setSelectedProductHandler={setSelectedProductHandler}/>
+                    <SalesButton 
+                    selectedProduct={selectedProduct}
+                    totalPrice={totalPrice} 
+                    setSelectedProductHandler={setSelectedProductHandler} 
+                    setSelectedCustomer={setSelectedCustomer}
+                    selectedCustomer={selectedCustomer}
+                    />
                 </div>
             <button onClick={() => log()}>test</button>
             <div className={styles.salesmain}>
