@@ -5,6 +5,7 @@ import PointModal from "./PointModal";
 import style from "../Sales/SalesButton.module.css";
 import styles from "./Modal.module.css";
 import Customers from "../Customer/Customers";
+import PaymentMain from "./Payment/PaymentMain";
 
 
 
@@ -46,7 +47,7 @@ const SalesButton = (props) => {
             <div className={modalOpen1 ? styles.modal : styles.hidden}>
               <div className={styles.modalContent}>
                 <span className={styles.close} onClick={modalHandler2}>
-                <PaymentMode />
+                <PaymentMain selectedProduct={selectedProduct} totalPrice={totalPrice} />
               </span>
               </div>
               
