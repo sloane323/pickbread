@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { getNowDate, getTwoWeeksDate } from '../../../common';
+import { getNowDate, getTwoWeeksDate } from "../../../common";
 import MaterialStockOption from "./MaterialStockOption";
 import ProductionOption from "./ProductionOption";
 
@@ -48,24 +48,55 @@ const ManufactureProductsForm = () => {
   }, [productions, materialStocks]);
   const onSubmit = async (event) => {
     event.preventDefault();
-    await manufacturePost();
-    await productStockPost();
-    for (let i = 0; i < selectedMaterialStockWrap.length; i++) {
-      await materialUsagePost(i);
+    const manufacturePostCheck = manufactureCheckFunc();
+    const productStockCheck = productStockCheckFunc();
+    if (
+      manufacturePostCheck === 1 &&
+      productStockCheck === 1 &&
+      selectedMaterialStockWrap.length > 0 &&
+      materialUsageWrap.length > 0
+    ) {
+      await manufacturePost();
+      await productStockPost();
+      for (let i = 0; i < selectedMaterialStockWrap.length; i++) {
+        await materialUsagePost(i);
+      }
+      for (let i = 0; i < materialUsageWrap.length; i++) {
+        await materialCalcPost(i);
+      }
+      setEnteredAmount(1);
+      setMaterialUsage(1);
+      setMaterialUsageWrap([]);
+      setManufactureDate(getNowDate());
+      setExpiryDate(getTwoWeeksDate());
+      setSelectedProduction(productions[0]);
+      setProductDispose(false);
+      setSelectedMaterialStockWrap([]);
+      setMaterialDispose(false);
+      setMaterialDisposeWrap([]);
+    } else if (manufacturePostCheck !== 1) {
+      alert("생산 데이터가 정확하지 않습니다");
+    } else if (productStockCheck !== 1) {
+      alert("제품 재고 테이블을 업데이트 할 수 없습니다");
+    } else if (selectedMaterialStockWrap.length <= 0) {
+      alert("원자재 사용량이 정확하지 않습니다");
+    } else if (materialUsageWrap.length < 0) {
+      alert("원자재 재고를 업데이트할 수 없습니다");
     }
-    for (let i = 0; i < materialUsageWrap.length; i++) {
-      await materialCalcPost(i);
+  };
+  const manufactureCheckFunc = () => {
+    if (!selectedProduction) {
+      alert("제품이 선택되지 않았습니다");
+      return 0;
+    } else if (enteredAmount <= 0) {
+      alert("제품 수량은 1 이상으로 입력할 수 있습니다");
+      return 0;
+    } else if (!manufactureDate) {
+      alert("생산 일이 입력되지 않았습니다");
+      return 0;
+    } else {
+      return 1;
     }
-    setEnteredAmount(1);
-    setMaterialUsage(1);
-    setMaterialUsageWrap([]);
-    setManufactureDate(getNowDate());
-    setExpiryDate(getTwoWeeksDate());
-    setSelectedProduction(productions[0]);
-    setProductDispose(false);
-    setSelectedMaterialStockWrap([]);
-    setMaterialDispose(false);
-    setMaterialDisposeWrap([]);
   };
   const manufacturePost = () => {
     const url = "/api/manufacture";
@@ -79,6 +110,23 @@ const ManufactureProductsForm = () => {
     };
     console.log(formData);
     return axios.post(url, formData, config);
+  };
+  const productStockCheckFunc = () => {
+    if (!selectedProduction) {
+      alert("제품이 선택되지 않았습니다");
+      return 0;
+    } else if (enteredAmount <= 0) {
+      alert("제품 수량은 1 이상으로 입력할 수 있습니다");
+      return 0;
+    } else if (!expiryDate) {
+      alert("생산 일이 입력되지 않았습니다");
+      return 0;
+    } else if (productDispose === null) {
+      alert("제품의 폐기 여부가 정해지지 않았습니다");
+      return 0;
+    } else {
+      return 1;
+    }
   };
   const productStockPost = () => {
     const url = "/api/p_stock";
@@ -199,6 +247,7 @@ const ManufactureProductsForm = () => {
           value={enteredAmount}
           onChange={enteredAmountHandler}
           min={1}
+          required
         />
       </div>
       <div>
@@ -233,6 +282,7 @@ const ManufactureProductsForm = () => {
           value={materialUsage}
           onChange={materialUsageHandler}
           min={1}
+          required
         ></input>
       </div>
       <div>
@@ -269,7 +319,11 @@ const ManufactureProductsForm = () => {
           </button>
           <br />
           <br />
-          {productDispose ? <span style={{border: "2px solid black"}}>제품 폐기</span> : <span style={{border: "2px solid black"}}>제품 유통</span>}
+          {productDispose ? (
+            <span style={{ border: "2px solid red" }}>제품 폐기</span>
+          ) : (
+            <span style={{ border: "2px solid green" }}>제품 유통</span>
+          )}
           <br />
           <br />
           <button type="button" onClick={materialDisposeHandler}>
@@ -277,7 +331,11 @@ const ManufactureProductsForm = () => {
           </button>
           <br />
           <br />
-          {materialDispose ? <span style={{border: "2px solid black"}}>원자재 폐기</span> : <span style={{border: "2px solid black"}}>원자재 유통</span>}
+          {materialDispose ? (
+            <span style={{ border: "2px solid red" }}>원자재 폐기</span>
+          ) : (
+            <span style={{ border: "2px solid green" }}>원자재 유통</span>
+          )}
           <br />
           <br />
         </div>
@@ -287,4 +345,4 @@ const ManufactureProductsForm = () => {
   );
 };
 
-export default ManufactureProductsForm
+export default ManufactureProductsForm;

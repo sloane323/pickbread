@@ -10,6 +10,7 @@ const TotalStocksIndexPage = () => {
         <button
           className={activeIndex === 0 ? "active22" : ""}
           onClick={() => setActiveIndex(0)}
+          key={0}
         >
           현재 원자재 재고 조회
         </button>
@@ -26,6 +27,7 @@ const TotalStocksIndexPage = () => {
         <button
           className={activeIndex === 1 ? "active22" : ""}
           onClick={() => setActiveIndex(1)}
+          key={1}
         >
           현재 제품 재고 조회
         </button>

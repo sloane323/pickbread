@@ -20,6 +20,7 @@ const MaterialIndexPage = () => {
         <button
           className={activeIndex === 0 ? "active22" : ""}
           onClick={() => setActiveIndex(0)}
+          key={0}
         >
           원자재 종류 등록
         </button>
@@ -36,6 +37,7 @@ const MaterialIndexPage = () => {
         <button
           className={activeIndex === 1 ? "active22" : ""}
           onClick={() => setActiveIndex(1)}
+          key={1}
         >
           원자재 구매
         </button>
@@ -52,6 +54,7 @@ const MaterialIndexPage = () => {
         <button
           className={activeIndex === 2 ? "active22" : ""}
           onClick={() => setActiveIndex(2)}
+          key={2}
         >
           원자재 구매 내역
         </button>
@@ -68,6 +71,7 @@ const MaterialIndexPage = () => {
         <button
           className={activeIndex === 3 ? "active22" : ""}
           onClick={() => setActiveIndex(3)}
+          key={3}
         >
           현재 원자재 재고
         </button>

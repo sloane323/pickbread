@@ -12,6 +12,7 @@ const ProductIndexPage = () => {
         <button
           className={activeIndex === 0 ? "active22" : ""}
           onClick={() => setActiveIndex(0)}
+          key={0}
         >
           제품 종류 등록
         </button>
@@ -28,6 +29,7 @@ const ProductIndexPage = () => {
         <button
           className={activeIndex === 1 ? "active22" : ""}
           onClick={() => setActiveIndex(1)}
+          key={1}
         >
           현재 제품 종류 조회
         </button>
@@ -44,6 +46,7 @@ const ProductIndexPage = () => {
         <button
           className={activeIndex === 2 ? "active22" : ""}
           onClick={() => setActiveIndex(2)}
+          key={2}
         >
           제품 생산
         </button>
@@ -60,6 +63,7 @@ const ProductIndexPage = () => {
         <button
           className={activeIndex === 3 ? "active22" : ""}
           onClick={() => setActiveIndex(3)}
+          key={3}
         >
           현재 제품 재고
         </button>
