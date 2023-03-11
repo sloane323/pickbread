@@ -5,6 +5,7 @@ import axios from "axios";
 const GetCurrentProductTypes = () => {
   const [products, setProducts] = useState();
   const [recipes, setRecipes] = useState();
+  const [searchQuery, setSearchQuery] = useState("");
   const getProducts = async () => {
     const url = "/api/product";
     const response = await axios.get(url);
@@ -15,6 +16,10 @@ const GetCurrentProductTypes = () => {
     const response = await axios.get(url);
     setRecipes(response.data);
   };
+  useEffect(() => {
+    getProducts();
+    getRecipes();
+  }, []);
   const deleteData = (url, id) => {
     return axios.delete(url, { data: { id } });
   };
@@ -27,18 +32,20 @@ const GetCurrentProductTypes = () => {
     getProducts();
     getRecipes();
   };
-  useEffect(() => {
-    getProducts();
-    getRecipes();
-  }, []);
+  const searchProducts = async () => {
+    const url = `/api/product/${searchQuery}`;
+    const response = await axios.get(url);
+    setProducts(response.data);
+  }
 
   return (
     <div>
       <h1>제품 타입 조회</h1>
       <Link to="/production/add-product">제품 등록</Link>
       <div>
-        <input type="text" />
-        <button> 검색 </button>
+        <input type="text" value={searchQuery} onChange={(event) => setSearchQuery(event.target.value)} />
+        <button onClick={searchProducts}>검색</button>
+        <button onClick={getProducts}>초기화</button>
       </div>
       <table>
         <thead>
