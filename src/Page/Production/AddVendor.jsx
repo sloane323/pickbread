@@ -41,15 +41,6 @@ const AddVendor = () => {
     setComment("");
   };
 
-  // 거래처 삭제 함수
-  const deleteVendor = (id) => {
-    const url = `/api/vendor/`;
-    const config = {
-      headers: { "Content-Type": "application/json" },
-    };
-    return axios.delete(url, { data: { id } }, config);
-  };
-
   // 거래처 조회 함수
   const getVendor = async (search) => {
     if (search) {
@@ -60,6 +51,18 @@ const AddVendor = () => {
       setVendors(res.data);
     }
   };
+    // 거래처 삭제 함수
+    const deleteVendorHandler = async (id) => {
+      const url = `/api/vendor/`;
+      const config = {
+        headers: { "Content-Type": "application/json" },
+      };
+      const res = await axios.delete(url, { data: { id } }, config);
+    };
+    const deleteVendor = (id) => {
+      deleteVendorHandler(id)
+      getVendor()
+    }
   // 렌더되면 바로 조회
   useEffect(() => {
     getVendor();
