@@ -163,22 +163,25 @@ const PurchaseMaterialsForm = () => {
   };
   const submitHandler = async (e) => {
     e.preventDefault();
-    try {
-      const res = await purchaseMaterial();
-      if (
-        res.statusText === "OK" &&
-        purchasingMaterials &&
-        purchasingMaterials.length > 0
-      ) {
-        purchasingMaterials.map(async (el, idx) => {
-          await addMStock(idx);
-        });
+    const purchaseCheck = purchaseCheckFunc();
+    if(purchaseCheck === 1) {
+      try {
+        const res = await purchaseMaterial();
+        if (
+          res.statusText === "OK" &&
+          purchasingMaterials &&
+          purchasingMaterials.length > 0
+        ) {
+          purchasingMaterials.map(async (el, idx) => {
+            await addMStock(idx);
+          });
+        }
+        alert("구매등록 완료");
+      } catch (e) {
+        alert("구매등록 실패");
       }
-      alert("구매등록 완료");
-    } catch (e) {
-      alert("구매등록 실패");
+      navigate("/production/purchase");
     }
-    navigate("/production/purchase");
   };
   return (
     <form onSubmit={submitHandler}>
