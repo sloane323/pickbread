@@ -15,7 +15,7 @@ const PurchaseMaterialsForm = () => {
   );
   const [selectedVendor, setSelectedVendor] = useState("");
   const [selectedMaterial, setSelectedMaterial] = useState("");
-  const [enteredAmount, setEnteredAmount] = useState("");
+  const [enteredAmount, setEnteredAmount] = useState(1);
   const [purchasingMaterials, setPurchaingMaterials] = useState([]);
   const [expDate, setExpDate] = useState(new Date().toISOString().slice(0, 10));
   const [discount, setDiscount] = useState(0);
@@ -73,34 +73,73 @@ const PurchaseMaterialsForm = () => {
     setDiscount(e.target.value);
   };
   const addPurchasingMaterialHandler = () => {
-    const addedMaterial = {
-      materialID: selectedMaterial.원자재ID,
-      name: selectedMaterial.이름,
-      size: selectedMaterial.사이즈,
-      cost: selectedMaterial.현재가격,
-      unit: selectedMaterial.단위,
-      amount: enteredAmount,
-      expDate: expDate,
-    };
-    setPurchaingMaterials((prev) => {
-      return [...prev, addedMaterial];
-    });
-    setEnteredAmount("");
+    if (purchaseDate < expDate && enteredAmount > 0) {
+      const addedMaterial = {
+        materialID: selectedMaterial.원자재ID,
+        name: selectedMaterial.이름,
+        size: selectedMaterial.사이즈,
+        cost: selectedMaterial.현재가격,
+        unit: selectedMaterial.단위,
+        amount: enteredAmount,
+        expDate: expDate,
+      };
+      setPurchaingMaterials((prev) => {
+        return [...prev, addedMaterial];
+      });
+      setEnteredAmount("");
+    } else if (purchaseDate >= expDate) {
+      alert(
+        "구매 일과 유효 기한이 같거나, 유효 기한이 구매 일보다 앞서고 있습니다. 다시 확인해주세요."
+      );
+    } else if (enteredAmount <= 0) {
+      alert("원자재 수량은 1 미만으로 내려갈 수 없습니다");
+    }
+  };
+  const purchaseCheckFunc = () => {
+    if (selectedVendor.length === 0) {
+      alert("벤더가 설정되지 않았습니다");
+      return 0;
+    } else if (purchaseDate >= expDate) {
+      alert(
+        "구매 일과 유효 기한이 같거나, 유효 기한이 구매 일보다 앞서고 있습니다. 다시 확인해주세요."
+      );
+      return 0;
+    } else if (prevCost === 0) {
+      alert("원자재 원가가 계산되지 않았습니다");
+      return 0;
+    } else if (totalCost === 0) {
+      alert("총액이 계산되지 않았습니다");
+      return 0;
+    } else {
+      return 1;
+    }
   };
   const purchaseMaterial = () => {
-    const url = "/api/purchasing";
-    const formData = new FormData();
-    formData.append("purchasingID", purchasingID);
-    formData.append("vendorID", selectedVendor.벤더ID);
-    formData.append("purchaseDate", purchaseDate);
-    formData.append("prevCost", prevCost);
-    formData.append("discount", discount);
-    formData.append("totalCost", totalCost);
-    const config = {
-      headers: { "Content-Type": "application/json" },
-    };
-    return axios.post(url, formData, config);
+    const purchaseCheck = purchaseCheckFunc();
+    if (purchaseCheck === 1) {
+      const url = "/api/purchasing";
+      const formData = new FormData();
+      formData.append("purchasingID", purchasingID);
+      formData.append("vendorID", selectedVendor.벤더ID);
+      formData.append("purchaseDate", purchaseDate);
+      formData.append("prevCost", prevCost);
+      formData.append("discount", discount);
+      formData.append("totalCost", totalCost);
+      const config = {
+        headers: { "Content-Type": "application/json" },
+      };
+      return axios.post(url, formData, config);
+    }
   };
+  /* purchasingMaterials의 길이를 조건으로 따지고 있음, 굳이 필요 X
+  const addMaterialCheckFunc = () => {
+    if (purchasingMaterials.length === 0) {
+      alert("원자재의 정보가 입력되지 않았습니다.");
+      return 0;
+    } else {
+      return 1;
+    }
+  }; */
   const addMStock = (idx) => {
     const url = "/api/m_stock";
     const stockID = Math.random().toString(32).slice(2);
@@ -178,6 +217,8 @@ const PurchaseMaterialsForm = () => {
           id="amount"
           value={enteredAmount}
           onChange={changeAmountHandler}
+          min={1}
+          required
         />
         <div>
           <p>사용기한</p>
