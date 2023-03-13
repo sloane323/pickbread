@@ -10,9 +10,14 @@ const Dashboard = () => {
   const [dateArray, setDateArray] = useState([]);
   const [chunkedPurchasing, setChunkedPurchasing] = useState([]);
 
-  const [currentStock, setCunrrentStock] = useState();
+  const [currentStock, setCunrrentStock] = useState([]);
   const [chunkedStock, setChunkedStock] = useState([]);
   const [dispStock, setDisplayStock] = useState([]);
+  const [sortedStock, setSortedStock] = useState([]);
+  const [manufacture, setManufacture] = useState([]);
+  const [todayManu, setTodayManu] = useState([]);
+  const [manuArray, setManuArray] = useState([]);
+
   // 거래처
   const getVendor = async () => {
     const url = "/api/vendor";
@@ -55,6 +60,13 @@ const Dashboard = () => {
     setCunrrentStock(response.data);
   };
 
+  // 제품생산 받아오기
+  const getManufacture = async () => {
+    const url = "/api/manufacture";
+    const response = await axios.get(url);
+    setManufacture(response.data);
+  };
+
   useEffect(() => {
     getVendor();
     getPurchasing();
@@ -62,8 +74,21 @@ const Dashboard = () => {
     getP_stock();
     getProduct();
     getCurrnetStock();
+    getManufacture();
   }, []);
 
+  const colog = () => {
+    console.log("vendor", vendor);
+    console.log("purchasing", purchasing);
+    console.log("customer", customer);
+    console.log("p_stock", p_stock);
+    console.log("product", product);
+    console.log("currentStock", currentStock);
+    console.log("chunkedStock", chunkedStock);
+    console.log("manufacture", manufacture);
+    console.log("manuArray", manuArray);
+    console.log("todayManu", todayManu);
+  };
   useEffect(() => {
     // 구매일 기준으로 내림차순 정렬
     const sortedPurchasing = [...purchasing].sort((a, b) => {
@@ -82,31 +107,52 @@ const Dashboard = () => {
   }, [purchasing]);
 
   // 사용기한 기준으로 내림차순
-  const displayStock = () => {
-    const sortedStock = currentStock.map((stock) => {
-      return [...stock].sort((a, b) => {
-        const dateA = new Date(a.사용기한);
-        const dateB = new Date(b.사용기한);
-        return dateA - dateB;
-      });
+  useEffect(() => {
+    const sorted = [...currentStock].sort((a, b) => {
+      const dateA = new Date(a.사용기한);
+      const dateB = new Date(b.사용기한);
+      return dateA - dateB;
     });
-  };
-  const colog = () => {
-    console.log("vendor", vendor);
-    console.log("purchasing", purchasing);
-    console.log("customer", customer);
-    console.log("p_stock", p_stock);
-    console.log("product", product);
-    console.log("currentStock", currentStock);
-  };
 
+    const chunkSize = 5;
+    const chunkedArray = [];
+    for (let i = 0; i < sorted.length; i += chunkSize) {
+      chunkedArray.push(sorted.slice(i, i + chunkSize));
+    }
+    setChunkedStock(chunkedArray);
+  }, [currentStock]);
+
+  // 오늘 생산된 제품
+  // const todayManufacture = () => {
+  //   const today = new Date().toISOString().slice(0, 10);
+  //   manufacture.forEach((a) => {
+  //     if (a.생산일 == today) {
+  //       manuArray.push(a);
+  //     }
+  //   });
+  //   const sorted = [...manuArray].sort((b, c) => {
+  //     const amountA = b.생산갯수;
+  //     const amountB = c.생산갯수;
+  //     return amountB - amountA;
+  //   });
+  //   setTodayManu(sorted);
+  // };
+  // useEffect(() => {
+  //   todayManufacture();
+  // }, [manufacture]);
+
+  useEffect(() => {
+    const today = new Date().toISOString().slice(0, 10);
+    const manuArray = manufacture.filter((a) => a.생산일 === today);
+    const sorted = manuArray.sort((a, b) => b.생산갯수 - a.생산갯수);
+    setTodayManu(sorted);
+  }, [manufacture]);
   return (
     <div>
       Dashboard
       <button
         onClick={() => {
           colog();
-          displayStock();
         }}
       >
         테스트용
@@ -115,19 +161,31 @@ const Dashboard = () => {
         <div key={index}>
           <h2>구매내역 {index + 1}</h2>
           {chunk.map((item, innerIndex) => (
-            <p key={innerIndex}>{item.구매일}</p>
+            <p key={innerIndex}>
+              {item.구매일} , {item.구매ID}
+            </p>
           ))}
         </div>
       ))}
       <h2>원자재갯수</h2>
-      {currentStock !== undefined &&
-        currentStock.map((a) => (
-          <div>
-            <p>
-              {a.종류} {a.사용기한}
+      {chunkedStock.map((chunk, b) => (
+        <div key={b}>
+          <h2> {b + 1} 페이지</h2>
+          {chunk.map((item, innerIndex) => (
+            <p key={innerIndex}>
+              {item.종류} {item.사용기한} {item.사이즈}g
             </p>
-          </div>
-        ))}
+          ))}
+        </div>
+      ))}
+      <h2>생산</h2>
+      {todayManu.map((todayM, index) => (
+        <div key={index}>
+          <p>
+            생산ID:{todayM.생산ID} {todayM.생산일} {todayM.생산갯수}개
+          </p>
+        </div>
+      ))}
     </div>
   );
 };

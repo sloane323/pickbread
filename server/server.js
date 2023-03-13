@@ -52,7 +52,20 @@ app.post("/api/material", (req, res) => {
       const pcsBarcode = req.body.pcsBarcode;
       const boxBarcode = req.body.boxBarcode;
       const origin = req.body.origin;
-      const params = [id, name, size, unit, price, defaultPrice, category, expiryDate, brand, pcsBarcode, boxBarcode, origin];
+      const params = [
+        id,
+        name,
+        size,
+        unit,
+        price,
+        defaultPrice,
+        category,
+        expiryDate,
+        brand,
+        pcsBarcode,
+        boxBarcode,
+        origin,
+      ];
       conn.query(sql, params, (err, rows, fields) => {
         res.send(rows);
         console.log(err);
@@ -67,7 +80,8 @@ app.get("/api/material", (req, res) => {
     if (err) {
       throw err;
     } else {
-      const sql = "SELECT DISTINCT 원자재.*, (SELECT SUM(잔량) FROM 원자재재고 WHERE 원자재.원자재ID = 원자재재고.원자재ID) AS 재고 FROM 원자재;";
+      const sql =
+        "SELECT DISTINCT 원자재.*, (SELECT SUM(잔량) FROM 원자재재고 WHERE 원자재.원자재ID = 원자재재고.원자재ID) AS 재고 FROM 원자재;";
       conn.query(sql, (err, rows, fields) => {
         res.send(rows);
       });
@@ -75,6 +89,8 @@ app.get("/api/material", (req, res) => {
     }
   });
 });
+
+// 제품생산 조회
 app.get("/api/manufacture", (req, res) => {
   pool.getConnection((err, conn) => {
     if (err) {
@@ -137,7 +153,17 @@ app.post("/api/m_stock", (req, res) => {
       const balance = req.body.balance;
       const unit = req.body.unit;
       const expDate = req.body.expDate;
-      const params = [stockID, purchasingID, materialID, name, size, amount, balance, unit, expDate];
+      const params = [
+        stockID,
+        purchasingID,
+        materialID,
+        name,
+        size,
+        amount,
+        balance,
+        unit,
+        expDate,
+      ];
       conn.query(sql, params, (err, rows, fields) => {
         res.send(rows);
         console.log(err);
@@ -152,7 +178,8 @@ app.put("/api/m_stock", (req, res) => {
     if (err) {
       throw err;
     } else {
-      const sql = "UPDATE 원자재재고 SET 잔량 = 잔량 - ?, 폐기여부 = 폐기여부 + ? WHERE 재고ID = ?";
+      const sql =
+        "UPDATE 원자재재고 SET 잔량 = 잔량 - ?, 폐기여부 = 폐기여부 + ? WHERE 재고ID = ?";
       const materialUsage = req.body.materialUsage;
       const materialDispose = req.body.materialDispose;
       const selectedMaterialStockId = req.body.selectedMaterialStockId;
@@ -198,7 +225,8 @@ app.get("/api/m_stock", (req, res) => {
 app.get("/api/purchasing", (req, res) => {
   pool.getConnection((err, conn) => {
     if (err) throw err;
-    const sql = "SELECT * FROM 원자재구매 LEFT JOIN 벤더 ON 원자재구매.벤더ID = 벤더.벤더ID ORDER BY 구매일 DESC";
+    const sql =
+      "SELECT * FROM 원자재구매 LEFT JOIN 벤더 ON 원자재구매.벤더ID = 벤더.벤더ID ORDER BY 구매일 DESC";
     conn.query(sql, (err, rows, fields) => {
       res.send(rows);
     });
@@ -235,7 +263,12 @@ app.post("/api/m_usage", (req, res) => {
       const manufactureId = req.body.manufactureId;
       const selectedMaterialStockId = req.body.selectedMaterialStockId;
       const materialUsage = req.body.materialUsage;
-      const params = [usageId, manufactureId, selectedMaterialStockId, materialUsage];
+      const params = [
+        usageId,
+        manufactureId,
+        selectedMaterialStockId,
+        materialUsage,
+      ];
       conn.query(sql, params, (err, rows, fields) => {
         res.send(rows);
         console.log(err);
@@ -327,7 +360,7 @@ app.get("/api/p_stock/:id", (req, res) => {
 app.put("/api/p_stock", (req, res) => {
   pool.getConnection((err, conn) => {
     if (err) throw err;
-    const { id , amount} = req.body;
+    const { id, amount } = req.body;
     const sql = `UPDATE 제품재고 SET 잔량=잔량-${amount} WHERE 제품ID = "${id}"`;
     conn.query(sql, (err, rows, fields) => {
       conn.release();
@@ -388,7 +421,12 @@ app.post("/api/manufacture", (req, res) => {
       const selectedProductionId = req.body.selectedProductionId;
       const enteredAmount = req.body.enteredAmount;
       const manufactureDate = req.body.manufactureDate;
-      const params = [manufactureId, selectedProductionId, enteredAmount, manufactureDate];
+      const params = [
+        manufactureId,
+        selectedProductionId,
+        enteredAmount,
+        manufactureDate,
+      ];
       conn.query(sql, params, (err, rows, fields) => {
         res.send(rows);
       });
@@ -409,7 +447,14 @@ app.post("/api/p_stock", (req, res) => {
       const presentAmount = req.body.presentAmount;
       const expiryDate = req.body.expiryDate;
       const productDispose = req.body.productDispose;
-      const params = [productStockId, manufactureId, selectedProductionId, presentAmount, expiryDate, productDispose];
+      const params = [
+        productStockId,
+        manufactureId,
+        selectedProductionId,
+        presentAmount,
+        expiryDate,
+        productDispose,
+      ];
       conn.query(sql, params, (err, rows, fields) => {
         res.send(rows);
         console.log(err);
@@ -424,7 +469,8 @@ app.get("/api/p_stock", (req, res) => {
     if (err) {
       throw err;
     } else {
-      const sql = "SELECT DISTINCT 제품.*, (SELECT SUM(잔량) FROM 제품재고 WHERE 제품.제품ID = 제품재고.제품ID) AS 재고 FROM 제품;";
+      const sql =
+        "SELECT DISTINCT 제품.*, (SELECT SUM(잔량) FROM 제품재고 WHERE 제품.제품ID = 제품재고.제품ID) AS 재고 FROM 제품;";
       conn.query(sql, (err, rows, fields) => {
         res.send(rows);
       });
@@ -612,7 +658,8 @@ app.put("/api/customer/:id", (req, res) => {
     if (err) {
       throw err;
     } else {
-      const sql = "UPDATE 고객 SET 이름 = ?, 전화번호 = ?, 코멘트 = ? WHERE 고객ID = ?";
+      const sql =
+        "UPDATE 고객 SET 이름 = ?, 전화번호 = ?, 코멘트 = ? WHERE 고객ID = ?";
       const name = req.body.name;
       const phone = req.body.phone;
       const comment = req.body.comment;
@@ -649,26 +696,26 @@ app.post("/api/point/:id", (req, res) => {
 });
 
 // 판매 등록
-app.post("/api/sales", (req,res) => {
+app.post("/api/sales", (req, res) => {
   pool.getConnection((err, conn) => {
-    if(err) {
+    if (err) {
       throw err;
     } else {
       const sql = "INSERT INTO 판매내용 VALUES(?,?,?,?,?)";
-      const salesID= req.body.salesID;
+      const salesID = req.body.salesID;
       const customerId = null;
       const salesDate = req.body.salesDate;
       const totalPrice = req.body.totalPrice;
       const totalCost = null;
-      const params = [salesID,customerId,salesDate,totalPrice,totalCost]
+      const params = [salesID, customerId, salesDate, totalPrice, totalCost];
       conn.query(sql, params, (err, rows, fields) => {
-        res.send(rows)
+        res.send(rows);
         console.log("등록성공");
         console.log(err);
       });
     }
     conn.release();
-  })
+  });
 });
 
 /* 판매 내역 조회 */
