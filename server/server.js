@@ -82,7 +82,6 @@ app.get("/api/material", (req, res) => {
     } else {
       const sql =
         "SELECT DISTINCT 원자재.*, (SELECT SUM(잔량) FROM 원자재재고 WHERE 원자재.원자재ID = 원자재재고.원자재ID) AS 재고 FROM 원자재;";
-
       conn.query(sql, (err, rows, fields) => {
         res.send(rows);
       });
@@ -106,8 +105,6 @@ app.get("/api/material/:searchQuery", (req, res) => {
     }
   });
 });
-
-// 제품생산 조회
 app.get("/api/manufacture", (req, res) => {
   pool.getConnection((err, conn) => {
     if (err) {
@@ -137,21 +134,6 @@ app.get("/api/currentstock/:id", (req, res) => {
       });
     }
     conn.release();
-  });
-});
-
-/* 원자재 조회 */
-app.get("/api/currentstock", (req, res) => {
-  pool.getConnection((err, conn) => {
-    if (err) {
-      throw err;
-    } else {
-      const sql = "SELECT * FROM 원자재재고";
-      conn.query(sql, (err, rows, fields) => {
-        res.send(rows);
-      });
-      conn.release();
-    }
   });
 });
 /* 원자재재고 등록 */
@@ -515,7 +497,6 @@ app.get("/api/p_stock", (req, res) => {
     } else {
       const sql =
         "SELECT DISTINCT 제품.*, (SELECT SUM(잔량) FROM 제품재고 WHERE 제품.제품ID = 제품재고.제품ID) AS 재고 FROM 제품;";
-
       conn.query(sql, (err, rows, fields) => {
         res.send(rows);
       });
@@ -532,7 +513,6 @@ app.get("/api/p_stock/search/:searchQuery", (req, res) => {
       const {searchQuery} = req.params
       const sql =
         `SELECT DISTINCT 제품.*, (SELECT SUM(잔량) FROM 제품재고 WHERE 제품.제품ID = 제품재고.제품ID) AS 재고 FROM 제품 WHERE 이름 LIKE "%${searchQuery}%"`;
-
       conn.query(sql, (err, rows, fields) => {
         res.send(rows);
       });
