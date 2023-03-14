@@ -173,7 +173,31 @@ const Sales = () => {
                 </div>
             </div>
         </div>
-    );
-}
+        <div className={styles.bottom}>
+          <div className={styles.bottomLeft}>
+            <table>
+              <tr>
+                <td> no. </td>
+                <td> 상품 </td>
+                <td> 갯수 </td>
+                <td> 개당가격 </td>
+                <td> 상품가격 </td>
+              </tr>
+              <SelectList selectedProduct={selectedProduct} />
+            </table>
+          </div>
+          <div className={styles.bottomRight}>
+            <table>
+              <tr>
+                <td>총 가격 </td>
+              </tr>
+              <TotalCost totalCost={totalCost} />
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default Sales;
