@@ -10,7 +10,6 @@ const PurchaseForm = () => {
   const navigate = useNavigate();
   const [vendors, setVendors] = useState("");
   const [materials, setMaterials] = useState("");
-
   const [purchaseDate, setPurchaseDate] = useState(
     new Date().toISOString().slice(0, 10)
   );
