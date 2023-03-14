@@ -82,6 +82,23 @@ app.get("/api/material", (req, res) => {
     } else {
       const sql =
         "SELECT DISTINCT 원자재.*, (SELECT SUM(잔량) FROM 원자재재고 WHERE 원자재.원자재ID = 원자재재고.원자재ID) AS 재고 FROM 원자재;";
+
+      conn.query(sql, (err, rows, fields) => {
+        res.send(rows);
+      });
+      conn.release();
+    }
+  });
+});
+/* 개별 원자재 조회 */
+app.get("/api/material/:searchQuery", (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) {
+      throw err;
+    } else {
+      const { searchQuery } = req.params;
+      const sql =
+        `SELECT DISTINCT 원자재.*, (SELECT SUM(잔량) FROM 원자재재고 WHERE 원자재.원자재ID = 원자재재고.원자재ID) AS 재고 FROM 원자재 WHERE 이름 LIKE "%${searchQuery}%"`;
       conn.query(sql, (err, rows, fields) => {
         res.send(rows);
       });
@@ -233,6 +250,18 @@ app.get("/api/purchasing", (req, res) => {
     conn.release();
   });
 });
+/* 개별 원자재 구매 조회 */
+app.get("/api/purchasing/:searchQuery", (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) throw err;
+    const { searchQuery } = req.params;
+    const sql = `SELECT * FROM 원자재구매 LEFT JOIN 벤더 ON 원자재구매.벤더ID = 벤더.벤더ID WHERE 이름 LIKE "%${searchQuery}%" ORDER BY 구매일 DESC`;
+    conn.query(sql, (err, rows, fields) => {
+      res.send(rows);
+    });
+    conn.release();
+  });
+});
 /* 원자재구매 등록 */
 app.post("/api/purchasing", (req, res) => {
   pool.getConnection((err, conn) => {
@@ -305,6 +334,21 @@ app.get("/api/product", (req, res) => {
       throw err;
     } else {
       const sql = "SELECT * FROM 제품";
+      conn.query(sql, (err, rows, fields) => {
+        res.send(rows);
+      });
+      conn.release();
+    }
+  });
+});
+/* 개별 제품 조회 */
+app.get("/api/product/:searchQuery", (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) {
+      throw err;
+    } else {
+      const { searchQuery } = req.params;
+      const sql = `SELECT * FROM 제품 WHERE 이름 LIKE "%${searchQuery}%"`;
       conn.query(sql, (err, rows, fields) => {
         res.send(rows);
       });
@@ -471,6 +515,24 @@ app.get("/api/p_stock", (req, res) => {
     } else {
       const sql =
         "SELECT DISTINCT 제품.*, (SELECT SUM(잔량) FROM 제품재고 WHERE 제품.제품ID = 제품재고.제품ID) AS 재고 FROM 제품;";
+
+      conn.query(sql, (err, rows, fields) => {
+        res.send(rows);
+      });
+      conn.release();
+    }
+  });
+});
+/* 검색 시 각 제품 재고 조회 */
+app.get("/api/p_stock/search/:searchQuery", (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) {
+      throw err;
+    } else {
+      const {searchQuery} = req.params
+      const sql =
+        `SELECT DISTINCT 제품.*, (SELECT SUM(잔량) FROM 제품재고 WHERE 제품.제품ID = 제품재고.제품ID) AS 재고 FROM 제품 WHERE 이름 LIKE "%${searchQuery}%"`;
+
       conn.query(sql, (err, rows, fields) => {
         res.send(rows);
       });
@@ -525,6 +587,45 @@ app.get("/api/vendor", (req, res) => {
         sql = `SELECT *, (SELECT COUNT(*) FROM 벤더 WHERE 이름 LIKE "%${search}%" OR 전화번호 LIKE "%${search}%") AS 카운터 FROM 벤더
         WHERE 이름 LIKE "%${search}%" OR 전화번호 LIKE "%${search}%" ORDER BY 이름 LIMIT ${result} OFFSET ${offset};`;
       }
+    }
+    conn.query(sql, (err, rows, fields) => {
+      res.send(rows);
+    });
+    conn.release();
+  });
+});
+/* 거래처 수정 */
+app.put("/api/vendor/:id", (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) throw err;
+    const sql = `UPDATE 벤더 SET 이름 = ?, 전화번호 = ?, 담당자 = ?, 코멘트 = ? WHERE 벤더ID = ?`;
+    const { 벤더ID, 이름, 전화번호, 담당자, 코멘트 } = req.body;
+    const parmas = [이름, 전화번호, 담당자, 코멘트, 벤더ID];
+    conn.query(sql, parmas, (err, rows, fields) => {
+      res.send(rows);
+    });
+    conn.release();
+  });
+});
+
+/* 거래처 검색 */
+app.get("/api/vendor", (req, res) => {
+  pool.getConnection((err, conn) => {
+    if (err) {
+      throw err;
+    } else {
+      let sql = "SELECT * FROM 벤더 order by 이름";
+      if (req.query.search) {
+        sql = `select * from 벤더 where 이름 = '${req.query.search}'`;
+      }
+      conn.query(sql, (err, rows, fields) => {
+        if (err) {
+          throw err;
+        } else {
+          res.send(rows);
+        }
+      });
+      conn.release();
     }
     conn.query(sql, (err, rows, fields) => {
       res.send(rows);
@@ -619,7 +720,7 @@ app.post("/api/point/", (req, res) => {
   });
 });
 
-// 고객 검색 & 검색
+// 고객 검색
 app.get("/api/customer", (req, res) => {
   const resultsPerPage = 11;
   const currentPage = req.query.page || 1;
@@ -701,20 +802,23 @@ app.post("/api/sales", (req, res) => {
     if (err) {
       throw err;
     } else {
-      const sql = "INSERT INTO 판매내용 VALUES(?,?,?,?,?)";
+      const sql = "INSERT INTO 판매 VALUES (?,?,?,?,?)";
       const salesID = req.body.salesID;
-      const customerId = null;
+      const customerId = req.body.customerID;
       const salesDate = req.body.salesDate;
       const totalPrice = req.body.totalPrice;
-      const totalCost = null;
+      const totalCost = req.body.totalCost;
       const params = [salesID, customerId, salesDate, totalPrice, totalCost];
       conn.query(sql, params, (err, rows, fields) => {
-        res.send(rows);
-        console.log("등록성공");
-        console.log(err);
+        if (err) {
+          console.log(err);
+        } else {
+          res.send(rows);
+          console.log("등록성공");
+        }
       });
+      conn.release();
     }
-    conn.release();
   });
 });
 

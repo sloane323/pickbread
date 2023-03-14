@@ -4,6 +4,7 @@ import axios from "axios";
 
 const GetCurrentMaterialStocks = () => {
   const [materialStocks, setMataialStocks] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
   const getMaterialStocks = async () => {
     try {
       const response = await axios.get(`/api/material`);
@@ -16,9 +17,21 @@ const GetCurrentMaterialStocks = () => {
   useEffect(() => {
     getMaterialStocks();
   }, []);
+  const searchMaterialStocks = async () => {
+    const url = `/api/material/${searchQuery}`;
+    const response = await axios.get(url);
+    setMataialStocks(response.data);
+  };
   return (
     <div>
       <h1>원자재 재고 확인</h1>
+      <input
+        type="text"
+        value={searchQuery}
+        onChange={(event) => setSearchQuery(event.target.value)}
+      />
+      <button onClick={searchMaterialStocks}>검색</button>
+      <button onClick={getMaterialStocks}>초기화</button>
       <table>
         <thead>
           <tr>

@@ -1,7 +1,7 @@
-import { useState } from "react";
-import AddVendor from "../Production/AddVendor";
 import Customers from "./Customers";
-import styles from "./VenderNCustomer.module.css";
+import AddVender from "../Production/AddVendor";
+import styles from "./VenderNCustomer.module.css"
+import {useState } from "react";
 
 
 const VenderNCustomer = () => {
@@ -13,7 +13,8 @@ const VenderNCustomer = () => {
     const tabContArr=[
         {
             tabTitle:(
-                <button id={styles.buttontab} style={activeIndex===0 ? {backgroundColor:"#ff0000", color : "#fff"} : {}} onClick={()=>tabClickHandler(0)}> 고객 </button>
+                <button className={activeIndex===0 ? "active22" : ""} 
+                onClick={()=>tabClickHandler(0)}> 고객 </button>
             ),
             tabCont:(
                 <div> <br /><Customers /> </div>
@@ -21,10 +22,11 @@ const VenderNCustomer = () => {
         },
         {
             tabTitle:(
-                <button id={styles.buttontab} style={activeIndex===1 ? {backgroundColor:"#ff0000", color : "#fff"} : {}} onClick={()=>tabClickHandler(1)}> 거래처 </button>
+                <button className={activeIndex===1 ? "active22" : ""} 
+                onClick={()=>tabClickHandler(1)}> 거래처 </button>
             ),
             tabCont:(
-                <div> <AddVendor /> </div>
+                <div> <AddVender /> </div>
             )
         }
     ];
@@ -44,5 +46,6 @@ const VenderNCustomer = () => {
         </div>
       );
 }
+
  
 export default VenderNCustomer;

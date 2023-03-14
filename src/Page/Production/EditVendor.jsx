@@ -48,7 +48,7 @@ const EditVendor = (props) => {
 
         <button onClick={editVendorHandler}>저장</button>
         <button type="button" onClick={props.closeEditor}>
-          Cancle
+          Cancel
         </button>
       </form>
     </div>

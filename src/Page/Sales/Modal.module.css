@@ -1,0 +1,48 @@
+/* css 수정  */
+.modal{  
+    display:block; /* Hidden by default */
+
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 10%;
+    top: 10% ;
+    /* 버튼 눌렀을때 나오는 모달창의 크기 */
+    width: 80%; /* Full width */
+    height: 80%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: white;
+  }
+
+  .hidden{
+    display:none;
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    overflow: auto; /* Enable scroll if needed */
+    background-color: white;
+    background-color: white;
+  }
+  .close{
+    display: block; /* Hidden by default */
+ /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: white; /* Black w/ opacity */
+
+  }
+
+  .modal-content {
+    background-color: white;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+  }
+
+  
+
