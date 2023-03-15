@@ -4,6 +4,7 @@ import axios from "axios";
 
 const GetCurrentProductStocks = () => {
   const [productStocks, setProductStocks] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
   const getProductStocks = async () => {
     try {
       const response = await axios.get(`/api/p_stock`);
@@ -15,9 +16,21 @@ const GetCurrentProductStocks = () => {
   useEffect(() => {
     getProductStocks();
   }, []);
+  const searchProductStocks = async () => {
+    const url = `/api/p_stock/search/${searchQuery}`;
+    const response = await axios.get(url);
+    setProductStocks(response.data);
+  }
   return (
     <div>
       <h1>제품 재고 확인</h1>
+      <input
+        type="text"
+        value={searchQuery}
+        onChange={(event) => setSearchQuery(event.target.value)}
+      />
+      <button onClick={searchProductStocks}>검색</button>
+      <button onClick={getProductStocks}>초기화</button>
       <table>
         <thead>
           <tr>

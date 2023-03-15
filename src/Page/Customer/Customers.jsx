@@ -2,16 +2,19 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import AddCustomer from "./AddCustomer";
 
-const Customers = () => {
+const Customers = (props) => {
   const [customers, setCustomers] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [showEditForm, setShowEditForm] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
+
+  const handleClosePage = () => {
+    props.modalHandler();
+  };
   const handlePaginationClick = (e) => {
     setCurrentPage(e.target.textContent);
   };
-
   const getCustomers = async () => {
     const response = await axios.get(`/api/customer?page=${currentPage}`);
     setCustomers(response.data);
@@ -21,6 +24,9 @@ const Customers = () => {
     getCustomers();
   }, [currentPage]);
 
+  const selectCustomer = (a) => {
+    props.setSelectedCustomer(a);
+  };
   const handleSearch = (event) => {
     event.preventDefault();
     axios.get(`/api/customer?search=${searchQuery}`).then((response) => {
@@ -75,19 +81,19 @@ const Customers = () => {
 
     return (
       <form onSubmit={handleSubmit}>
-        <div class="input-wrapper">
+        <div className="input-wrapper">
           <input type="text" value={name || ""} onChange={(e) => setName(e.target.value)} />
-          <label htmlFor="name">이름</label>
+          <label>이름</label>
         </div>
 
-        <div class="input-wrapper">
+        <div className="input-wrapper">
           <input type="text" value={phone || ""} onChange={(e) => setPhone(e.target.value)} />
-          <label htmlFor="phone">전화번호</label>
+          <label>전화번호</label>
         </div>
 
-        <div class="input-wrapper">
+        <div className="input-wrapper">
           <input type="text" value={comment || ""} onChange={(e) => setComment(e.target.value)} />
-          <label htmlFor="comment">코멘트</label>
+          <label>코멘트</label>
         </div>
         <div class="input-wrapper">
           <input type="number" value={point || 0} onChange={(e) => setPoint(e.target.value)} min={0} step={100} />
@@ -107,16 +113,16 @@ const Customers = () => {
   };
   return (
     <div>
-      <div>
-        <AddCustomer />
-      </div>
+      <h3> 고객등록 </h3>
+      <button onClick={handleClosePage}> x</button>
+      <AddCustomer />
       <div></div>
       <h3>고객 조회</h3>
       <div>
         <form onSubmit={handleSearch}>
-          <div class="input-wrapper">
+          <div className="input-wrapper">
             <input type="text" name="searchQuery" value={searchQuery} onChange={(event) => setSearchQuery(event.target.value)} required />
-            <label for="comment">이름 & 전화번호</label>
+            <label>이름 & 전화번호</label>
           </div>
           <button type="submit">Search</button>
         </form>
@@ -145,7 +151,7 @@ const Customers = () => {
             customers.map((customer, idx) => (
               <tr key={idx}>
                 <td>
-                  <input type="checkbox"></input>
+                  <input type="checkbox" onChange={() => selectCustomer(customer)}></input>
                 </td>
                 <td>{(currentPage - 1) * 10 + idx + 1}</td>
                 <td>{customer.이름}</td>

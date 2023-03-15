@@ -53,9 +53,7 @@ const AddCustomer = () => {
   };
   return (
     <div>
-      <div>
-        <h3> 고객등록 </h3>
-      </div>
+     
 
       <div>
 

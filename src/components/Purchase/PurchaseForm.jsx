@@ -10,9 +10,7 @@ const PurchaseForm = () => {
   const navigate = useNavigate();
   const [vendors, setVendors] = useState("");
   const [materials, setMaterials] = useState("");
-  const [purchaseDate, setPurchaseDate] = useState(
-    new Date().toISOString().slice(0, 10)
-  );
+  const [purchaseDate, setPurchaseDate] = useState(new Date().toISOString().slice(0, 10));
   const [selectedVendor, setSelectedVendor] = useState("");
   const [selectedMaterial, setSelectedMaterial] = useState("");
   const [enteredAmount, setEnteredAmount] = useState("");
@@ -85,7 +83,7 @@ const PurchaseForm = () => {
     setPurchaingMaterials((prev) => {
       return [...prev, addedMaterial];
     });
-    setEnteredAmount("");
+    setEnteredAmount(1);
   };
   const purchaseMaterial = () => {
     const url = "/api/purchasing";
@@ -111,10 +109,7 @@ const PurchaseForm = () => {
     formData.append("name", purchasingMaterials[idx].name);
     formData.append("size", purchasingMaterials[idx].size);
     formData.append("amount", purchasingMaterials[idx].amount);
-    formData.append(
-      "balance",
-      purchasingMaterials[idx].size * purchasingMaterials[idx].amount
-    );
+    formData.append("balance", purchasingMaterials[idx].size * purchasingMaterials[idx].amount);
     formData.append("unit", purchasingMaterials[idx].unit);
     formData.append("expDate", purchasingMaterials[idx].expDate);
     const config = {
@@ -126,11 +121,7 @@ const PurchaseForm = () => {
     e.preventDefault();
     try {
       const res = await purchaseMaterial();
-      if (
-        res.statusText === "OK" &&
-        purchasingMaterials &&
-        purchasingMaterials.length > 0
-      ) {
+      if (res.statusText === "OK" && purchasingMaterials && purchasingMaterials.length > 0) {
         purchasingMaterials.map(async (el, idx) => {
           await addMStock(idx);
         });
@@ -139,18 +130,13 @@ const PurchaseForm = () => {
     } catch (e) {
       alert("구매등록 실패");
     }
-    navigate("/production/purchase");
+    navigate("/production/material");
   };
   return (
     <form onSubmit={submitHandler}>
       <div>
         <p>구매일</p>
-        <input
-          type="date"
-          id="purchase_date"
-          value={purchaseDate}
-          onChange={changePurchaseDateHandler}
-        />
+        <input type="date" id="purchase_date" value={purchaseDate} onChange={changePurchaseDateHandler} />
       </div>
       <div>
         <p>벤더</p>
@@ -166,26 +152,14 @@ const PurchaseForm = () => {
         <select onChange={selectMaterialHandler}>
           {materials &&
             materials?.map((material) => {
-              return (
-                <MaterialOption key={material.원자재ID} material={material} />
-              );
+              return <MaterialOption key={material.원자재ID} material={material} />;
             })}
         </select>
         <p>수량</p>
-        <input
-          type="number"
-          id="amount"
-          value={enteredAmount}
-          onChange={changeAmountHandler}
-        />
+        <input type="number" id="amount" value={enteredAmount} onChange={changeAmountHandler} />
         <div>
           <p>사용기한</p>
-          <input
-            type="date"
-            id="exp_date"
-            value={expDate}
-            onChange={changeExpDateHandler}
-          />
+          <input type="date" id="exp_date" value={expDate} onChange={changeExpDateHandler} />
         </div>
         <div>
           <button type="button" onClick={addPurchasingMaterialHandler}>
@@ -197,13 +171,8 @@ const PurchaseForm = () => {
       <div>할인 전 금액 : {prevCost}</div>
       <div>
         <p>
-          할인율 :{" "}
-          <input
-            type="number"
-            onChange={changeDiscountHandler}
-            value={discount}
-          />{" "}
-          %
+          할인율 :
+          <input type="number" onChange={changeDiscountHandler} value={discount} />%
         </p>
       </div>
       <div>최종 금액 : {totalCost}</div>

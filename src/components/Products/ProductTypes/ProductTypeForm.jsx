@@ -5,9 +5,9 @@ import MaterialOption from "../../Materials/PurchaseMaterials/MaterialOption";
 const ProductTypeForm = () => {
   const [materials, setMaterials] = useState("");
   const [name, setName] = useState("");
-  const [size, setSize] = useState("");
+  const [size, setSize] = useState(0);
   const [unit, setUnit] = useState("");
-  const [price, setPrice] = useState("");
+  const [price, setPrice] = useState(0);
   const [selectedMaterial, setSelectedMaterial] = useState("");
   const [recipeMaterials, setRecipeMaterials] = useState([]);
   const [addSelect, setAddSelect] = useState("");
@@ -34,15 +34,39 @@ const ProductTypeForm = () => {
   }, [materials]);
   const onSubmit = async (e) => {
     e.preventDefault();
-    const res = await productPost();
-    for (let i = 0; i < recipeMaterials.length; i++) {
-      const res = await recipePost(i);
+    const productPostCheck = productPostCheckFunc();
+    if (productPostCheck === 1 && recipeMaterials.length > 0) {
+      const res = await productPost();
+      for (let i = 0; i < recipeMaterials.length; i++) {
+        const res = await recipePost(i);
+      }
+      setName("");
+      setPrice("");
+      setSize("");
+      setUnit("");
+      setRecipeMaterials([]);
+    } else {
+      alert(
+        "제품의 정보, 혹은 레시피에 쓰이는 원자재 종류가 정확히 입력되지 않았습니다"
+      );
     }
-    setName("");
-    setPrice("");
-    setSize("");
-    setUnit("");
-    setRecipeMaterials([]);
+  };
+  const productPostCheckFunc = () => {
+    if (name.length === 0) {
+      alert("제품 이름이 입력되지 않았습니다");
+      return 0;
+    } else if (Number.isNaN(size) || size <= 0) {
+      alert("제품 사이즈가 올바르게 입력되지 않았습니다");
+      return 0;
+    } else if (unit.length === 0) {
+      alert("제품 단위가 입력되지 않았습니다");
+      return 0;
+    } else if (price <= 0) {
+      alert("제품 가격이 올바르게 입력되지 않았습니다");
+      return 0;
+    } else {
+      return 1;
+    }
   };
   const productPost = () => {
     const url = "/api/product";
@@ -101,16 +125,36 @@ const ProductTypeForm = () => {
         <form onSubmit={onSubmit}>
           {/* 제품ID 제외 -랜덤생성 */}
           이름
-          <input type="text" value={name} onChange={changeNameHandler} />
+          <input
+            type="text"
+            value={name}
+            onChange={changeNameHandler}
+            required
+          />
           <br />
           사이즈
-          <input type="number" value={size} onChange={changeSizeHandler} />
+          <input
+            type="number"
+            value={size}
+            onChange={changeSizeHandler}
+            required
+          />
           <br />
           단위
-          <input type="text" value={unit} onChange={changeUnitHandler} />
+          <input
+            type="text"
+            value={unit}
+            onChange={changeUnitHandler}
+            required
+          />
           <br />
           가격
-          <input type="number" value={price} onChange={changePriceHandler} />
+          <input
+            type="number"
+            value={price}
+            onChange={changePriceHandler}
+            required
+          />
           <br />
           {/* 레시피선택 */}
           <div>

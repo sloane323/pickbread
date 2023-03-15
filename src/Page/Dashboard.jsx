@@ -6,7 +6,6 @@ const Dashboard = () => {
         let todayDate = now.getDate();
         const week = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
         let dayOfWeek = week[now.getDay()];
-
         return todayYear + '.' + todayMonth + '.' + todayDate + ' - ' +  dayOfWeek 
         ;
     }
