@@ -7,11 +7,9 @@ const PointModal = (props) => {
     <div>
           <section>
             <header>
-            포인트모달
+            고객 확인 - 사용가능 포인트 확인 <br />
+            <input type='number' /> <button> 적용 </button>
             </header>
-            <button className="close" onClick={handelClosePage}>
-              X
-            </button>
           </section>
       </div>
     );

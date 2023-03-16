@@ -2,9 +2,10 @@ import styles from "../Sales/Sales.module.css";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import SelectList from "../../components/sales/SelectList";
-
 import TotalCost from "../../components/sales/TotalCost";
 import SalesButton from "./SalesButton";
+import SalesData from "./SalesData";
+
 const Sales = () => {
     const [product, setProduct] = useState("");
     const [customer, setCustomer] = useState([]);
@@ -15,7 +16,6 @@ const Sales = () => {
     const [totalPrice, setTotalPrice] = useState();
     const [manufacture, setMnaufacture] = useState();
     const [selectedCustomer,setSelectedCustomer]= useState([])
-
 
     const getProduct = async () => {
         const url = "/api/product"
@@ -124,6 +124,7 @@ const Sales = () => {
         <div>
             <div className={styles.salestitle}>
                 <h1> Sales </h1> </div>
+               
                 <div> 
                     <SalesButton 
                     selectedProduct={selectedProduct}
@@ -133,6 +134,7 @@ const Sales = () => {
                     selectedCustomer={selectedCustomer}
                     />
                 </div>
+                <div> <SalesData />  </div>
             <button onClick={() => log()}>test</button>
             <div className={styles.salesmain}>
                 <div className={styles.salesmenu}>
