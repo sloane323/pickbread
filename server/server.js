@@ -8,7 +8,7 @@ const pool = require("./config/db");
 const { getVendors, postVendor, putVendor, deleteVendor } = require("./api/vendor");
 const { getCustomers, postCustomer, putCustomer, deleteCustomer } = require("./api/customer");
 const { getMaterials, postMaterial, searchMaterial } = require("./api/material");
-const { postNewPoint, adjustPoint } = require("./api/point");
+const { postNewPoint, adjustPoint, getPointLogByCustomerId } = require("./api/point");
 const { getMStock, getSingleMStock, postMStock, putMStockByManufacture, disposeMStock } = require("./api/mStock");
 const { getPurchasing, searchPurchasing, postPurchasing } = require("./api/purchasing");
 const { getManufacture, postManufacture } = require("./api/manufacture");
@@ -46,11 +46,13 @@ app.put("/api/customer/:id", putCustomer);
 /* 고객 삭제 */
 app.delete("/api/customer", deleteCustomer);
 
-// 포인트
+// 포인트(/api/point)
 /* 신규 회원 포인트 자동 등록*/
 app.post("/api/point/", postNewPoint);
 /* 포인트 수동 등록 */
 app.post("/api/point/:id", adjustPoint);
+/* 고객ID를 통해 해당 고객 정보 및 포인트 기록 조회 */
+app.get("/api/point/log/:id", getPointLogByCustomerId);
 
 // 원자재(/api/material)
 /* 원자재 추가 */
