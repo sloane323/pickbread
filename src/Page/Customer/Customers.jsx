@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import AddCustomer from "./AddCustomer";
 
 const Customers = (props) => {
@@ -96,11 +97,11 @@ const Customers = (props) => {
           <label>코멘트</label>
         </div>
         <div class="input-wrapper">
-          <input type="number" value={point || 0} onChange={(e) => setPoint(e.target.value)} min={0} step={100} />
+          <input type="number" value={point} onChange={(e) => setPoint(e.target.value)} min={0} step={100} />
           <label htmlFor="point">포인트</label>
         </div>
         <div class="input-wrapper">
-          <input type="number" value={pointDelta || 0} onChange={(e) => setPointDelta(e.target.value)} min={-customer.포인트} step={100} />
+          <input type="number" value={pointDelta} onChange={(e) => setPointDelta(e.target.value)} min={-customer.포인트} step={100} />
           <label htmlFor="point">포인트 변화</label>
         </div>
 
@@ -126,7 +127,7 @@ const Customers = (props) => {
           </div>
           <button type="submit">Search</button>
         </form>
-      </div>{" "}
+      </div>
       <br />
       {showEditForm && selectedCustomer && (
         <div>
@@ -158,7 +159,10 @@ const Customers = (props) => {
                 <td>{customer.전화번호}</td>
                 <td>{customer.코멘트}</td>
                 <td>{customer.등록일}</td>
-                <td>{customer.포인트}</td>
+                <td>
+                  {customer.포인트}
+                  <Link to={`/customers/point/${customer.고객ID}`}>내역 조회</Link>
+                </td>
                 <td>
                   <button onClick={() => handleDelete(customer.고객ID)}>삭제</button>
                   <button onClick={() => handleEdit(customer)}>수정</button>

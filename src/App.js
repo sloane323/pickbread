@@ -7,26 +7,15 @@ import Production from "./Page/Production/Production";
 import Sales from "./Page/Sales/Sales";
 import Customers from "./Page/Customer/Customers";
 import Reports from "./Page/Reports";
-import AddMaterial from "./Page/Production/AddMaterial";
-import AddProduct from "./Page/Production/AddProduct";
-import Stock from "./Page/Production/Stock";
-import StockDetail from "./Page/Production/StockDetail";
-import Purchase from "./Page/Production/Purchase";
-import AddVendor from "./Page/Production/AddVendor";
-import Manufacture from "./Page/Production/Manufacture";
 import AddCustomer from "./Page/Customer/AddCustomer";
-import AddPurchase from "./Page/Production/AddPurchase";
-import Product from "./Page/Production/Product";
-import EditProduct from "./components/Product/EditProduct";
 import MaterialIndexPage from "./Page/Production/IndexRoutes/MaterialIndexPage";
 import MaterialDetails from "./Page/Production/MaterialPages/MaterialDetails";
 import ProductIndexPage from "./Page/Production/IndexRoutes/ProductIndexPage";
 import ProductDetails from "./Page/Production/ProductPages/ProductDetail";
 import TotalStocksIndexPage from "./Page/Production/IndexRoutes/TotalStocksIndexPage";
 import ModifyProducts from "./Page/Production/ProductPages/ModifyProducts";
-import ProductPage from "./Page/Production/ProductPage";
-import TotalStocks from "./Page/Production/TotalStocks";
 import VenderNCustomer from "./Page/Customer/VenderNCustomer";
+import PointDetail from "./components/point/PointDetail";
 
 function App() {
   return (
@@ -65,6 +54,7 @@ function App() {
         <Route path="/venderncustomer" element={<VenderNCustomer />}></Route>
         <Route path="/customers" element={<Customers />}></Route>
         <Route path="/customers/add" element={<AddCustomer />}></Route>
+        <Route path="/customers/point/:id" element={<PointDetail/>}></Route>
         <Route path="/reports" element={<Reports />}></Route>
       </Routes>
     </div>
