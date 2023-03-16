@@ -10,9 +10,7 @@ const Customers = (props) => {
   const [showEditForm, setShowEditForm] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
 
-  const handleClosePage = () => {
-    props.modalHandler();
-  };
+
   const handlePaginationClick = (e) => {
     setCurrentPage(e.target.textContent);
   };
@@ -80,6 +78,18 @@ const Customers = (props) => {
       onSave({ ...customer, name, phone, comment, point });
     };
 
+    const [selectedCustomers, setSelectedCustomers] = useState([]);
+
+    const handleCheckboxChange = (event, customer) => {
+      const isChecked = event.target.checked;
+  
+      if (isChecked) {
+        setSelectedCustomers([...selectedCustomers, customer]);
+      } else {
+        setSelectedCustomers(selectedCustomers.filter((c) => c.고객ID !== customer.고객ID));
+      }
+    };
+
     return (
       <form onSubmit={handleSubmit}>
         <div className="input-wrapper">
@@ -115,7 +125,6 @@ const Customers = (props) => {
   return (
     <div>
       <h3> 고객등록 </h3>
-      <button onClick={handleClosePage}> x</button>
       <AddCustomer />
       <div></div>
       <h3>고객 조회</h3>
@@ -152,7 +161,7 @@ const Customers = (props) => {
             customers.map((customer, idx) => (
               <tr key={idx}>
                 <td>
-                  <input type="checkbox" onChange={() => selectCustomer(customer)}></input>
+                  <input type="checkbox" onChange={() => selectCustomer(customer)} ></input>
                 </td>
                 <td>{(currentPage - 1) * 10 + idx + 1}</td>
                 <td>{customer.이름}</td>

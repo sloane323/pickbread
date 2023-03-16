@@ -1,6 +1,4 @@
 import { useState } from "react";
-import CustomerList from "./CustomerList";
-import PaymentMode from "./PaymentMode";
 import PointModal from "./PointModal";
 import style from "../Sales/SalesButton.module.css";
 import styles from "./Modal.module.css";
@@ -24,12 +22,20 @@ const SalesButton = (props) => {
       setModalOpen2(!modalOpen2)
      };
 
+     const handleClosePage = () => {
+      modalHandler();
+    };
+    const handelClosePage1 =()=>{
+      modalHandler1()
+    }
+
     return ( <div>
     <div className={style.buttondisplay}>
             <button onClick={modalHandler} >고객</button>
             <div className={modalOpen ? styles.modal : styles.hidden}>
               <div className={styles.modalContent}>
                 <span className={styles.close} >
+                  <button onClick={handleClosePage}> X </button>
                 <Customers 
                 modalHandler={modalHandler} 
                 setSelectedCustomer={setSelectedCustomer}
@@ -40,12 +46,13 @@ const SalesButton = (props) => {
             <button onClick={modalHandler1}>포인트사용</button>
             <div className={modalOpen1 ? styles.modal : styles.hidden}>
               <div className={styles.modalContent}>
+              <button onClick={handelClosePage1}> X </button>
                 <span className={styles.close}>
                 <PointModal modalHandler1={modalHandler1}/>
                 </span>
               </div> 
             </div>
-            <button onClick={modalHandler2}>결제하기</button>
+            <button onClick={modalHandler2}>결제모드</button>
             <div className={modalOpen2 ? styles.modal : styles.hidden}>
               <div className={styles.modalContent}>
                 <span className={styles.close} >
@@ -58,6 +65,7 @@ const SalesButton = (props) => {
               </span>
               </div>
             </div>
+
             </div>
     </div> );
 }

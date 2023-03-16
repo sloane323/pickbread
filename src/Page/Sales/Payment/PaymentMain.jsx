@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import DisplayValue from "./DisplayValue";
 
 const PaymentMain = (props) => {
   const { selectedProduct, totalPrice ,selectedCustomer} = props;
@@ -14,7 +15,6 @@ const PaymentMain = (props) => {
   useEffect(() => {
     getP_stock()
   }, []);
-  console.log('selectedCustomer',selectedCustomer);
   const handleClosePage=()=>{
     props.modalHandler2()
   }
@@ -71,13 +71,20 @@ const PaymentMain = (props) => {
 
   };
 
+  const [selectedValue, setSelectedValue] = useState(null);
 
+  const handleClick = (event) => {
+    setSelectedValue(event.target.value);
+  };
 
   return (
     <div>
-      <button onClick={handleClosePage}> X</button>
-      <button> 할인 </button>
+      <button onClick={handleClosePage}> X</button> <br />
+      <button value="카드"  onClick={handleClick}> 카드 </button>
+      <button value="현금"  onClick={handleClick}> 현금 </button>
       <button onClick={() => { payment() }}> 결제 </button>
+        
+
     </div>
   );
 }
