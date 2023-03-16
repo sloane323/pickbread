@@ -119,7 +119,6 @@ const Sales = () => {
     useEffect(() => {
         totalPriceHandler()
     }, [selectedProduct])
-    console.log('selectedCustomer',selectedCustomer);
     return (
         <div>
             <div className={styles.salestitle}>
