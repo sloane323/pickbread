@@ -23,9 +23,13 @@ const Customers = (props) => {
     getCustomers();
   }, [currentPage]);
 
-  const selectCustomer = (a) => {
-    props.setSelectedCustomer(a);
+  const handleCustomerClick = (ID) => {
+    axios.get(`/api/customer/${ID}`).then((response) => {
+      setSelectedCustomer(response.data);
+    });
   };
+
+
   const handleSearch = (event) => {
     event.preventDefault();
     axios.get(`/api/customer?search=${searchQuery}`).then((response) => {
@@ -161,7 +165,7 @@ const Customers = (props) => {
             customers.map((customer, idx) => (
               <tr key={idx}>
                 <td>
-                  <input type="checkbox" onChange={() => selectCustomer(customer)} ></input>
+                  <input type="checkbox" key={customer.id} onClick={() => handleCustomerClick(customer.id)} ></input>
                 </td>
                 <td>{(currentPage - 1) * 10 + idx + 1}</td>
                 <td>{customer.이름}</td>
