@@ -114,35 +114,22 @@ const Dashboard = () => {
   }, [purchasing]);
 
   // 원자재갯수 이름순으로 표시중..
-  const stockChunked1 = () => {
-    const group = currentStock.reduce((acc, item) => {
-      if (!acc[item.이름]) {
-        acc[item.이름] = [];
-      }
-      acc[item.이름].push(item);
-      return acc;
-    }, {});
-
-    const sorted = Object.values(group).flatMap((group) =>
-      group.sort((a, b) => new Date(a.사용기한) - new Date(b.사용기한))
-    );
-
-    const chunkSize = 5;
-    const chunkedArray = [];
-    for (let i = 0; i < sorted.length; i += chunkSize) {
-      const chunkEnd = Math.min(i + chunkSize, sorted.length);
-      chunkedArray.push(sorted.slice(i, chunkEnd));
-    }
-    setChunkedStock(chunkedArray);
-  };
-
-  // 원자재갯수 사용기한(=유통기한) 짧은 순서대로
-  const stockChunked = () => {
-    const sorted = [...currentStock].sort((a, b) => {
+  const sortStock = (stock) => {
+    return [...stock].sort((a, b) => {
+      if (a.종류 < b.종류) return -1;
+      if (a.종류 > b.종류) return 1;
       const dateA = new Date(a.사용기한);
       const dateB = new Date(b.사용기한);
-      return dateA - dateB;
+      if (a.종류 === b.종류) {
+        if (dateA < dateB) return -1;
+        if (dateA > dateB) return 1;
+        return 0;
+      }
     });
+  };
+
+  const stockChunked = () => {
+    const sorted = sortStock(currentStock);
     const chunkSize = 5;
     const chunkedArray = [];
     for (let i = 0; i < sorted.length; i += chunkSize) {
@@ -150,7 +137,7 @@ const Dashboard = () => {
     }
     setChunkedStock(chunkedArray);
   };
-  // 사용기한 기준으로 내림차순
+
   useEffect(() => {
     stockChunked();
   }, [currentStock]);
