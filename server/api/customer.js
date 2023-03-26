@@ -23,6 +23,31 @@ const getCustomers = (req, res) => {
   });
 };
 
+/** 고객 GET 판매에 붙여오기 */
+const getCustomerById = (req, res) => {
+  const selectedIds = req.query.selectedIds.split(',');
+  const placeholders = selectedIds.map(() => '?').join(',');
+  const sql = `
+    SELECT 고객ID, 이름, SUM(포인트) AS 포인트
+    FROM 고객
+    LEFT JOIN 포인트 ON 고객.고객ID = 포인트.고객ID
+    WHERE 고객.고객ID IN (${placeholders})
+    GROUP BY 고객ID, 이름
+  `;
+  const values = selectedIds;
+
+  pool.getConnection((err, conn) => {
+    if (err) throw err;
+
+    conn.query(sql, values, (err, rows, fields) => {
+      if (err) throw err;
+      res.send(rows);
+    });
+
+    conn.release();
+  });
+};
+
 /** 고객 POST */
 const postCustomer = (req, res) => {
   pool.getConnection((err, conn) => {
@@ -64,4 +89,4 @@ const deleteCustomer = (req, res) => {
   });
 }
 
-module.exports = { getCustomers, postCustomer, putCustomer, deleteCustomer };
+module.exports = { getCustomers, postCustomer, putCustomer, deleteCustomer,getCustomerById };
