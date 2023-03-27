@@ -17,6 +17,9 @@ const Sales = () => {
     const [manufacture, setMnaufacture] = useState();
     const [selectedCustomer,setSelectedCustomer]= useState([])
 
+    /* test state */
+    const [customerTest, setCustomerTest] = useState([])
+
     const getProduct = async () => {
         const url = "/api/product"
         const response = await axios.get(url);
@@ -131,9 +134,10 @@ const Sales = () => {
                     setSelectedProductHandler={setSelectedProductHandler} 
                     setSelectedCustomer={setSelectedCustomer}
                     selectedCustomer={selectedCustomer}
+                    setCustomerTest={setCustomerTest}
                     />
                 </div>
-                <div> <SalesData />  </div>
+                <div> <SalesData customerTest={customerTest} />  </div>
             <button onClick={() => log()}>test</button>
             <div className={styles.salesmain}>
                 <div className={styles.salesmenu}>

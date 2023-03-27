@@ -2,7 +2,7 @@ import DisplayValue from "./Payment/DisplayValue";
 import { useState } from "react";
 import Customers from "../Customer/Customers";
 
-const SalesData = () => {
+const SalesData = (props) => {
 
     const [selectedValue, setSelectedValue] = useState(null);
     const [salesData, setSalesData] = useState([]);
@@ -11,7 +11,7 @@ const SalesData = () => {
     setSalesData([...salesData, customer]);
     };
     
-    
+    console.log(props)
 
     return ( <div>
 

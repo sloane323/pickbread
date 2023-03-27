@@ -12,6 +12,7 @@ const Customers = (props) => {
   const [selectedCustomers, setSelectedCustomers] = useState([]);
   const [isCustomerSelectionEnabled, setIsCustomerSelectionEnabled] = useState(false);
   const [selectedCustomerData, setSelectedCustomerData] = useState(null);
+  const {setCustomerTest} = props;
 
 
   const handlePaginationClick = (e) => {
