@@ -11,6 +11,8 @@ const Customers = (props) => {
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [selectedCustomers, setSelectedCustomers] = useState([]);
   const [isCustomerSelectionEnabled, setIsCustomerSelectionEnabled] = useState(false);
+  const [selectedCustomerData, setSelectedCustomerData] = useState(null);
+
 
   const handlePaginationClick = (e) => {
     setCurrentPage(e.target.textContent);
@@ -23,12 +25,13 @@ const Customers = (props) => {
   const handleCheckboxChange = (event, customer) => {
     const isChecked = event.target.checked;
     if (isChecked) {
+      setSelectedCustomerData(customer);
       setSelectedCustomers([...selectedCustomers, customer]);
       console.log(customer); // log the selected customer data to the console
       setSelectedCustomers([customer]);
     } else {
       setSelectedCustomers(selectedCustomers.filter((c) => c.고객ID !== customer.고객ID));
-      setSelectedCustomers([]);
+      setSelectedCustomerData(null);
     }
   };
 
@@ -139,6 +142,15 @@ const Customers = (props) => {
       <div></div>
       <h3>고객 조회</h3>
       <div>
+      {selectedCustomerData ? (
+  <div>
+    <p>{selectedCustomerData.이름}</p>
+    <p>{selectedCustomerData.전화번호}</p>
+    <p>{selectedCustomerData.코멘트}</p>
+    <p>{selectedCustomerData.포인트}</p>
+  </div>
+) : null}
+
         <form onSubmit={handleSearch}>
           <div className="input-wrapper">
             <input type="text" name="searchQuery" value={searchQuery} onChange={(event) => setSearchQuery(event.target.value)} required />
@@ -171,7 +183,7 @@ const Customers = (props) => {
             customers.map((customer, idx) => (
               <tr key={idx}>
                 <td>
-                <input type="checkbox" checked={selectedCustomers.includes(customer)} onChange={(e) => handleCheckboxChange(e, customer)} />                </td>
+                <input type="checkbox" key={customer.고객ID}  checked={selectedCustomers.includes(customer)} onChange={(e) => handleCheckboxChange(e, customer)} />                </td>
                 <td>{(currentPage - 1) * 10 + idx + 1}</td>
                 <td>{customer.이름}</td>
                 <td>{customer.전화번호}</td>

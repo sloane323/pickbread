@@ -17,7 +17,7 @@ const SalesData = () => {
 
 <div>
  </div>
-             <span>고객이름 : {고객ID}</span>  
+             <span>고객이름 : </span>  
              <span>사용포인트 : </span> 
              <span>결제모드 :    <DisplayValue selectedValue={selectedValue} />  </span> 
          <br />
