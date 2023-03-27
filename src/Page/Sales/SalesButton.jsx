@@ -36,6 +36,8 @@ const SalesButton = (props) => {
               <div className={styles.modalContent}>
                 <span className={styles.close} >
                   <button onClick={handleClosePage}> X </button>
+                  <button onClick={handleClosePage}>고객선택</button>
+
                 <Customers 
                 modalHandler={modalHandler} 
                 setSelectedCustomer={setSelectedCustomer}

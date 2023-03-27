@@ -11,6 +11,7 @@ const PaymentMode = (props) => {
            <button className="close" onClick={close}>
               X 
             </button>
+
         </section>
       ) : null}
     </div>

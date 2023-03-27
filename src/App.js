@@ -1,4 +1,6 @@
 import "./App.css";
+import { useState } from "react";
+
 import SideBar from "./components/SideBar/SideBar";
 import { Routes, Route } from "react-router-dom";
 import Main from "./Page/Main";
@@ -18,6 +20,8 @@ import VenderNCustomer from "./Page/Customer/VenderNCustomer";
 import PointDetail from "./components/point/PointDetail";
 
 function App() {
+  const [selectedCustomers, setSelectedCustomers] = useState([]);
+
   return (
     <div className="App">
       <SideBar />
@@ -52,8 +56,10 @@ function App() {
         ></Route>
         <Route path="/sales" element={<Sales />}></Route>
         <Route path="/venderncustomer" element={<VenderNCustomer />}></Route>
-        <Route path="/customers" element={<Customers />}></Route>
-        <Route path="/customers/add" element={<AddCustomer />}></Route>
+        <Route path="/customers">
+       <Route element={<Customers sendToSalesData={setSelectedCustomers} />} />
+      </Route>
+      <Route path="/customers/add" element={<AddCustomer />}></Route>
         <Route path="/customers/point/:id" element={<PointDetail/>}></Route>
         <Route path="/reports" element={<Reports />}></Route>
       </Routes>

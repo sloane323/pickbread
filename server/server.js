@@ -6,7 +6,7 @@ const app = express();
 const PORT = 4000;
 const pool = require("./config/db");
 const { getVendors, postVendor, putVendor, deleteVendor } = require("./api/vendor");
-const { getCustomers, postCustomer, putCustomer, deleteCustomer } = require("./api/customer");
+const { getCustomers, postCustomer, putCustomer, deleteCustomer,getCustomerById } = require("./api/customer");
 const { getMaterials, postMaterial, searchMaterial } = require("./api/material");
 const { postNewPoint, adjustPoint, getPointLogByCustomerId } = require("./api/point");
 const { getMStock, getSingleMStock, postMStock, putMStockByManufacture, disposeMStock } = require("./api/mStock");
@@ -43,6 +43,8 @@ app.get("/api/customer", getCustomers);
 app.post("/api/customer", postCustomer);
 /* 고객 수정  */
 app.put("/api/customer/:id", putCustomer);
+/* 고객 불러오기  */
+app.put("/api/customer/:id", getCustomerById);
 /* 고객 삭제 */
 app.delete("/api/customer", deleteCustomer);
 
