@@ -11,7 +11,7 @@ const SalesButton = (props) => {
     const [modalOpen, setModalOpen] = useState(false);
     const [modalOpen1, setModalOpen1] = useState(false);
     const [modalOpen2, setModalOpen2] = useState(false);
-    const { selectedProduct , totalPrice , setSelectedProductHandler ,setSelectedCustomer,selectedCustomer }= props
+    const { selectedProduct , totalPrice , setSelectedProductHandler ,setSelectedCustomer, selectedCustomer, customerTest, setCustomerTest }= props
     const modalHandler = () => {
       setModalOpen(!modalOpen)
      };
@@ -41,6 +41,8 @@ const SalesButton = (props) => {
                 <Customers 
                 modalHandler={modalHandler} 
                 setSelectedCustomer={setSelectedCustomer}
+                customerTest={customerTest}
+                setCustomerTest={setCustomerTest}
                 />
                 </span>
               </div>
