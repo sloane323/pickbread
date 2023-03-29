@@ -12,7 +12,9 @@ const Customers = (props) => {
   const [selectedCustomers, setSelectedCustomers] = useState([]);
   const [isCustomerSelectionEnabled, setIsCustomerSelectionEnabled] = useState(false);
   const [selectedCustomerData, setSelectedCustomerData] = useState(null);
-  const {setCustomerTest} = props;
+
+  /* props에서 받아온 useState */
+  const {customerTest, setCustomerTest} = props;
 
 
   const handlePaginationClick = (e) => {
@@ -26,12 +28,22 @@ const Customers = (props) => {
   const handleCheckboxChange = (event, customer) => {
     const isChecked = event.target.checked;
     if (isChecked) {
+      /* 체크가 되었다면 selectedCustomerData에 대입 */
       setSelectedCustomerData(customer);
+      /* selectedCustomers를 스프레드하고 customer를 요소로 넣었다가 */
       setSelectedCustomers([...selectedCustomers, customer]);
       console.log(customer); // log the selected customer data to the console
+      /* 다시 customer만 배열의 요소로 대입한다?
+      이게 어떤 과정을 위해 필요한지 아직 모르겠음 */
       setSelectedCustomers([customer]);
+
+      /* 여기에서 제안할만한 과정, props를 통해 받아온 useState 사용하기 */
+      setCustomerTest([customer])
+      console.log(customerTest);
     } else {
+      /* 체크가 되어 있지 않다면 selectedCustomers 배열을 순회하면서 요소의 고객 ID와 customer 배열의 고객 id가 같지 않은 경우만 반환 */
       setSelectedCustomers(selectedCustomers.filter((c) => c.고객ID !== customer.고객ID));
+      /* setSelectedCustomerData는 null 대입 */
       setSelectedCustomerData(null);
     }
   };
