@@ -1,9 +1,8 @@
 import { useState } from "react";
-import PointModal from "./PointModal";
 import style from "../Sales/SalesButton.module.css";
 import styles from "./Modal.module.css";
 import Customers from "../Customer/Customers";
-import PaymentMain from "./Payment/PaymentMain";
+
 
 
 
@@ -31,7 +30,7 @@ const SalesButton = (props) => {
 
     return ( <div>
     <div className={style.buttondisplay}>
-            <button onClick={modalHandler} >고객</button>
+            <button onClick={modalHandler} >고객선택</button>
             <div className={modalOpen ? styles.modal : styles.hidden}>
               <div className={styles.modalContent}>
                 <span className={styles.close} >
@@ -47,28 +46,25 @@ const SalesButton = (props) => {
                 </span>
               </div>
             </div>
-            <button onClick={modalHandler1}>포인트사용</button>
-            <div className={modalOpen1 ? styles.modal : styles.hidden}>
-              <div className={styles.modalContent}>
-              <button onClick={handelClosePage1}> X </button>
-                <span className={styles.close}>
-                <PointModal modalHandler1={modalHandler1}/>
-                </span>
-              </div> 
-            </div>
-            <button onClick={modalHandler2}>결제모드</button>
-            <div className={modalOpen2 ? styles.modal : styles.hidden}>
+            
+
+            <button onClick={modalHandler} >비회원</button>
+            <div className={modalOpen ? styles.modal : styles.hidden}>
               <div className={styles.modalContent}>
                 <span className={styles.close} >
-                <PaymentMain selectedProduct={selectedProduct} 
-                totalPrice={totalPrice} 
-                modalHandler2={modalHandler2} 
-                setSelectedProductHandler={setSelectedProductHandler} 
-                selectedCustomer={selectedCustomer}
+                  <button onClick={handleClosePage}> X </button>
+                  <button onClick={handleClosePage}>고객선택</button>
+
+                <Customers 
+                modalHandler={modalHandler} 
+                setSelectedCustomer={setSelectedCustomer}
+                customerTest={customerTest}
+                setCustomerTest={setCustomerTest}
                 />
-              </span>
+                </span>
               </div>
             </div>
+
 
             </div>
     </div> );
