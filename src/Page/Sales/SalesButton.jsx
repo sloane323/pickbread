@@ -1,25 +1,21 @@
 import { useState } from "react";
-import PointModal from "./PointModal";
 import style from "../Sales/SalesButton.module.css";
 import styles from "./Modal.module.css";
 import Customers from "../Customer/Customers";
-import PaymentMain from "./Payment/PaymentMain";
+import NullCustomer from "./NullCustomer";
+
 
 
 
 const SalesButton = (props) => {
     const [modalOpen, setModalOpen] = useState(false);
     const [modalOpen1, setModalOpen1] = useState(false);
-    const [modalOpen2, setModalOpen2] = useState(false);
-    const { selectedProduct , totalPrice , setSelectedProductHandler ,setSelectedCustomer, selectedCustomer, customerTest, setCustomerTest }= props
+    const { setSelectedCustomer, customerTest, setCustomerTest,setNullCustomerData }= props
     const modalHandler = () => {
       setModalOpen(!modalOpen)
      };
      const modalHandler1 = () => {
       setModalOpen1(!modalOpen1)
-     };
-     const modalHandler2 = () => {
-      setModalOpen2(!modalOpen2)
      };
 
      const handleClosePage = () => {
@@ -31,7 +27,7 @@ const SalesButton = (props) => {
 
     return ( <div>
     <div className={style.buttondisplay}>
-            <button onClick={modalHandler} >고객</button>
+            <button onClick={modalHandler} >고객선택</button>
             <div className={modalOpen ? styles.modal : styles.hidden}>
               <div className={styles.modalContent}>
                 <span className={styles.close} >
@@ -47,28 +43,23 @@ const SalesButton = (props) => {
                 </span>
               </div>
             </div>
-            <button onClick={modalHandler1}>포인트사용</button>
+            
+
+            <button onClick={modalHandler1} >비회원</button>
             <div className={modalOpen1 ? styles.modal : styles.hidden}>
               <div className={styles.modalContent}>
-              <button onClick={handelClosePage1}> X </button>
-                <span className={styles.close}>
-                <PointModal modalHandler1={modalHandler1}/>
-                </span>
-              </div> 
-            </div>
-            <button onClick={modalHandler2}>결제모드</button>
-            <div className={modalOpen2 ? styles.modal : styles.hidden}>
-              <div className={styles.modalContent}>
                 <span className={styles.close} >
-                <PaymentMain selectedProduct={selectedProduct} 
-                totalPrice={totalPrice} 
-                modalHandler2={modalHandler2} 
-                setSelectedProductHandler={setSelectedProductHandler} 
-                selectedCustomer={selectedCustomer}
+                  <button onClick={handelClosePage1}> X </button>
+                  <button onClick={handelClosePage1}>고객선택</button>
+
+                <NullCustomer
+                modalHandler={modalHandler1} 
+                setNullCustomerData={setNullCustomerData}
                 />
-              </span>
+                </span>
               </div>
             </div>
+
 
             </div>
     </div> );
