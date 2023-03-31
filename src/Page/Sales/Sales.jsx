@@ -5,6 +5,7 @@ import SelectList from "../../components/sales/SelectList";
 import TotalCost from "../../components/sales/TotalCost";
 import SalesButton from "./SalesButton";
 import SalesData from "./SalesData";
+import NullCustomer from "./NullCustomer";
 
 const Sales = () => {
   const [product, setProduct] = useState("");
@@ -21,6 +22,7 @@ const Sales = () => {
 
   /* test state */
   const [customerTest, setCustomerTest] = useState([]);
+  const [nullCustomerData, setNullCustomerData] = useState([]);
 
   const getProduct = async () => {
     const url = "/api/product";
@@ -141,6 +143,18 @@ const Sales = () => {
       <div>
         {" "}
         <SalesData customerTest={customerTest} />{" "}
+      </div>
+      <div>
+        {" "}
+      </div>
+      <div>
+        {" "}
+        <NullCustomer
+                setNullCustomerData={setNullCustomerData}
+                />{" "}
+      </div>
+      <div>
+        {" "}
       </div>
       <button onClick={() => log()}>test</button>
       <div className={styles.salesmain}>
