@@ -45,21 +45,6 @@ const SalesButton = (props) => {
             </div>
             
 
-            <button onClick={modalHandler1} >비회원</button>
-            <div className={modalOpen1 ? styles.modal : styles.hidden}>
-              <div className={styles.modalContent}>
-                <span className={styles.close} >
-                  <button onClick={handelClosePage1}> X </button>
-                  <button onClick={handelClosePage1}>고객선택</button>
-
-                <NullCustomer
-                modalHandler={modalHandler1} 
-                setNullCustomerData={setNullCustomerData}
-                />
-                </span>
-              </div>
-            </div>
-
 
             </div>
     </div> );

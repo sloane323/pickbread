@@ -147,15 +147,7 @@ const Sales = () => {
       <div>
         {" "}
       </div>
-      <div>
-        {" "}
-        <NullCustomer
-                setNullCustomerData={setNullCustomerData}
-                />{" "}
-      </div>
-      <div>
-        {" "}
-      </div>
+
       <button onClick={() => log()}>test</button>
       <div className={styles.salesmain}>
         <div className={styles.salesmenu}>
