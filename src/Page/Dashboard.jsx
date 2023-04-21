@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import styles from "./Dashboard.module.css";
 
-
 const Dashboard = () => {
   const [vendor, setVendor] = useState();
   const [purchasing, setPurchasing] = useState([]);
@@ -188,40 +187,40 @@ const Dashboard = () => {
               </div>
             </p>
           ))}
-        </div>
-      ))}
-      <h2>원자재갯수</h2>
-      {chunkedStock.map((chunk, b) => (
-        <div key={b}>
-          <h2> {b + 1} 페이지</h2>
-          {chunk.map((item, innerIndex) => (
-            <p key={innerIndex}>
-              <div>이름 : {item.종류} </div>
-              <div>사용기한 {item.사용기한}</div>
-              <div>개수 : {item.개수}</div>
-              <div>
-                사이즈{" "}
-                {item.사이즈
-                  .toString()
-                  .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")}
-                g
-              </div>
-            </p>
+          <h2>원자재갯수</h2>
+          {chunkedStock.map((chunk, b) => (
+            <div key={b}>
+              <h2> {b + 1} 페이지</h2>
+              {chunk.map((item, innerIndex) => (
+                <p key={innerIndex}>
+                  <div>이름 : {item.종류} </div>
+                  <div>사용기한 {item.사용기한}</div>
+                  <div>개수 : {item.개수}</div>
+                  <div>
+                    사이즈{" "}
+                    {item.사이즈
+                      .toString()
+                      .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")}
+                    g
+                  </div>
+                </p>
+              ))}
+            </div>
+          ))}
+          <h2>제품생산</h2>
+          {todayManu.map((chunk, b) => (
+            <div key={b}>
+              <h2> {b + 1}페이지</h2>
+              {chunk.map((todayM, index) => (
+                <p key={index}>
+                  <div>생산일 : {todayM.생산일}</div>
+                  <div>생산갯수 : {todayM.생산갯수}개</div>
+                </p>
+              ))}
+            </div>
           ))}
         </div>
-      ))}
-      <h2>제품생산</h2>
-      {todayManu.map((chunk, b) => (
-        <div key={b}>
-          <h2> {b + 1}페이지</h2>
-          {chunk.map((todayM, index) => (
-            <p key={index}>
-              <div>생산일 : {todayM.생산일}</div>
-              <div>생산갯수 : {todayM.생산갯수}개</div>
-            </p>
-          ))}
-        </div>
-      ))}
+      </div>
     </div>
     </div>
   );
