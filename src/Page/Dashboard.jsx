@@ -161,31 +161,34 @@ const Dashboard = () => {
   }, [manufacture]);
 
   return (
-    <div className={styles.dashboard}>
-      <div className={styles.dashboard_inner} >
-      Dashboard
-      <button
-        onClick={() => {
-          colog();
-        }}
-      >
-        테스트용
-      </button>
-      {chunkedPurchasing.map((chunk, index) => (
-        <div key={index}>
-          <h2>구매내역 {index + 1}</h2>
-          {chunk.map((item, innerIndex) => (
-            <p key={innerIndex}>
-              <div>구매일 : {item.구매일}</div>
-              <div>이름 : {item.이름}</div>
-              <div>
-                금액 :{" "}
-                {item.최종금액
-                  .toString()
-                  .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")}
-                원
-              </div>
-            </p>
+    <div className={styles.dashboardContainer}>
+      <div className={styles.dashboard}>
+        <div className={styles.dashboardInner}>
+          Dashboard
+          <button
+            onClick={() => {
+              colog();
+            }}
+          >
+            테스트용
+          </button>
+          {chunkedPurchasing.map((chunk, index) => (
+            <div key={index}>
+              <h2>구매내역 {index + 1}</h2>
+              {chunk.map((item, innerIndex) => (
+                <p key={innerIndex}>
+                  <div>구매일 : {item.구매일}</div>
+                  <div>이름 : {item.이름}</div>
+                  <div>
+                    금액 :{" "}
+                    {item.최종금액
+                      .toString()
+                      .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")}
+                    원
+                  </div>
+                </p>
+              ))}
+            </div>
           ))}
           <h2>원자재갯수</h2>
           {chunkedStock.map((chunk, b) => (
@@ -221,7 +224,6 @@ const Dashboard = () => {
           ))}
         </div>
       </div>
-    </div>
     </div>
   );
 };
