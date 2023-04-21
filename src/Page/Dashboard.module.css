@@ -1,8 +1,8 @@
 .dashboard{
     position: absolute;
     left: 5em;
-    width: 90vw;
-    height: 90vh;
+    width: 95%;
+    height: 90%;
     background-color: rgb(225, 225, 225);
     border-radius: 1em;
     overflow: auto;
@@ -14,6 +14,7 @@
     height: 100vh; */
 }
 
-.dashboardInner {
-    overflow: auto;
+.dashboard_inner {
+    padding: 3em;
+    overflow: scroll;
 }
