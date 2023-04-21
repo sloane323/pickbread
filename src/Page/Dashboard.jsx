@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import styles from "./Dashboard.module.css";
+
 
 const Dashboard = () => {
   const [vendor, setVendor] = useState();
@@ -160,7 +162,7 @@ const Dashboard = () => {
   }, [manufacture]);
 
   return (
-    <div>
+    <div className={styles.dashboard}>
       Dashboard
       <button
         onClick={() => {
