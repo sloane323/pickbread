@@ -1,14 +1,14 @@
 .dashboard{
     position: fixed;
     left: 5em;
-    width: 90%;
+    width: 95%;
     height: 90%;
     background-color: rgb(225, 225, 225);
     border-radius: 1em;
 }
 
 
-.dashboard-inner {
-    height: auto;
+.dashboard_inner {
+    padding: 3em;
     overflow: scroll;
 }

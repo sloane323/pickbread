@@ -163,6 +163,7 @@ const Dashboard = () => {
 
   return (
     <div className={styles.dashboard}>
+      <div className={styles.dashboard_inner} >
       Dashboard
       <button
         onClick={() => {
@@ -221,6 +222,7 @@ const Dashboard = () => {
           ))}
         </div>
       ))}
+    </div>
     </div>
   );
 };

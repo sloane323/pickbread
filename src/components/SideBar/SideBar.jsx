@@ -7,7 +7,7 @@ const SideBar = () => {
 
     return ( 
         <div className={styles.sidebar}>
-           <div className={styles.icon}> <Breadicon width="3em" height="3em" />  </div>
+           <div className={styles.icon}> <i class="fa-regular fa-earth-americas fa-2xs" style="color: #000000;"></i>  </div>
         <div className={styles.mapsidebar}>
             <Link to ='/dashboard' className={styles.dashboard}>  대시보드  </Link>
             <Link to ='/production' className={styles.dashboard}><div> 생산 </div></Link>
