@@ -1,5 +1,8 @@
+import styles from "./Reports.module.css";
+
+
 const Reports = () => {
-    return ( <div>
+    return ( <div className={styles.reportmain}>
         Reports
     </div> );
 }

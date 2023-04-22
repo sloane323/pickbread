@@ -32,7 +32,7 @@ const VenderNCustomer = () => {
     ];
 
     return ( 
-        <div  className={styles.all}v>
+        <div  className={styles.all}>
         <div>
           <ul> <h1> 
             {tabContArr.map((section, index)=>{
