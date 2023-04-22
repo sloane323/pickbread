@@ -1,4 +1,4 @@
-.dashboard {
+.producrtionmain{
     position: absolute;
     left: 5em;
     width: 95%;
@@ -8,13 +8,10 @@
     overflow: auto;
 }
 
-.dashboardContainer {
-    position: relative;
-    /* width: 100vw;
-    height: 100vh; */
+.ineer{
+    padding: 1em;
 }
 
-.dashboardInner {
-    padding: 3em;
-    overflow: scroll;
+.buttonlist{
+    display: flex;
 }

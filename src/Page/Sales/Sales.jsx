@@ -123,7 +123,7 @@ const Sales = () => {
     totalPriceHandler();
   }, [selectedProduct]);
   return (
-    <div>
+    <div className={styles.salesmbbig}>
       <div className={styles.salestitle}>
         <h1> Sales </h1>{" "}
       </div>

@@ -5,6 +5,8 @@ import ProductIndexPage from "./IndexRoutes/ProductIndexPage";
 import MaterialIndexPage from "./IndexRoutes/MaterialIndexPage";
 import TotalStocksIndexPage from "./IndexRoutes/TotalStocksIndexPage";
 
+import styles from "./Production.module.css";
+
 // 생산 페이지
 const Production = () => {
   const navigate = useNavigate();
@@ -75,11 +77,15 @@ const Production = () => {
   ];
 
   return (
-    <div>
-      <h1>원자재, 제품, 재고</h1>
-      {compArray.map((comp) => comp.tabBttn)}
-      <hr />
-      {compArray[activeIndex].tabComp}
+    <div className={styles.producrtionmain}>
+      <div className={styles.ineer}>
+        <h1>원자재, 제품, 재고</h1>
+        <div className={styles.buttonlist}>
+          {compArray.map((comp) => comp.tabBttn)}
+        </div>
+        <hr />
+        {compArray[activeIndex].tabComp}
+      </div>
     </div>
   );
 };
