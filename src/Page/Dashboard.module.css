@@ -1,4 +1,4 @@
-.dashboard{
+.dashboard {
     position: absolute;
     left: 5em;
     width: 95%;
@@ -14,7 +14,7 @@
     height: 100vh; */
 }
 
-.dashboard_inner {
+.dashboardInner {
     padding: 3em;
     overflow: scroll;
 }
