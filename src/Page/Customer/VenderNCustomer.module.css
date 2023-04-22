@@ -1,3 +1,14 @@
+.all{
+    position: absolute;
+    left: 5em;
+    width: 95%;
+    height: 90%;
+    background-color: rgb(225, 225, 225);
+    border-radius: 1em;
+    overflow: auto;
+    padding: 1em;
+}
+
 .is-active {
     background-color: #FF0000;
 }

@@ -1,10 +1,21 @@
+.salesmbbig{
+    position: absolute;
+    left: 5em;
+    width: 95%;
+    height: 90%;
+    background-color: rgb(225, 225, 225);
+    border-radius: 1em;
+    overflow: auto;
+    padding: 1em;
+}
+
 .salesmain{
     text-align: center;
     width: 100%;
     height: 65vh;
     display: grid;
     grid-template-rows: 8fr 4fr ;
-    background-color: greenyellow;
+    background-color: rgb(225, 225, 225);;
     overflow:scroll;
 }
 
@@ -17,16 +28,16 @@
     grid-row: 2fr ;
     display: grid;
     grid-template-columns: 3fr 2fr;
-    background-color: dimgray;
+    background-color: ;
 }
 .bottomLeft {
     grid-column: 3fr;
-    background-color: bisque;
+    background-color: ;
     text-align: center;
 }
 .bottomRight {
     grid-column: 2fr    ;
-    background-color: salmon;
+    background-color: ;
 }
 
 /* 버튼 css */
