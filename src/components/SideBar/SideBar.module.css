@@ -5,7 +5,7 @@
     width: 3em;
     height: 93%;
     padding: 0.5em;
-    background-color: yellow;
+    background-color: black;
     color: white;
     text-align: center;
     top: 8px;
@@ -17,7 +17,7 @@
     size: 30px;
     text-decoration: none;
     color: white;
-    border: 1px solid black;
+
     padding: 1px;
     
 }
@@ -34,3 +34,27 @@ padding-top: 2%;
    
 }
 
+.un1{
+    display: flexbox;
+    align-items: center;
+    text-align: center;
+    color: white;
+    position: relative;
+    top: 3em ;
+}
+
+.iconinner {
+    position: relative; 
+    padding: 12px;
+    fill: aliceblue;
+}
+
+.iconinner:hover {
+   background-color: white;
+   position: relative;
+   display: flex;
+   border-radius: 10px;
+   left: 0px;
+   width: 40px;
+   height: 18px;
+}
