@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "../SideBar/SideBar.module.css";
 import { ReactComponent as Breadicon } from "../SideBar/Breadicon.svg";
@@ -10,6 +10,38 @@ import { ReactComponent as Gear } from "../SideBar/Gear.svg";
 
 
 const SideBar = () => {
+
+  const [clickedButton, setClickedButton] = useState(null);
+  const [hoveredButton, setHoveredButton] = useState(null);
+
+  const handleButtonClick = (button) => {
+    setClickedButton(button);
+  };
+
+  const handleMouseEnter = (button) => {
+    setHoveredButton(button);
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredButton(null);
+  };
+
+  const getButtonStyle = (button) => {
+    if (button === clickedButton) {
+      return {
+        fill: "white"
+      };
+    } else if (button === hoveredButton) {
+      return {
+        fill: "white"
+      };
+    } else {
+      return {
+        fill: "black"
+      };
+    }
+  };
+
   return (
     <div className={styles.sidebar}>
       <div className={styles.icon}>
@@ -21,9 +53,16 @@ const SideBar = () => {
       <div className={styles.mapsidebar}></div> 
 
       <div  className={styles.un1} >
-        <div className={styles.iconinner}>
-        <Link to="/dashboard" className={styles.dashboard}>
-        <Icon1> </Icon1>
+      <div className={styles.iconinner}>
+        <Link 
+          to="/dashboard" 
+          className={styles.dashboard} 
+          onClick={() => handleButtonClick("dashboard")}
+          onMouseEnter={() => handleMouseEnter("dashboard")}
+          onMouseLeave={handleMouseLeave}
+          style={getButtonStyle("dashboard")}
+        >
+          <Icon1> </Icon1>
         </Link>
         </div>
         

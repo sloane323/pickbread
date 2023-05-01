@@ -46,6 +46,7 @@ padding-top: 2%;
 .iconinner {
     position: relative; 
     padding: 12px;
+    fill: aliceblue;
 }
 
 .iconinner:hover {
