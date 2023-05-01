@@ -1,51 +1,45 @@
 import Customers from "./Customers";
 import AddVender from "../Production/AddVendor";
-import styles from "./VenderNCustomer.module.css"
-import {useState } from "react";
-
+import styles from "./VenderNCustomer.module.css";
+import { useState } from "react";
 
 const VenderNCustomer = () => {
-    const [activeIndex, setActiveIndex] = useState(0);
-    const tabClickHandler=(index)=> {
-        setActiveIndex(index);
-    };
+  const [activeIndex, setActiveIndex] = useState(0);
 
-    const tabContArr=[
-        {
-            tabTitle:(
-                <button className={activeIndex===0 ? "active22" : ""} 
-                onClick={()=>tabClickHandler(0)}> 고객 </button>
-            ),
-            tabCont:(
-                <div> <br /><Customers /> </div>
-            )
-        },
-        {
-            tabTitle:(
-                <button className={activeIndex===1 ? "active22" : ""} 
-                onClick={()=>tabClickHandler(1)}> 거래처 </button>
-            ),
-            tabCont:(
-                <div> <AddVender /> </div>
-            )
-        }
-    ];
+  const tabClickHandler = (index) => {
+    setActiveIndex(index);
+  };
 
-    return ( 
-        <div  className={styles.all}>
-        <div>
-          <ul> <h1> 
-            {tabContArr.map((section, index)=>{
-                return section.tabTitle
-            })}</h1>  <hr />
-          </ul>
-          <div>
-          	{tabContArr[activeIndex].tabCont}
-          </div>
+  const tabContArr = [    {      tabTitle: (      
+      <buttons          className={activeIndex === 0 ? "active1" : ""}         
+       onClick={() => tabClickHandler(0)}        >          고객        </buttons>      ),    
+         tabCont: (        <div>          <br />          <Customers />     
+            </div>      ),    },    {    
+                
+                tabTitle: (      
+                
+                <buttons       
+               className={activeIndex === 1 ? "active1" : ""}    
+                     onClick={() => tabClickHandler(1)}        >     
+                          거래처        </buttons>      ),      tabCont: (      
+                              <div>          <AddVender />        </div>    
+                                ),    },  ];
+
+  return (
+    <div className={styles.all}>
+      <div>
+        <h1>고객 & 거래처</h1>
+        <div className={styles.tab}>
+          {tabContArr.map((section, index) => {
+            return section.tabTitle;
+          })}
+          <hr />
         </div>
-        </div>
-      );
-}
+        {tabContArr[activeIndex].tabCont}
+      </div>
+    </div>
+  );
+};
 
- 
 export default VenderNCustomer;
+

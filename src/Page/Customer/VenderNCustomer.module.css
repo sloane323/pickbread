@@ -1,36 +1,48 @@
-.all{
+.all {
     position: absolute;
     left: 5em;
     width: 95%;
     height: 90%;
-    background-color: rgb(225, 225, 225);
+    background-color: pink;
     border-radius: 1em;
     overflow: auto;
     padding: 1em;
-}
+  }
+  buttons {
+    background-color: yellowgreen;
+  }
 
-.is-active {
-    background-color: #FF0000;
-}
-
-ul {
-    text-align: center;
-}
-
-#buttontab {
-    width: 45%;
-    height: 5em;
-}
-
-button.active {
-  background-color: #505bf0;
-  color: #fff;
-}
-
-button.sub{
+  buttons.active1 {
+    background-color: #505bf0;
+    color: #fff;
+  }
+  
+  buttons.sub {
     background-color: yellowgreen;
     color: #fff;
-    width:100% auto;
+    width: 100% auto;
     padding: 15px 10px;
     cursor: pointer;
-}
+  }
+  
+  .tab {
+    display: flex;
+  }
+  
+  buttons {
+    margin: 10px;
+    color: gray;
+  }
+  
+  buttons.btn2 {
+    border-left: 1px solid black;
+    margin: 10px;
+    padding-left: 20px;
+    color: gray;
+  }
+  
+  buttons:hover {
+    text-decoration: underline;
+    color: black;
+  }
+  
