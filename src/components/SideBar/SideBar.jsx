@@ -17,28 +17,46 @@ const SideBar = () => {
           <Breadicon></Breadicon>
         </svg>
       </div>
-      <div className={styles.mapsidebar}>
+
+      <div className={styles.mapsidebar}></div> 
+
+      <div  className={styles.un1} >
+        <div className={styles.iconinner}>
         <Link to="/dashboard" className={styles.dashboard}>
         <Icon1> </Icon1>
         </Link>
-
+        </div>
+        
+        <div className={styles.iconinner}>
         <Link to="/production" className={styles.dashboard}>
-        <Gear> </Gear>
+        <Gear /> 
         </Link>
+        </div>
 
+        <div className={styles.iconinner}>
         <Link to="/sales" className={styles.dashboard}>
           <Sales />
         </Link>
+        </div>
 
+        <div className={styles.iconinner}>
         <Link to="/VenderNCustomer" className={styles.dashboard}>
           <User />
         </Link>
+        </div>
 
+        <div className={styles.iconinner}>
         <Link to="/reports" className={styles.dashboard}>
          <Report />
         </Link>
-      </div>
-    </div>
+        </div>
+
+        </div> 
+        
+        
+        </div>
+    
+    
   );
 };
 
