@@ -15,6 +15,7 @@
 }
 
 .dashboardInner {
-    padding: 3em;
-    overflow: scroll;
+    margin: 3em;
+    height: 70vh;
+    overflow: auto;
 }
