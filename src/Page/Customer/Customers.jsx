@@ -10,12 +10,12 @@ const Customers = (props) => {
   const [showEditForm, setShowEditForm] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [selectedCustomers, setSelectedCustomers] = useState([]);
-  const [isCustomerSelectionEnabled, setIsCustomerSelectionEnabled] = useState(false);
+  const [isCustomerSelectionEnabled, setIsCustomerSelectionEnabled] =
+    useState(false);
   const [selectedCustomerData, setSelectedCustomerData] = useState(null);
 
   /* props에서 받아온 useState */
-  const {customerTest, setCustomerTest} = props;
-
+  const { customerTest, setCustomerTest } = props;
 
   const handlePaginationClick = (e) => {
     setCurrentPage(e.target.textContent);
@@ -31,21 +31,22 @@ const Customers = (props) => {
       setSelectedCustomerData(customer);
       setSelectedCustomers([...selectedCustomers, customer]);
       setCustomerTest([customer]);
-      console.log(customer); 
+      console.log(customer);
     } else {
-      const filteredCustomers = selectedCustomers.filter((c) => c.고객ID !== customer.고객ID);
-  setSelectedCustomers(filteredCustomers.length > 0 ? filteredCustomers : []);
+      const filteredCustomers = selectedCustomers.filter(
+        (c) => c.고객ID !== customer.고객ID
+      );
+      setSelectedCustomers(
+        filteredCustomers.length > 0 ? filteredCustomers : []
+      );
 
       setCustomerTest([]);
     }
   };
 
-
-
   useEffect(() => {
     getCustomers();
   }, [currentPage]);
-
 
   const handleSearch = (event) => {
     event.preventDefault();
@@ -60,13 +61,19 @@ const Customers = (props) => {
   };
 
   const handleSave = (updatedCustomer) => {
-    axios.put(`/api/customer/${updatedCustomer.고객ID}`, updatedCustomer).then((response) => {
-      axios.post(`/api/point/${updatedCustomer.고객ID}`, updatedCustomer, { headers: { "Content-Type": "application/json" } }).then((res) => {
-        getCustomers();
-        setShowEditForm(false);
-        setSelectedCustomer(null);
+    axios
+      .put(`/api/customer/${updatedCustomer.고객ID}`, updatedCustomer)
+      .then((response) => {
+        axios
+          .post(`/api/point/${updatedCustomer.고객ID}`, updatedCustomer, {
+            headers: { "Content-Type": "application/json" },
+          })
+          .then((res) => {
+            getCustomers();
+            setShowEditForm(false);
+            setSelectedCustomer(null);
+          });
       });
-    });
   };
 
   const handleCancel = () => {
@@ -99,30 +106,52 @@ const Customers = (props) => {
       onSave({ ...customer, name, phone, comment, point });
     };
 
-
-   
     return (
       <form onSubmit={handleSubmit}>
         <div className="input-wrapper">
-          <input type="text" value={name || ""} onChange={(e) => setName(e.target.value)} />
+          <input
+            type="text"
+            value={name || ""}
+            onChange={(e) => setName(e.target.value)}
+          />
           <label>이름</label>
         </div>
 
         <div className="input-wrapper">
-          <input type="text" value={phone || ""} onChange={(e) => setPhone(e.target.value)} />
+          <input
+            type="text"
+            value={phone || ""}
+            onChange={(e) => setPhone(e.target.value)}
+          />
           <label>전화번호</label>
         </div>
 
         <div className="input-wrapper">
-          <input type="text" value={comment || ""} onChange={(e) => setComment(e.target.value)} />
+          <input
+            type="text"
+            value={comment || ""}
+            onChange={(e) => setComment(e.target.value)}
+          />
           <label>코멘트</label>
         </div>
         <div className="input-wrapper">
-          <input type="number" value={point} onChange={(e) => setPoint(e.target.value)} min={0} step={100} />
+          <input
+            type="number"
+            value={point}
+            onChange={(e) => setPoint(e.target.value)}
+            min={0}
+            step={100}
+          />
           <label htmlFor="point">포인트</label>
         </div>
         <div className="input-wrapper">
-          <input type="number" value={pointDelta} onChange={(e) => setPointDelta(e.target.value)} min={-customer.포인트} step={100} />
+          <input
+            type="number"
+            value={pointDelta}
+            onChange={(e) => setPointDelta(e.target.value)}
+            min={-customer.포인트}
+            step={100}
+          />
           <label htmlFor="point">포인트 변화</label>
         </div>
 
@@ -134,16 +163,21 @@ const Customers = (props) => {
     );
   };
   return (
-    <div>   
-            <h3> 고객등록 </h3>
+    <div>
+      <h3> 고객등록 </h3>
       <AddCustomer />
       <div></div>
       <h3>고객 조회</h3>
       <div>
-
         <form onSubmit={handleSearch}>
           <div className="input-wrapper">
-            <input type="text" name="searchQuery" value={searchQuery} onChange={(event) => setSearchQuery(event.target.value)} required />
+            <input
+              type="text"
+              name="searchQuery"
+              value={searchQuery}
+              onChange={(event) => setSearchQuery(event.target.value)}
+              required
+            />
             <label>이름 & 전화번호</label>
           </div>
           <button type="submit">Search</button>
@@ -152,7 +186,12 @@ const Customers = (props) => {
       <br />
       {showEditForm && selectedCustomer && (
         <div>
-          <EditForm customer={selectedCustomer} onSave={handleSave} onCancel={handleCancel} /> <hr />
+          <EditForm
+            customer={selectedCustomer}
+            onSave={handleSave}
+            onCancel={handleCancel}
+          />{" "}
+          <hr />
         </div>
       )}
       <table>
@@ -173,7 +212,13 @@ const Customers = (props) => {
             customers.map((customer, idx) => (
               <tr key={idx}>
                 <td>
-                <input type="checkbox" key={customer.고객ID}  checked={selectedCustomers.includes(customer)} onChange={(e) => handleCheckboxChange(e, customer)} />                </td>
+                  <input
+                    type="checkbox"
+                    key={customer.고객ID}
+                    checked={selectedCustomers.includes(customer)}
+                    onChange={(e) => handleCheckboxChange(e, customer)}
+                  />{" "}
+                </td>
                 <td>{(currentPage - 1) * 10 + idx + 1}</td>
                 <td>{customer.이름}</td>
                 <td>{customer.전화번호}</td>
@@ -181,10 +226,14 @@ const Customers = (props) => {
                 <td>{customer.등록일}</td>
                 <td>
                   {customer.포인트}
-                  <Link to={`/customers/point/${customer.고객ID}`}>내역 조회</Link>
+                  <Link to={`/customers/point/${customer.고객ID}`}>
+                    내역 조회
+                  </Link>
                 </td>
                 <td>
-                  <button onClick={() => handleDelete(customer.고객ID)}>삭제</button>
+                  <button onClick={() => handleDelete(customer.고객ID)}>
+                    삭제
+                  </button>
                   <button onClick={() => handleEdit(customer)}>수정</button>
                 </td>
               </tr>
