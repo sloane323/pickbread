@@ -4,7 +4,7 @@
     position:fixed;
     width: 3em;
     height: 93%;
-    padding: 0.5em;
+    padding: 10px;
     background-color: black;
     color: white;
     text-align: center;
@@ -14,16 +14,13 @@
 
 .dashboard {
     display: flex;
-    size: 30px;
+    size: 50px; /* This property should be `font-size`, not `size` */
     text-decoration: none;
     color: white;
-
-    padding: 1px;
-    
-}
-.icon {
-padding-top: 2%;
-}
+  }
+  .icon {
+    padding-top: 2%;
+  }
 .mapsidebar {
     height: 10px;
     display: flexbox;
@@ -44,17 +41,44 @@ padding-top: 2%;
 }
 
 .iconinner {
-    position: relative; 
+    position: relative;
     padding: 12px;
     fill: aliceblue;
-}
+  }
+
+  .iconss {
+    fill: rgb(255, 255, 255);
+  }
+  
+
 
 .iconinner:hover {
    background-color: white;
-   position: relative;
    display: flex;
    border-radius: 10px;
    left: 0px;
    width: 40px;
    height: 18px;
 }
+
+.iconinner:hover .iconss{
+    fill: black;
+ }
+
+ .iconinner.active {
+    background-color: white;
+    position: relative;
+    display: flex;
+    border-radius: 10px;
+    left: 0px;
+    width: 40px;
+    height: 20px; /* Adjust the height to the desired value */
+  }
+  
+  .iconinner.active .iconss {
+    fill: black;
+  }
+  
+  .iconinner.active:hover .iconss {
+    fill: black;
+  }

@@ -11,35 +11,23 @@ import { ReactComponent as Gear } from "../SideBar/Gear.svg";
 
 const SideBar = () => {
 
-  const [clickedButton, setClickedButton] = useState(null);
-  const [hoveredButton, setHoveredButton] = useState(null);
+  const [active, setActive] = useState(true); 
 
-  const handleButtonClick = (button) => {
-    setClickedButton(button);
-  };
 
-  const handleMouseEnter = (button) => {
-    setHoveredButton(button);
-  };
+  const [icons, setIcons] = useState([
+    { name: "dashboard", active: true },
+    { name: "production", active: false },
+    { name: "sales", active: false },
+    { name: "venderNCustomer", active: false },
+    { name: "reports", active: false }
+  ]);
 
-  const handleMouseLeave = () => {
-    setHoveredButton(null);
-  };
-
-  const getButtonStyle = (button) => {
-    if (button === clickedButton) {
-      return {
-        fill: "white"
-      };
-    } else if (button === hoveredButton) {
-      return {
-        fill: "white"
-      };
-    } else {
-      return {
-        fill: "black"
-      };
-    }
+  const handleIconClick = (index) => {
+    const updatedIcons = [...icons];
+    updatedIcons.forEach((icon, i) => {
+      icon.active = i === index;
+    });
+    setIcons(updatedIcons);
   };
 
   return (
@@ -53,46 +41,29 @@ const SideBar = () => {
       <div className={styles.mapsidebar}></div> 
 
       <div  className={styles.un1} >
-      <div className={styles.iconinner}>
-        <Link 
-          to="/dashboard" 
-          className={styles.dashboard} 
-          onClick={() => handleButtonClick("dashboard")}
-          onMouseEnter={() => handleMouseEnter("dashboard")}
-          onMouseLeave={handleMouseLeave}
-          style={getButtonStyle("dashboard")}
+      {icons.map((icon, index) => (
+        <div
+          key={index}
+          className={`${styles.iconinner} ${icon.active ? styles.active : ""}`}
         >
-          <Icon1> </Icon1>
-        </Link>
-        </div>
-        
-        <div className={styles.iconinner}>
-        <Link to="/production" className={styles.dashboard}>
-        <Gear /> 
-        </Link>
-        </div>
+          <Link
+            to={`/${icon.name}`}
+            className={styles.dashboard}
+            onClick={() => handleIconClick(index)}
+          > 
+            {icon.name === "dashboard" && <Icon1 className={styles.iconss} />}
+            {icon.name === "production" && <Gear className={styles.iconss} />}
+            {icon.name === "sales" && <Sales className={styles.iconss} />}
+            {icon.name === "venderNCustomer" && <User className={styles.iconss} />}
+            {icon.name === "reports" && <Report className={styles.iconss} />}
 
-        <div className={styles.iconinner}>
-        <Link to="/sales" className={styles.dashboard}>
-          <Sales />
-        </Link>
+          </Link>
         </div>
+      ))}
 
-        <div className={styles.iconinner}>
-        <Link to="/VenderNCustomer" className={styles.dashboard}>
-          <User />
-        </Link>
-        </div>
+     
 
-        <div className={styles.iconinner}>
-        <Link to="/reports" className={styles.dashboard}>
-         <Report />
-        </Link>
-        </div>
-
-        </div> 
-        
-        
+            </div> 
         </div>
     
     
