@@ -9,7 +9,9 @@
 }
 
 .ineer{
-    padding: 1em;
+    margin: 3em;
+    height: 70vh;
+    overflow: auto;
 }
 
 .buttonlist{
