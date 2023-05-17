@@ -1,36 +1,54 @@
-.all{
+.all {
     position: absolute;
     left: 5em;
-    width: 95%;
+    width: 90%;
     height: 90%;
-    background-color: rgb(225, 225, 225);
+    background-color: white;
     border-radius: 1em;
     overflow: auto;
     padding: 1em;
-}
+    top: -10px;
+  }
+  buttons {
+    font-size: large;
+    transition: 0.5s;
+  }
 
-.is-active {
-    background-color: #FF0000;
-}
+  buttons.active1 {
+    transition: 0.5s;
+    color: black;
+    text-decoration: underline;
+    font-weight: 700;
 
-ul {
-    text-align: center;
-}
-
-#buttontab {
-    width: 45%;
-    height: 5em;
-}
-
-button.active {
-  background-color: #505bf0;
-  color: #fff;
-}
-
-button.sub{
+  }
+  
+  buttons.sub {
     background-color: yellowgreen;
     color: #fff;
-    width:100% auto;
+    width: 100% auto;
     padding: 15px 10px;
     cursor: pointer;
-}
+  }
+  
+  .tab {
+    position: relative;
+    top: -3.5em;
+    left: 13em;
+    width: fit-content;
+  }
+  
+  buttons {
+    margin: 10px;
+    color: gray;
+  }
+  
+  buttons.btn2 {
+    margin: 10px;
+    color: gray;
+  }
+  
+  buttons:hover {
+    text-decoration: underline;
+    color: black;
+  }
+  
