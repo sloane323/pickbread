@@ -1,20 +1,25 @@
 .all {
     position: absolute;
     left: 5em;
-    width: 95%;
+    width: 90%;
     height: 90%;
-    background-color: pink;
+    background-color: white;
     border-radius: 1em;
     overflow: auto;
     padding: 1em;
+    top: -10px;
   }
   buttons {
-    background-color: yellowgreen;
+    font-size: large;
+    transition: 0.5s;
   }
 
   buttons.active1 {
-    background-color: #505bf0;
-    color: #fff;
+    transition: 0.5s;
+    color: black;
+    text-decoration: underline;
+    font-weight: 700;
+
   }
   
   buttons.sub {
@@ -26,7 +31,10 @@
   }
   
   .tab {
-    display: flex;
+    position: relative;
+    top: -3.5em;
+    left: 13em;
+    width: fit-content;
   }
   
   buttons {

@@ -10,30 +10,39 @@ const VenderNCustomer = () => {
     setActiveIndex(index);
   };
 
-  const tabContArr = [    {      tabTitle: (      
-      <buttons          className={activeIndex === 0 ? "active1" : ""}         
-       onClick={() => tabClickHandler(0)}        >          고객        </buttons>      ),    
-         tabCont: (        <div>          <br />          <Customers />     
-            </div>      ),    },    {    
-                
-                tabTitle: (      
-                
-                <buttons       
-               className={activeIndex === 1 ? "active1" : ""}    
-                     onClick={() => tabClickHandler(1)}        >     
-                          거래처        </buttons>      ),      tabCont: (      
-                              <div>          <AddVender />        </div>    
-                                ),    },  ];
+  const tabContArr = [
+    {
+      tabTitle: (
+        <buttons
+          className={activeIndex === 0 ? styles.active1 : ""}
+          onClick={() => tabClickHandler(0)}
+        >
+          고객 Customer
+        </buttons>
+      ),
+      tabCont: <Customers />
+    },
+    {
+      tabTitle: (
+        <buttons
+          className={activeIndex === 1 ? styles.active1 : ""}
+          onClick={() => tabClickHandler(1)}
+        >
+          거래처 Vender
+        </buttons>
+      ),
+      tabCont: <AddVender />
+    }
+  ];
 
   return (
     <div className={styles.all}>
       <div>
         <h1>고객 & 거래처</h1>
         <div className={styles.tab}>
-          {tabContArr.map((section, index) => {
+        {tabContArr.map((section, index) => {
             return section.tabTitle;
           })}
-          <hr />
         </div>
         {tabContArr[activeIndex].tabCont}
       </div>
@@ -42,4 +51,3 @@ const VenderNCustomer = () => {
 };
 
 export default VenderNCustomer;
-

@@ -2,6 +2,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import AddCustomer from "./AddCustomer";
+import styles from "./Customer.module.css";
+
 
 const Customers = (props) => {
   const [customers, setCustomers] = useState();
@@ -12,7 +14,11 @@ const Customers = (props) => {
   const [selectedCustomers, setSelectedCustomers] = useState([]);
   const [isCustomerSelectionEnabled, setIsCustomerSelectionEnabled] = useState(false);
   const [selectedCustomerData, setSelectedCustomerData] = useState(null);
+  const [isExpanded, setIsExpanded] = useState(false);
 
+  const toggleDiv = () => {
+    setIsExpanded(!isExpanded);
+  };
   /* props에서 받아온 useState */
   const {customerTest, setCustomerTest} = props;
 
@@ -134,14 +140,27 @@ const Customers = (props) => {
     );
   };
   return (
-    <div>   
-            <h3> 고객등록 </h3>
-      <AddCustomer />
-      <div></div>
-      <h3>고객 조회</h3>
-      <div>
+    <div className={styles.venderclass} >   
 
-        <form onSubmit={handleSearch}>
+      
+      <button onClick={toggleDiv}> + 신규 고객 등록</button>
+
+      <br />
+      {isExpanded && (
+      <div className={styles.addcustomerdiv}>
+        <div className={styles.innerdiv}>
+                 <h3> 고객등록 </h3>
+          <AddCustomer />
+        </div>    </div> 
+      )}
+
+
+      <div>
+      <h3>고객 조회</h3>
+      <div className={styles.searchtable}>
+      <div >
+
+        <form onSubmit={handleSearch} >
           <div className="input-wrapper">
             <input type="text" name="searchQuery" value={searchQuery} onChange={(event) => setSearchQuery(event.target.value)} required />
             <label>이름 & 전화번호</label>
@@ -155,7 +174,7 @@ const Customers = (props) => {
           <EditForm customer={selectedCustomer} onSave={handleSave} onCancel={handleCancel} /> <hr />
         </div>
       )}
-      <table>
+      <table className={styles.table}>
         <thead>
           <tr>
             <th>V</th>
@@ -203,6 +222,8 @@ const Customers = (props) => {
               );
             })}
       </div>
+      </div>
+    </div>
     </div>
   );
 };
