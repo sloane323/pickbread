@@ -3,7 +3,9 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import AddCustomer from "./AddCustomer";
 import styles from "./Customer.module.css";
-
+import { ReactComponent as Dele } from "./SVG/Dele.svg";
+import { ReactComponent as Pen } from "./SVG/Pen.svg";
+import { ReactComponent as Add } from "./SVG/Add.svg";
 
 const Customers = (props) => {
   const [customers, setCustomers] = useState();
@@ -30,6 +32,8 @@ const Customers = (props) => {
     const response = await axios.get(`/api/customer?page=${currentPage}`);
     setCustomers(response.data);
   };
+
+
 
   const handleCheckboxChange = (event, customer) => {
     const isChecked = event.target.checked;
@@ -91,6 +95,8 @@ const Customers = (props) => {
     axios.delete(`/api/customer`, { data: { id } }).then((response) => {
       const updatedCustomers = customers.filter((c) => c.고객ID !== id);
       setCustomers(updatedCustomers);
+      alert("삭제 완료");
+      window.location.reload(); 
     });
   };
 
@@ -171,9 +177,9 @@ const Customers = (props) => {
   return (
     <div className={styles.venderclass} >   
 
-      
-      <button onClick={toggleDiv}> + 신규 고객 등록</button>
-
+     
+      <button onClick={toggleDiv}>  + 신규 고객 등록</button>
+   
       <br />
       {isExpanded && (
       <div className={styles.addcustomerdiv}>
@@ -185,10 +191,10 @@ const Customers = (props) => {
 
 
       <div>
-      <h3>고객 조회</h3>
       <div className={styles.searchtable}>
       <div >
 
+        <div className={styles.formsearch}>
         <form onSubmit={handleSearch} >
           <div className="input-wrapper">
             <input
@@ -202,6 +208,7 @@ const Customers = (props) => {
           </div>
           <button type="submit">Search</button>
         </form>
+        </div>
       </div>
       <br />
       {showEditForm && selectedCustomer && (
@@ -215,23 +222,31 @@ const Customers = (props) => {
         </div>
       )}
       <table className={styles.table}>
+       
         <thead>
-          <tr>
-            <th>V</th>
-            <th>no</th>
-            <th>고객명</th>
-            <th>전화번호</th>
-            <th>코멘트</th>
-            <th>시간</th>
-            <th>포인트</th>
-            <th>설정</th>
+          <tr className={styles.theada}>
+            <th>   </th>
+            <th className={styles.c1}><b>No.</b></th>
+            <th className={styles.c2}><b>고객명</b></th>
+            <th className={styles.c3}><b>전화번호</b></th>
+            <th className={styles.c4}><b>코멘트</b></th>
+            <th className={styles.c5}><b>시간</b></th>
+            <th className={styles.c6}><b>포인트</b></th>
+            <th className={styles.c7}> <b>설정</b></th>
           </tr>
         </thead>
         <tbody>
+        <tr>
+      <td colSpan="8" className={styles.separator}></td>
+        </tr>
+        <tr>
+        <td className={styles.separator2} />
+        </tr>
+
           {customers &&
             customers.map((customer, idx) => (
-              <tr key={idx}>
-                <td>
+              <tr key={idx}  >
+                <td >
                   <input
                     type="checkbox"
                     key={customer.고객ID}
@@ -239,39 +254,51 @@ const Customers = (props) => {
                     onChange={(e) => handleCheckboxChange(e, customer)}
                   />{" "}
                 </td>
-                <td>{(currentPage - 1) * 10 + idx + 1}</td>
+                <td>{(currentPage - 1) * 5 + idx + 1}</td>
                 <td>{customer.이름}</td>
                 <td>{customer.전화번호}</td>
                 <td>{customer.코멘트}</td>
-                <td>{customer.등록일}</td>
+                <td>{new Date(customer.등록일).toLocaleString().slice(2, -3)}</td>
                 <td>
                   {customer.포인트}
                   <Link to={`/customers/point/${customer.고객ID}`}>
-                    내역 조회
+                    <Add className={styles.adds} />
                   </Link>
                 </td>
                 <td>
-                  <button onClick={() => handleDelete(customer.고객ID)}>
-                    삭제
-                  </button>
-                  <button onClick={() => handleEdit(customer)}>수정</button>
+                  <div className={styles.iconebox}>
+                  <div onClick={() => handleDelete(customer.고객ID)}>
+                    <Dele className={styles.dele} />
+                  </div>
+                  <div onClick={() => handleEdit(customer)}>
+                  <Pen className={styles.dele} />
+                  </div>
+                  </div>
                 </td>
               </tr>
             ))}
         </tbody>
       </table>
-      <div>
+    
+      <div className={styles.back}>
+    
         {customers &&
           Array(+customers[0].페이지수)
             .fill()
             .map((el, idx) => {
               return (
-                <button key={idx + 1} onClick={handlePaginationClick}>
+             
+                <div key={idx + 1} 
+                onClick={handlePaginationClick} 
+                className={styles.spans}>
                   {idx + 1}
-                </button>
+                </div>
+             
               );
             })}
+              
       </div>
+  
       </div>
     </div>
     </div>

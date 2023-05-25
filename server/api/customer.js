@@ -4,7 +4,7 @@ const pool = require("../config/db");
 const getCustomers = (req, res) => {
   pool.getConnection((err, conn) => {
     if (err) throw err;
-    const resultsPerPage = 10;
+    const resultsPerPage = 5;
     const currentPage = req.query.page || 1;
     const offset = (currentPage - 1) * resultsPerPage;
     let sql = `SELECT DISTINCT 고객.*, (SELECT SUM(포인트) FROM 포인트 WHERE 고객.고객ID = 포인트.고객ID) AS 포인트,

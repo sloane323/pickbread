@@ -1,0 +1,18 @@
+.addcustomerdiv {
+    background-color: rgb(227, 227, 227);
+    border-radius: 10px;
+    padding: 1em;
+    width: 90%;
+    margin-top: 10px;
+}
+
+.innerdiv {
+    position: relative;
+    margin: 1px;
+    top: -20px;
+
+}
+
+.apper{
+    background-color: pink;
+}

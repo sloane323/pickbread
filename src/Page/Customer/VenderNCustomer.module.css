@@ -5,7 +5,7 @@
     height: 90%;
     background-color: white;
     border-radius: 1em;
-    overflow: auto;
+    overflow: hidden;
     padding: 1em;
     top: -10px;
   }

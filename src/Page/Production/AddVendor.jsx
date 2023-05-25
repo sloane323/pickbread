@@ -2,6 +2,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import EditVendor from "./EditVendor";
+import styles from "./AddVendor.modules.css";
 
 const AddVendor = () => {
   // 입력받을 state
@@ -80,14 +81,22 @@ const AddVendor = () => {
     e.preventDefault();
     getVendor(search);
   };
+  const toggleDiv = () => {
+    setIsExpanded(!isExpanded);
+  };
+  const [isExpanded, setIsExpanded] = useState(false);
   return (
-    <div>
+    <div className={styles.apper}>
       <div>
-        <h2>거래처 등록 하기 </h2>
-        <form onSubmit={onSubmit}>
+        <button onClick={toggleDiv}> + 신규 거래처 등록 </button>
+       
           {/* vendor ID 제외 */}
 
-          <div class="input-wrapper">
+          <br />
+      {isExpanded && (
+      <div className={styles.addcustomerdiv}>
+        <div className={styles.innerdiv}>
+        <div class="input-wrapper">
             <input
               type="text"
               onChange={(e) => {
@@ -135,8 +144,17 @@ const AddVendor = () => {
             <label for="comment">코멘트/할인율</label>
           </div>
           <button onClick={onSubmit}> 추가 </button>
-        </form>
+
       </div>
+
+
+
+        </div>   
+      )}
+
+
+</div> 
+          
       <div>
         <h2>거래처 조회</h2>
         <form>
